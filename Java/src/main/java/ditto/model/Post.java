@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,12 +26,15 @@ public class Post {
 	private Timestamp postCreatedTime;
 	@Column(name="post_picture_id")
 	private int postPictureId;
-	@Column(name="post_user_id")
-	private int postUserId;
+	
+	@ManyToOne 
+	@JoinColumn(name="fk_post_user")
+	private User postUserId;
+	
 	
 	public Post() {
 	}
-	public Post(int postId, String post_text, Timestamp postCreatedTime, int postPictureId, int postUserId) {
+	public Post(int postId, String post_text, Timestamp postCreatedTime, int postPictureId, User postUserId) {
 		super();
 		this.postId = postId;
 		this.post_text = post_text;
@@ -37,7 +42,7 @@ public class Post {
 		this.postPictureId = postPictureId;
 		this.postUserId = postUserId;
 	}
-	public Post(String post_text, Timestamp postCreatedTime, int postPictureId, int postUserId) {
+	public Post(String post_text, Timestamp postCreatedTime, int postPictureId, User postUserId) {
 		super();
 		this.post_text = post_text;
 		this.postCreatedTime = postCreatedTime;
@@ -68,10 +73,10 @@ public class Post {
 	public void setPostPictureId(int postPictureId) {
 		this.postPictureId = postPictureId;
 	}
-	public int getPostUserId() {
+	public User getPostUserId() {
 		return postUserId;
 	}
-	public void setPostUserId(int postUserId) {
+	public void setPostUserId(User postUserId) {
 		this.postUserId = postUserId;
 	}
 	@Override

@@ -1,12 +1,15 @@
 package ditto.model;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -35,6 +38,16 @@ public class User {
 	
 	@Column(name="user_dob", nullable=false)
 	private String dob;
+	
+	@OneToMany(mappedBy="postUserId")
+	private List<Post> postList = new ArrayList<Post>();
+	
+	@ManyToMany(mappedBy="following")
+	private List<User> followers;
+	
+	@ManyToMany
+	private List<User> following;
+	
 	
 	public User() {
 	}
