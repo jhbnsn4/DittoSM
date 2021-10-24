@@ -34,13 +34,13 @@ public class User {
 	private String userLName;
 	
 	@Column(name="user_dob", nullable=false)
-	private Date dob;
+	private String dob;
 	
 	public User() {
 	}
 
 	public User(int userId, String userName, String userPassword, String userEmail, String userFName, String userLName,
-			Date dob) {
+			String dob) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -51,7 +51,7 @@ public class User {
 		this.dob = dob;
 	}
 	public User(String userName, String userPassword, String userEmail, String userFName, String userLName,
-			Date dob) {
+			String dob) {
 		super();
 		this.userName = userName;
 		this.userPassword = userPassword;
@@ -109,11 +109,11 @@ public class User {
 		this.userLName = userLName;
 	}
 
-	public Date getDob() {
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
 	}
 
