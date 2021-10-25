@@ -10,6 +10,6 @@ public interface PostService {
 	public boolean addNewPost(Post post);
 	
 	public List<Post> findAllPosts();
-	public List<Post> findAllPostsById(UserAccount user);
+	public List<Post> findAllPostsById(int userid);
 
 }

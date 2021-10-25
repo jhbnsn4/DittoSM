@@ -50,9 +50,9 @@ public class PostDaoImpl implements PostDao {
 	}
 
 	@Override
-	public List<Post> selectPostsById(UserAccount user) {
-		Query<Post> query = sesFact.getCurrentSession().createQuery("FROM post WHERE author_FK=:author_fk ORDER BY created_time", Post.class);
-		query.setParameter("author_fk", user.getUserId());
+	public List<Post> selectPostsById(int userid) {
+		Query<Post> query = sesFact.getCurrentSession().createQuery("FROM Post WHERE authorFK=:authorFK ORDER BY created_time", Post.class);
+		query.setParameter("authorFK", userid);
 		return query.list();
 	}
 

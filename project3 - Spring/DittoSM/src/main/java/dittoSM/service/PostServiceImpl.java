@@ -33,8 +33,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> findAllPostsById(UserAccount user) {
-		return postDao.selectPostsById(user);
+	public List<Post> findAllPostsById(int userid) {
+		return postDao.selectPostsById(userid);
 	}
 
 	
@@ -55,10 +55,5 @@ public class PostServiceImpl implements PostService {
 	public void setPostDao(PostDao postDao) {
 		this.postDao = postDao;
 	}
-	
-	
-	
-	
-	
 
 }
