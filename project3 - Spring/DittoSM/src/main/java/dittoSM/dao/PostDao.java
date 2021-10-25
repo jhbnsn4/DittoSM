@@ -11,6 +11,5 @@ public interface PostDao {
 	
 	public List<Post> selectAllPosts();
 	public List<Post> selectPostsById(UserAccount user);
-	public List<Post> selectPostByUsername(UserAccount user);
 	
 }
