@@ -69,6 +69,13 @@ public class Post {
 		this.imageList = imageList;
 		this.likes = likes;
 	}
+	public Post(String text, int numLikes, Timestamp createdTime, UserAccount authorFK) {
+		super();
+		this.text = text;
+		this.numLikes = numLikes;
+		this.createdTime = createdTime;
+		this.authorFK = authorFK;
+	}
 
 	public int getPostId() {
 		return postId;

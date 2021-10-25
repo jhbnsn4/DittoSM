@@ -1,18 +1,43 @@
 package dittoSM.dao;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 
+@Transactional
+@Repository("postDao")
 public class PostDaoImpl implements PostDao {
 
 	private SessionFactory sesFact;
+	
+//	public static void main(String[] args) {
+//		PostDaoImpl obj = new PostDaoImpl();
+//		LocalDateTime dateTime = LocalDateTime.now();
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//		Timestamp timestamp = Timestamp.valueOf(dateTime.format(formatter));		
+//		UserAccount user = new UserAccount(
+//				1, "super", "duper", 
+//				"super first name", "super last name",
+//				timestamp, "this is my status"
+//				);
+//
+//		obj.insertNewPost(new Post(
+//				"this is a test",
+//				0,
+//				timestamp,
+//				user
+//				 ));
+//	}
 
 	@Override
 	public void insertNewPost(Post post) {
@@ -21,7 +46,7 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public List<Post> selectAllPosts() {
-		return sesFact.getCurrentSession().createQuery("FROM post ORDER BY created_time DESC", Post.class).list();
+		return sesFact.getCurrentSession().createQuery("FROM Post ORDER BY createdTime DESC", Post.class).list();
 	}
 
 	@Override

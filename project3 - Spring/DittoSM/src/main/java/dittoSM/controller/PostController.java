@@ -1,7 +1,10 @@
 package dittoSM.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,21 +26,25 @@ public class PostController {
 		return true;
 	}
 	
+	@GetMapping(value="/getAllPosts")
+	public List<Post> getAllUsers(){
+		return postServ.findAllPosts();
+	}
 	
 	
 	
 	
 	
 	
-	//////////////Constructor and Setter
+	
+	//////////////Constructor
+	public PostController() {
+	}	
+	
+	@Autowired
 	public PostController(PostService postServ) {
 		super();
 		this.postServ = postServ;
 	}
 	
-	@Autowired
-	public void setPostServ(PostService postServ) {
-		this.postServ = postServ;
-	}
-
 }

@@ -77,6 +77,17 @@ public class UserAccount {
 		this.dittoFollowerList = dittoFollowerList;
 		this.dittoFollowingList = dittoFollowingList;
 	}
+	public UserAccount(int userId, String username, String password, String firstName, String lastName,
+			Timestamp birthday, String statusText) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.statusText = statusText;
+	}
 
 	public int getUserId() {
 		return userId;
