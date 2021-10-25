@@ -22,7 +22,7 @@ public class UserAccountDaoImpl implements UserAccountDao {
 
 	@Override
 	public void updateAccount(UserAccount account) {
-		sesFact.getCurrentSession().merge(account);
+		sesFact.getCurrentSession().update(account);
 	}
 
 	@Override
