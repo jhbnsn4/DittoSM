@@ -21,10 +21,6 @@ public class UserAccountController {
 	
 	private UserAccountService userService;
 	
-	@GetMapping(value="/getAllUsers")
-	public List<UserAccount> getAllUsers() {
-		return userService.getAllUsers();
-	}
 	
 	@PostMapping(value="/addUser")
 	public String addUser(@RequestBody UserAccount user) {
@@ -40,6 +36,15 @@ public class UserAccountController {
 		return "updated account";
 	}
 	
+	@GetMapping(value="/getUserById", params= {"id"})
+	public UserAccount getUserById(int id) {
+		return userService.getUserById(id);
+	}
+	
+	@GetMapping(value="/getAllUsers")
+	public List<UserAccount> getAllUsers() {
+		return userService.getAllUsers();
+	}
 	
 ////////////////// CONSTRUCTORS
 	
