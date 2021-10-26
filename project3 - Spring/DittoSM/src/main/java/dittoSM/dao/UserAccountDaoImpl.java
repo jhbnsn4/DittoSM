@@ -36,9 +36,12 @@ public class UserAccountDaoImpl implements UserAccountDao {
 	public UserAccount selectUserById(int id) {
 		
 		UserAccount account = sesFact.getCurrentSession().get(UserAccount.class, id);
+		
+		// Initialize lazily fetched proxies
 		Hibernate.initialize(account.getPostList());
 		Hibernate.initialize(account.getDittoFollowerList());
 		Hibernate.initialize(account.getDittoFollowingList());
+		
 		return account;
 	}
 	
