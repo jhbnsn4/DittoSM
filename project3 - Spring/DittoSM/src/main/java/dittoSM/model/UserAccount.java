@@ -32,6 +32,9 @@ public class UserAccount {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	@Column(name = "email", nullable = false, unique = true)
+	private String userEmail;
+
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
@@ -61,13 +64,14 @@ public class UserAccount {
 	public UserAccount() {
 	}
 
-	public UserAccount(int userId, String username, String password, String firstName, String lastName,
-			Timestamp birthday, String statusText, ImageMap profilePicture, List<Post> postList,
+	public UserAccount(int userId, String username, String password, String userEmail, String firstName,
+			String lastName, Timestamp birthday, String statusText, ImageMap profilePicture, List<Post> postList,
 			List<UserAccount> dittoFollowerList, List<UserAccount> dittoFollowingList) {
 		super();
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
+		this.userEmail = userEmail;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;
@@ -165,13 +169,21 @@ public class UserAccount {
 	public void setDittoFollowingList(List<UserAccount> dittoFollowingList) {
 		this.dittoFollowingList = dittoFollowingList;
 	}
+	
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 
 	@Override
 	public String toString() {
-		return "UserAccount [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", birthday=" + birthday + ", statusText=" + statusText
-				+ ", profilePicture=" + profilePicture + ", postList=" + postList + ", dittoFollowerList="
-				+ dittoFollowerList + ", dittoFollowingList=" + dittoFollowingList + "]";
+		return "UserAccount [userId=" + userId + ", username=" + username + ", password=" + password + ", userEmail="
+				+ userEmail + ", firstName=" + firstName + ", lastName=" + lastName + ", birthday=" + birthday
+				+ ", statusText=" + statusText + ", profilePicture=" + profilePicture + ", postList=" + postList
+				+ ", dittoFollowerList=" + dittoFollowerList + ", dittoFollowingList=" + dittoFollowingList + "]";
 	}
 
 }
