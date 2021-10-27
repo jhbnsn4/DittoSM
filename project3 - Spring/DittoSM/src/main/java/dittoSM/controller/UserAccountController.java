@@ -21,25 +21,30 @@ public class UserAccountController {
 	
 	private UserAccountService userService;
 	
+	
+	@PostMapping(value="/addUser")
+	public void addUser(@RequestBody UserAccount user) {
+		userService.addAccount(user);
+	
+//		return "added successfully...probably";
+	}
+	
+	@PutMapping(value="/updateUser")
+	public void updateUser(@RequestBody UserAccount user) {
+		userService.updateAccount(user);
+		
+//		return "updated account";
+	}
+	
+	@GetMapping(value="/getUserById", params= {"id"})
+	public UserAccount getUserById(int id) {
+		return userService.getUserById(id);
+	}
+	
 	@GetMapping(value="/getAllUsers")
 	public List<UserAccount> getAllUsers() {
 		return userService.getAllUsers();
 	}
-	
-	@PostMapping(value="/addUser")
-	public String addUser(@RequestBody UserAccount user) {
-		userService.addAccount(user);
-	
-		return "added successfully...probably";
-	}
-	
-	@PutMapping(value="/updateUser")
-	public String updateUser(@RequestBody UserAccount user) {
-		userService.updateAccount(user);
-		
-		return "updated account";
-	}
-	
 	
 ////////////////// CONSTRUCTORS
 	
