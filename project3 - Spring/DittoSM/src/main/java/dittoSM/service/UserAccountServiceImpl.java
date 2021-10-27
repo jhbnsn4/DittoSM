@@ -48,6 +48,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 		return userDao.selectAllUsers();
 	}
 	
+	@Override
+	public UserAccount getUserByUsername(String username) {
+		return userDao.selectUserByUsername(username);
+	}
+	
 
 /////////////////////// CONSTRUCTORS
 	public UserAccountServiceImpl() {

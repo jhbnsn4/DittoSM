@@ -129,6 +129,14 @@ public class UserAccount {
 		this.password = password;
 	}
 
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -192,14 +200,6 @@ public class UserAccount {
 
 	public void setDittoFollowingList(List<UserAccount> dittoFollowingList) {
 		this.dittoFollowingList = dittoFollowingList;
-	}
-	
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 import { IImageMap } from "./imagemap";
-import { IUserAccount } from "../models/useraccount";
+import { IUserAccount } from "./useraccount";
 
 export interface IPost {
   postId: number;

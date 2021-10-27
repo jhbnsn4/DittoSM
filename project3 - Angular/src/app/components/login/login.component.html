@@ -1,1 +1,11 @@
-<p>login works!</p>
+<p>Welcome to Ditto!</p>
+    <div class="mb-3">
+      <label for="login-username" class="form-label">Username or Email</label>
+      <input type="text" class="form-control" [(ngModel)]="userAccount.username" aria-describedby="login-username-help">
+      <div id="login-username-help" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="login-password" class="form-label">Password</label>
+      <input type="password" class="form-control" [(ngModel)]="userAccount.password">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="login()">Login</button>
