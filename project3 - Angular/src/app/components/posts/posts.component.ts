@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { IPost } from 'src/app/models/post';
 import { PostService } from 'src/app/services/post.service';
@@ -9,18 +10,21 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class PostsComponent implements OnInit {
   posts: IPost[] = [];
-  constructor(private postObs: PostService) { }
+  constructor(private postServ: PostService) { }
 
   ngOnInit(): void {
+    this.getPosts();
   }
 
-  getPosts() {
+  getPosts():void {
     console.log("this is getPosts");
 
-    this.postObs.getAllPosts().subscribe(
-      data=>{
-        console.log(data);
-
+    this.postServ.getAllPosts().subscribe(
+      (response: IPost[]) =>{
+        this.posts = response;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
       }
     )
   }

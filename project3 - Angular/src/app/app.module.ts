@@ -10,6 +10,7 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 import { GlobalFeedComponent } from './components/global-feed/global-feed.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FormsModule } from '@angular/forms';
+import { PostService } from './services/post.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

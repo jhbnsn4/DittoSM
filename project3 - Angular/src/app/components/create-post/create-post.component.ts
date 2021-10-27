@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { IImageMap } from 'src/app/models/images';
 import { IPost } from 'src/app/models/post';
@@ -25,10 +24,10 @@ export class CreatePostComponent implements OnInit {
     this.postOb.addPost(this.postInsert, 1).subscribe(
       data => {
         console.log(data);
-      }
-    )
-
+      })
   }
+
+  
 
 
 }
