@@ -1,11 +1,8 @@
 <p>create-post works!</p>
 
 <div class="row spacer">
-  <!-- <div class="col-8">
-      <h3>Insert a new Food: {{thirdDisplay}}</h3>
-  </div> -->
-  <div class="col-4">
-      <input type="text" [(ngModel)]='postInsert.postText'><br> 
-      <button type="button" class="btn btn-dark" (click)="createPost()">Third</button>
+  <div class="mb-3">
+    <label for="postText" class="form-label">Example textarea</label>
+    <textarea class="form-control" id="postText" rows="3"></textarea>
   </div>
 </div>

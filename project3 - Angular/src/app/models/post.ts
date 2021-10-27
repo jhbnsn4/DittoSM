@@ -3,10 +3,10 @@ import { IUser } from "./user";
 
 export interface IPost{
   postId: number;
-  postText: string;
-  likeNum: number;
+  text: string;
+  numLikes: number;
   createdTime: Date;
-  author: IUser;
+  authorFK: IUser;
   imageList: IImageMap[];
   likes: IUser[];
 }

@@ -21,6 +21,7 @@ export class PostsComponent implements OnInit {
 
     this.postServ.getAllPosts().subscribe(
       (response: IPost[]) =>{
+        console.log(response);
         this.posts = response;
       },
       (error: HttpErrorResponse) => {

@@ -11,23 +11,13 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class CreatePostComponent implements OnInit {
 
-  postInsert: IPost = {'postId': 0, 'postText':'', 'likeNum': 0, 'createdTime': new Date, 'author': {} as IUser, 'imageList': {} as IImageMap[], 'likes': {} as IUser[]  };
+  // postInsert: IPost = {'postId': 0, 'text':'', 'numLikes': 0, 'createdTime': new Date, 'authorFK': {} as IUser, 'imageList': {} as IImageMap[], 'likes': {} as IUser[]  };
 
-  constructor(private postOb: PostService) { }
+  constructor(private postServ: PostService) { }
 
   ngOnInit(): void {
   }
 
-  createPost() {
-    console.log("this is a test");
-
-    this.postOb.addPost(this.postInsert, 1).subscribe(
-      data => {
-        console.log(data);
-      })
-  }
-
-  
 
 
 }
