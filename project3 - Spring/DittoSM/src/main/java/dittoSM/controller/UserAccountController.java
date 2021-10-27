@@ -23,17 +23,17 @@ public class UserAccountController {
 	
 	
 	@PostMapping(value="/addUser")
-	public String addUser(@RequestBody UserAccount user) {
+	public void addUser(@RequestBody UserAccount user) {
 		userService.addAccount(user);
 	
-		return "added successfully...probably";
+//		return "added successfully...probably";
 	}
 	
 	@PutMapping(value="/updateUser")
-	public String updateUser(@RequestBody UserAccount user) {
+	public void updateUser(@RequestBody UserAccount user) {
 		userService.updateAccount(user);
 		
-		return "updated account";
+//		return "updated account";
 	}
 	
 	@GetMapping(value="/getUserById", params= {"id"})
