@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dittoSM.dao.PostDao;
-import dittoSM.dao.UserAccountDao;
+import dittoSM.dao.UserAccountService;
 import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 
@@ -19,7 +19,7 @@ import dittoSM.model.UserAccount;
 public class PostServiceImpl implements PostService {
 
 	private PostDao postDao;
-	private UserAccountDao userDao;
+	private UserAccountService userDao;
 
 	@Override
 	public boolean addNewPost(Post post, int userid) {
@@ -66,7 +66,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Autowired
-	public void setUserDao(UserAccountDao userDao) {
+	public void setUserDao(UserAccountService userDao) {
 		this.userDao = userDao;
 	}
 

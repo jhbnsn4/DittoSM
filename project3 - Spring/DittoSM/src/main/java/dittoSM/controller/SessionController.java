@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dittoSM.dao.UserAccountDao;
+import dittoSM.dao.UserAccountService;
 import dittoSM.model.MyCustomMessage;
 import dittoSM.model.UserAccount;
 
@@ -27,15 +27,15 @@ import dittoSM.model.UserAccount;
 @RequestMapping("/userAccount")
 public class SessionController {
 
-	private UserAccountDao userAccountDao;
+	private UserAccountService userService;
 	
 	//CONSTRUCTORS
 	public SessionController() {/*No Args*/}
 
 	@Autowired
-	public SessionController(UserAccountDao userAccountDao) {
+	public SessionController(UserAccountService userService) {
 		//All Args
-		this.userAccountDao = userAccountDao;
+		this.userService = userService;
 	}
 	
 		
@@ -58,7 +58,7 @@ public class SessionController {
 	public MyCustomMessage login(HttpSession mySession, @RequestBody UserAccount incomingUser) {
 		
 		//select user by username
-		UserAccount currentUser = userAccountDao.selectUserByUsername(incomingUser.getUsername());
+		UserAccount currentUser = userService.selectUserByUsername(incomingUser.getUsername());
 		System.out.println(currentUser);
 		
 		//Logic to check successful login
