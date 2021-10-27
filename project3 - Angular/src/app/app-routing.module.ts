@@ -10,6 +10,7 @@ const routes: Routes = [
       {path: 'register', component: RegisterAccountComponent},
       {path: 'profile', component: UserProfileComponent},
       {path: 'global', component: GlobalFeedComponent},
+      {path: '**', redirectTo: 'login'}
 
 ];
 @NgModule({

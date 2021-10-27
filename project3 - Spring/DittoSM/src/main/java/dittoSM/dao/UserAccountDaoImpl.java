@@ -30,21 +30,41 @@ public class UserAccountDaoImpl implements UserAccountDao {
 	@Override
 	public List<UserAccount> selectAllUsers() {
 		
-		return sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class).list();
+		List<UserAccount> myList = sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class).list();
+		for(UserAccount e: myList) {
+			Hibernate.initialize(e.getPostList());
+			Hibernate.initialize(e.getDittoFollowerList());
+			Hibernate.initialize(e.getDittoFollowingList());
+		}
+		return myList;
 	}
 
 	@Override
 	public UserAccount selectUserById(int id) {
 		
-		UserAccount account = sesFact.getCurrentSession().get(UserAccount.class, id);
-		
-		// Initialize lazily fetched proxies
-		Hibernate.initialize(account.getPostList());
-		Hibernate.initialize(account.getDittoFollowerList());
-		Hibernate.initialize(account.getDittoFollowingList());
-		
-		return account;
+        UserAccount account = sesFact.getCurrentSession().get(UserAccount.class, id);
+        
+        // Initialize lazily fetched proxies
+        Hibernate.initialize(account.getPostList());
+        Hibernate.initialize(account.getDittoFollowerList());
+        Hibernate.initialize(account.getDittoFollowingList());
+        
+        return account;
 	}
+	
+	@Override
+	public UserAccount selectUserByUsername(String username) {
+		
+        UserAccount account = sesFact.getCurrentSession().createQuery("from UserAccount where username=:username", UserAccount.class).setParameter("username", username).getSingleResult();
+        
+        // Initialize lazily fetched proxies
+        Hibernate.initialize(account.getPostList());
+        Hibernate.initialize(account.getDittoFollowerList());
+        Hibernate.initialize(account.getDittoFollowingList());
+        
+        return account;
+	}
+	
 	
 	
 //////////////// CONSTRUCTORS

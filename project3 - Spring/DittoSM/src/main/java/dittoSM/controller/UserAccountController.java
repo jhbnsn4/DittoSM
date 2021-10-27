@@ -45,6 +45,11 @@ public class UserAccountController {
 	public List<UserAccount> getAllUsers() {
 		return userService.getAllUsers();
 	}
+
+	@GetMapping(value="/getUserByUsername", params= {"username"})
+    public UserAccount getUserByUsername(String username) {
+        return userService.getUserByUsername(username);
+    }
 	
 ////////////////// CONSTRUCTORS
 	

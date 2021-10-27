@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
-import { AjaxService } from 'src/app/services/ajax.service';
+import { AjaxService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,7 +17,7 @@ export class UserProfileComponent implements OnInit {
     userEmail: '',
     firstName: '',
     lastName: '',
-    birthday: new Date(),
+    birthday: '',
     statusText: '',
     profilePicture: {imageId: 0, imageFile: '', postFK: null, profileFK: null},
     postList: [],
@@ -53,7 +53,7 @@ export class UserProfileComponent implements OnInit {
   }
   setBirthDate(event: Event) {
     if (this.targetUser) {
-      this.targetUser.birthday = new Date((event.target as HTMLInputElement).value);
+      this.targetUser.birthday = (event.target as HTMLInputElement).value;
     }
   }
   parseDate(): String {

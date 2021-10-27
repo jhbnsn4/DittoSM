@@ -8,10 +8,10 @@ export interface IUserAccount {
     userEmail: string;
     firstName: string;
     lastName: string;
-    birthday: Date;
+    birthday: string;
     statusText: string;
-    profilePicture: IImageMap;
-    postList: IPost[];
-    dittoFollowerList: IUserAccount[];
-    dittoFollowingList: IUserAccount[];
+    profilePicture: IImageMap|null;
+    postList: IPost[]|null;
+    dittoFollowerList: IUserAccount[]|null;
+    dittoFollowingList: IUserAccount[]|null;
 }

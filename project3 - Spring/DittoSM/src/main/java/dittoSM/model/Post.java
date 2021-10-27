@@ -116,6 +116,7 @@ public class Post {
 		return authorFK;
 	}
 
+	@JsonBackReference
 	public void setAuthorFK(UserAccount authorFK) {
 		this.authorFK = authorFK;
 	}

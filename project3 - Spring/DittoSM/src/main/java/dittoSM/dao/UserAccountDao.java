@@ -12,4 +12,5 @@ public interface UserAccountDao {
 	
 	List<UserAccount> selectAllUsers();
 	UserAccount selectUserById(int id);
+	UserAccount selectUserByUsername(String username);
 }
