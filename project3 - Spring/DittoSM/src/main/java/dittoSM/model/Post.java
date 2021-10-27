@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="post")
 public class Post {
@@ -35,7 +37,7 @@ public class Post {
 	@Column(name="created_time", nullable=false)
 	private Timestamp createdTime;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="author_FK", nullable=false)
 	private UserAccount authorFK;
 	
@@ -58,6 +60,23 @@ public class Post {
 		this.authorFK = authorFK;
 		this.imageList = imageList;
 		this.likes = likes;
+	}
+	public Post(String text, int numLikes, Timestamp createdTime, UserAccount authorFK,
+			List<ImageMap> imageList, List<UserAccount> likes) {
+		super();
+		this.text = text;
+		this.numLikes = numLikes;
+		this.createdTime = createdTime;
+		this.authorFK = authorFK;
+		this.imageList = imageList;
+		this.likes = likes;
+	}
+	public Post(String text, int numLikes, Timestamp createdTime, UserAccount authorFK) {
+		super();
+		this.text = text;
+		this.numLikes = numLikes;
+		this.createdTime = createdTime;
+		this.authorFK = authorFK;
 	}
 
 	public int getPostId() {
@@ -91,7 +110,8 @@ public class Post {
 	public void setCreatedTime(Timestamp createdTime) {
 		this.createdTime = createdTime;
 	}
-
+	
+	@JsonBackReference
 	public UserAccount getAuthorFK() {
 		return authorFK;
 	}
