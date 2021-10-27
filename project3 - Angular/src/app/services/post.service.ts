@@ -23,7 +23,6 @@ export class PostService {
     console.log(newPost);
 
     return this.postHttpCli.post<string>(`${this.url}/posts/newPost/${userid}`, newPost);
-    // return this.postHttpCli.post<string>(`localhost:9009/DittoSM/api/posts/newPost/${userid}`, newPost, httpPost);
 
   }
 
