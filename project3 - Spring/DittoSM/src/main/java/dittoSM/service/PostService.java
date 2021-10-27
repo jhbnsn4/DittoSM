@@ -7,7 +7,7 @@ import dittoSM.model.UserAccount;
 
 public interface PostService {
 	
-	public boolean addNewPost(Post post);
+	public boolean addNewPost(Post post, int userid);
 	
 	public List<Post> findAllPosts();
 	public List<Post> findAllPostsById(int userid);

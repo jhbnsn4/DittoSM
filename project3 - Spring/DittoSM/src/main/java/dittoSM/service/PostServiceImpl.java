@@ -7,22 +7,31 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dittoSM.dao.PostDao;
+import dittoSM.dao.UserAccountDao;
 import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 
+@Transactional
 @Service("postServ")
 public class PostServiceImpl implements PostService {
 
 	private PostDao postDao;
-	
+	private UserAccountDao userDao;
+
 	@Override
-	public boolean addNewPost(Post post) {
+	public boolean addNewPost(Post post, int userid) {
 		LocalDateTime dateTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		Timestamp timestamp = Timestamp.valueOf(dateTime.format(formatter));		
+		Timestamp timestamp = Timestamp.valueOf(dateTime.format(formatter));
+
 		post.setCreatedTime(timestamp);
+		UserAccount user1 = userDao.selectUserById(userid);
+
+		post.setAuthorFK(user1);
+
 		postDao.insertNewPost(post);
 		return true;
 	}
@@ -37,23 +46,28 @@ public class PostServiceImpl implements PostService {
 		return postDao.selectPostsById(userid);
 	}
 
-	
-	/////////Constructor
+	///////// Constructor
 	public PostServiceImpl() {
 	}
+
 	public PostServiceImpl(PostDao postDao) {
 		super();
 		this.postDao = postDao;
 	}
 
-	///////Setters and Getters
+	/////// Setters and Getters
 	public PostDao getPostDao() {
 		return postDao;
 	}
-	
+
 	@Autowired
 	public void setPostDao(PostDao postDao) {
 		this.postDao = postDao;
+	}
+
+	@Autowired
+	public void setUserDao(UserAccountDao userDao) {
+		this.userDao = userDao;
 	}
 
 }

@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "user_account")
 public class UserAccount {
@@ -48,7 +50,7 @@ public class UserAccount {
 	@JoinColumn(name = "picture_FK")
 	private ImageMap profilePicture;
 
-	@OneToMany(mappedBy = "authorFK")
+	@OneToMany(mappedBy = "authorFK", fetch=FetchType.LAZY)
 	private List<Post> postList = new ArrayList<>();
 
 	@ManyToMany(mappedBy = "dittoFollowingList", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -81,6 +83,16 @@ public class UserAccount {
 			Timestamp birthday, String statusText) {
 		super();
 		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.statusText = statusText;
+	}
+	public UserAccount(String username, String password, String firstName, String lastName,
+			Timestamp birthday, String statusText) {
+		super();
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
@@ -152,7 +164,8 @@ public class UserAccount {
 	public void setProfilePicture(ImageMap profilePicture) {
 		this.profilePicture = profilePicture;
 	}
-
+	
+	@JsonManagedReference
 	public List<Post> getPostList() {
 		return postList;
 	}

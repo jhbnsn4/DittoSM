@@ -12,19 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import dittoSM.dao.UserAccountDao;
 import dittoSM.model.Post;
+import dittoSM.model.UserAccount;
 import dittoSM.service.PostService;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 @CrossOrigin(origins="http://localhost:4200", allowCredentials="true")
 public class PostController {
 	
 	private PostService postServ;
 
-	@PostMapping(value="/newPost")
-	public boolean addPost(@RequestBody Post post) {
-		postServ.addNewPost(post);
+	@PostMapping(value="/newPost/{userid}")
+	public boolean addPost(@RequestBody Post post, @PathVariable("userid") int userid) {
+		System.out.println(post.getAuthorFK());
+		postServ.addNewPost(post, userid);
 		return true;
 	}
 	
@@ -33,8 +36,9 @@ public class PostController {
 		return postServ.findAllPosts();
 	}
 	
-	@GetMapping(value="/getPost/{userid}") 
+	@GetMapping(value="/getPosts/{userid}") 
 	public @ResponseBody List<Post> getPostById(@PathVariable("userid") int userid) {
+		System.out.println(userid);
 		return postServ.findAllPostsById(userid);
 	}
 	
@@ -45,7 +49,8 @@ public class PostController {
 	@Autowired
 	public PostController(PostService postServ) {
 		super();
-		this.postServ = postServ;
+		this.postServ = postServ;		
+
 	}
 	
 }

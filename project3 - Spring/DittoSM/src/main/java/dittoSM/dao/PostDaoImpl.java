@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +20,6 @@ import dittoSM.model.UserAccount;
 public class PostDaoImpl implements PostDao {
 
 	private SessionFactory sesFact;
-	
-//	public static void main(String[] args) {
-//		PostDaoImpl obj = new PostDaoImpl();
-//		LocalDateTime dateTime = LocalDateTime.now();
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//		Timestamp timestamp = Timestamp.valueOf(dateTime.format(formatter));		
-//		UserAccount user = new UserAccount(
-//				1, "super", "duper", 
-//				"super first name", "super last name",
-//				timestamp, "this is my status"
-//				);
-//
-//		obj.insertNewPost(new Post(
-//				"this is a test",
-//				0,
-//				timestamp,
-//				user
-//				 ));
-//	}
 
 	@Override
 	public void insertNewPost(Post post) {
@@ -46,14 +28,28 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public List<Post> selectAllPosts() {
-		return sesFact.getCurrentSession().createQuery("FROM Post ORDER BY createdTime DESC", Post.class).list();
+		List<Post> post1 = sesFact.getCurrentSession().createQuery("FROM Post order by createdTime desc", Post.class).list();
+		List<UserAccount> users = sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class).list();
+		
+		for(UserAccount elem: users) {
+			Hibernate.initialize(elem.getPostList());
+		}
+		for(Post elem: post1) {
+			Hibernate.initialize(elem.getImageList());
+			Hibernate.initialize(elem.getLikes());
+		}
+		return post1;
 	}
 
 	@Override
 	public List<Post> selectPostsById(int userid) {
-		Query<Post> query = sesFact.getCurrentSession().createQuery("FROM Post WHERE authorFK=:authorFK ORDER BY created_time", Post.class);
-		query.setParameter("authorFK", userid);
-		return query.list();
+		UserAccount user = sesFact.getCurrentSession().get(UserAccount.class, userid);
+		List<Post> post = sesFact.getCurrentSession().createQuery("FROM Post where authorFK=:authorFK order by createdTime desc", Post.class).setParameter("authorFK", user).list();
+		for(Post elem: post) {
+			Hibernate.initialize(elem.getImageList());
+			Hibernate.initialize(elem.getLikes());
+		}
+		return post;
 	}
 
 	////////////////////// Constructors
@@ -69,7 +65,7 @@ public class PostDaoImpl implements PostDao {
 	public SessionFactory getSesFact() {
 		return sesFact;
 	}
-	
+
 	@Autowired
 	public void setSesFact(SessionFactory sesFact) {
 		this.sesFact = sesFact;
