@@ -2,17 +2,16 @@ package dittoSM.service;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dittoSM.dao.UserAccountService;
+import dittoSM.dao.UserAccountDao;
 import dittoSM.model.UserAccount;
 
 @Service("userAccountService")
 public class UserAccountServiceImpl implements UserAccountService {
 	
-	private UserAccountService userDao;
+	private UserAccountDao userDao;
 	
 	@Override
 	public void addAccount(UserAccount account) {
@@ -59,7 +58,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
 	@Autowired
-	public UserAccountServiceImpl(UserAccountService userDao) {
+	public UserAccountServiceImpl(UserAccountDao userDao) {
 		super();
 		this.userDao = userDao;
 	}

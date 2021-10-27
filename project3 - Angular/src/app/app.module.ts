@@ -8,12 +8,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { AjaxService } from './services/user.service';
+import { UserService } from './services/user.service';
 import { FeedComponent } from './components/feed/feed.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { GlobalFeedComponent } from './components/global-feed/global-feed.component';
-import { ProfileComponent } from './components/profile/profile.component';
 import { PostService } from './services/post.service';
 
 @NgModule({
@@ -26,7 +25,6 @@ import { PostService } from './services/post.service';
     PostsComponent,
     CreatePostComponent,
     GlobalFeedComponent,
-    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +32,7 @@ import { PostService } from './services/post.service';
     FormsModule, 
     HttpClientModule
   ],
-  providers: [AjaxService, PostService],
+  providers: [UserService, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import dittoSM.model.UserAccount;
 
-public interface UserAccountService {
+public interface UserAccountDao {
 	
 	void insertAccount(UserAccount account);
 	

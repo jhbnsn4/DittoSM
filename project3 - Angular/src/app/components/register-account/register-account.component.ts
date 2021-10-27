@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IPost } from 'src/app/models/post';
 import { IUserAccount } from 'src/app/models/useraccount';
-import { SessionAjaxService } from 'src/app/service/session-ajax.service';
-import { UserAjaxService } from 'src/app/service/user-ajax.service';
+import { SessionAjaxService } from 'src/app/services/session-ajax.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register-account',
@@ -13,7 +13,7 @@ import { UserAjaxService } from 'src/app/service/user-ajax.service';
 })
 export class RegisterAccountComponent implements OnInit {
 
-  constructor(private myAjax: UserAjaxService) { }
+  constructor(private myAjax: UserService) { }
 
   userAccount: IUserAccount= 
   {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
-import { AjaxService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,7 +10,9 @@ import { AjaxService } from 'src/app/services/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  private targetUser: IUserAccount = {
+  private targetId: number = 1;
+
+  public targetUser: IUserAccount = {
     userId: 0,
     username: '',
     password: '',
@@ -26,13 +28,13 @@ export class UserProfileComponent implements OnInit {
   };
   public editing: boolean = false;
 
-  constructor(private ajaxService: AjaxService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
 
     // Retrieve user from database server (hardcoded for now)
-    let response = this.ajaxService.getUserById(1).subscribe(
-      data => {
+    let response = this.userService.getUserById(this.targetId).subscribe(
+      (data: IUserAccount) => {
         this.targetUser = data;
       }
     );
@@ -51,13 +53,15 @@ export class UserProfileComponent implements OnInit {
   set lastName(lastName: string) {
       this.targetUser.lastName = lastName;
   }
+
   setBirthDate(event: Event) {
     if (this.targetUser) {
       this.targetUser.birthday = (event.target as HTMLInputElement).value;
     }
   }
   parseDate(): String {
-    return new Date(this.targetUser.birthday).toISOString().split('T')[0];
+    console.log(parseInt(this.targetUser.birthday));
+    return new Date(parseInt(this.targetUser.birthday)).toISOString().split('T')[0];
   }
   get statusText() {
     return this.targetUser.statusText;
@@ -75,8 +79,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   onClickUpdateProfile() {
-    let response = this.ajaxService.updateUser(this.targetUser as IUserAccount).subscribe(
-      data => {
+    let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
+      (data: string) => {
         console.log("update data: " + data);
       }
     );
