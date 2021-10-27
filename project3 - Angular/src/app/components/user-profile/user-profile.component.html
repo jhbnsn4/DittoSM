@@ -12,10 +12,7 @@
             <input type="text" class="form-control" [(ngModel)]="statusText" name="statusInput">
         </div>
         <div class="mb-3">
-            <!-- <input type="date" class="form-control" [(ngModel)]="birthdayString" name="birthdayInput" -->
-            <!-- (input)="parseDate($event)"> -->
-            <input type="date" class="form-control" [value]="parseDate()" 
-            (input)="birthday">
+            <input type="date" class="form-control" [value]="parseDate()" (input)="setBirthDate($event)" name="birthday">
         </div>
         <div class="mb-3" *ngIf="editing">
             <button class="btn btn-success" (click)="onClickUpdateProfile()">Update Profile</button>

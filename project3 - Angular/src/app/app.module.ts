@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { AjaxService } from './service/ajax.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     FormsModule, 
     HttpClientModule
   ],
-  providers: [],
+  providers: [AjaxService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

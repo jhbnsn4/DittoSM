@@ -10,54 +10,59 @@ import { AjaxService } from 'src/app/service/ajax.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  private targetUser: IUserAccount | undefined;
+  private targetUser: IUserAccount = {
+    userId: 0,
+    username: '',
+    password: '',
+    userEmail: '',
+    firstName: '',
+    lastName: '',
+    birthday: new Date(),
+    statusText: '',
+    profilePicture: {imageId: 0, imageFile: '', postFK: null, profileFK: null},
+    postList: [],
+    dittoFollowerList: [],
+    dittoFollowingList: []
+  };
   public editing: boolean = false;
 
   constructor(private ajaxService: AjaxService) { }
 
   ngOnInit(): void {
 
-
+    // Retrieve user from database server (hardcoded for now)
     let response = this.ajaxService.getUserById(1).subscribe(
       data => {
         this.targetUser = data;
-        //console.log(this.firstName);
       }
     );
   }
 
   /////////// GETTERS & SETTERS
   get firstName() {
-    return (this.targetUser) ? this.targetUser.firstName : "";
+    return this.targetUser.firstName;
   }
   set firstName(firstName: string) {
-    if (this.targetUser)
       this.targetUser.firstName = firstName;
   }
   get lastName() {
-    return (this.targetUser) ? this.targetUser.lastName : "";
+    return this.targetUser.lastName;
   }
   set lastName(lastName: string) {
-    if (this.targetUser)
       this.targetUser.lastName = lastName;
   }
-  get birthday() {
-    return (this.targetUser) ? this.targetUser.birthday : new Date();
-  }
-  set birthday(birthday: Date) {
+  setBirthDate(event: Event) {
     if (this.targetUser) {
-      this.targetUser.birthday = birthday;
-      // console.log(this.targetUser.birthday.toDateString());
+      this.targetUser.birthday = new Date((event.target as HTMLInputElement).value);
     }
   }
   parseDate(): String {
-    return (this.targetUser) ? new Date(this.targetUser.birthday).toISOString().split('T')[0] : "";
+    return new Date(this.targetUser.birthday).toISOString().split('T')[0];
   }
   get statusText() {
-    return (this.targetUser) ? this.targetUser.statusText : "";
+    return this.targetUser.statusText;
   }
   set statusText(statusText: string) {
-    if (this.targetUser)
       this.targetUser.statusText = statusText;
   }
   // TOOD: Add getter/setter for profile picture
@@ -76,5 +81,8 @@ export class UserProfileComponent implements OnInit {
       }
     );
   }
+
+  
+
 
 }
