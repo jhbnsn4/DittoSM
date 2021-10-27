@@ -6,13 +6,13 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dittoSM.dao.UserAccountDao;
+import dittoSM.dao.UserAccountService;
 import dittoSM.model.UserAccount;
 
 @Service("userAccountService")
 public class UserAccountServiceImpl implements UserAccountService {
 	
-	private UserAccountDao userDao;
+	private UserAccountService userDao;
 	
 	@Override
 	public void addAccount(UserAccount account) {
@@ -59,7 +59,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
 	@Autowired
-	public UserAccountServiceImpl(UserAccountDao userDao) {
+	public UserAccountServiceImpl(UserAccountService userDao) {
 		super();
 		this.userDao = userDao;
 	}
