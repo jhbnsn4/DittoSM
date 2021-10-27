@@ -57,18 +57,28 @@ public class SessionController {
 	@PostMapping(value="/login")
 	public MyCustomMessage login(HttpSession mySession, @RequestBody UserAccount incomingUser) {
 		
-		UserAccount currentUser = userAccountDao.selectUserById(incomingUser.getUserId());
+		//select user by username
+		UserAccount currentUser = userAccountDao.selectUserByUsername(incomingUser.getUsername());
 		System.out.println(currentUser);
 		
 		//Logic to check successful login
-		if(currentUser==null) {
-			
-			return new MyCustomMessage("Unsuccessfull login", "Please try again");
-		}
 		mySession.setAttribute("currentUser", currentUser);
 		
-		//MK: Need to add log4j to track successful login
-		return new MyCustomMessage("You have successfully logged IN", currentUser.getUsername());
+		//check password
+		if(currentUser==null) 
+		{
+			mySession.invalidate();
+			return new MyCustomMessage("Unsuccessfull login", "User Not Found");
+		} else if(!currentUser.getPassword().equals(currentUser.getPassword())) 
+		{
+			mySession.invalidate();
+			return new MyCustomMessage("Unsuccessfull login", "Password Incorrect");
+		} else 
+		{
+			//MK: Need to add log4j to track successful login
+			return new MyCustomMessage("You have successfully logged IN", currentUser.getUsername());
+		}
+		
 	}
 	
 	// http://localhost:port/DittoSM/api/userAccount/logout

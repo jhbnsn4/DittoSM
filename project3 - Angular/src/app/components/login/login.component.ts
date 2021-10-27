@@ -33,9 +33,10 @@ export class LoginComponent implements OnInit {
 
   login(){
 
-    
+
     console.log('login clicked');
 
+    this.myAjax.loginRequest(this.userAccount).subscribe(data => {console.log(data)});
     
   
   }

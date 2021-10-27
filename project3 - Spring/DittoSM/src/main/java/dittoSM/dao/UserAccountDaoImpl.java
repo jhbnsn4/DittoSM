@@ -2,6 +2,7 @@ package dittoSM.dao;
 
 import java.util.List;
 
+
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,19 @@ public class UserAccountDaoImpl implements UserAccountDao {
 	public UserAccount selectUserById(int id) {
 		
         UserAccount account = sesFact.getCurrentSession().get(UserAccount.class, id);
+        
+        // Initialize lazily fetched proxies
+        Hibernate.initialize(account.getPostList());
+        Hibernate.initialize(account.getDittoFollowerList());
+        Hibernate.initialize(account.getDittoFollowingList());
+        
+        return account;
+	}
+	
+	@Override
+	public UserAccount selectUserByUsername(String username) {
+		
+        UserAccount account = sesFact.getCurrentSession().createQuery("from UserAccount where username=:username", UserAccount.class).setParameter("username", username).getSingleResult();
         
         // Initialize lazily fetched proxies
         Hibernate.initialize(account.getPostList());

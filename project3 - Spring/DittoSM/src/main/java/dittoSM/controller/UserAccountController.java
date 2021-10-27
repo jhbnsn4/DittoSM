@@ -38,6 +38,11 @@ public class UserAccountController {
         return userDao.selectUserById(id);
     }
 	
+	@GetMapping(value="/getUserByUsername", params= {"username"})
+    public UserAccount getUserByUsername(String username) {
+        return userDao.selectUserByUsername(username);
+    }
+	
 	
 	public UserAccountController() {
 	}
