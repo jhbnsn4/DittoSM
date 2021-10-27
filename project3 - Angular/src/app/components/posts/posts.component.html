@@ -1,1 +1,11 @@
 <p>posts works!</p>
+<div class="row spacer">
+  <div class="col-8">
+    <tr *ngFor='let temp of posts'>
+      <td>{{temp.postId}}</td>
+    </tr>
+  </div>
+  <div class="col-4">
+      <button type="button" class="btn btn-info" (click)="getPosts()">First</button>
+  </div>
+</div>
