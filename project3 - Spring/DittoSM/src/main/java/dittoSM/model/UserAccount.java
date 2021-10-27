@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "user_account")
 public class UserAccount {
@@ -145,7 +147,8 @@ public class UserAccount {
 	public void setProfilePicture(ImageMap profilePicture) {
 		this.profilePicture = profilePicture;
 	}
-
+	
+	@JsonManagedReference
 	public List<Post> getPostList() {
 		return postList;
 	}

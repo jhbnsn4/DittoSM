@@ -31,6 +31,7 @@ public class UserAccountDaoImpl implements UserAccountDao {
 		return sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class).list();
 	}
 
+
 	@Override
 	public UserAccount selectUserById(int id) {
 		

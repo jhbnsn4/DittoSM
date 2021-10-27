@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { UserAjaxServiceService } from './user-ajax-service.service';
+import { IUserAccount } from './user';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,45 +8,24 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   
-  populateTable() {
-    console.log("hey")
-  }
-
  
+  constructor(private UserAjaxServiceService: UserAjaxServiceService) { }
 
   filterTerm!: string 
 
-  userRecords = [{
-      "id": 1,
-      "name": "Ryan Moss",
-      "username": "Ryan",
-      "email": "email@email"
-    },
-    {
-      "id": 2,
-      "name": "LJ",
-      "username": "LJ-Ditto",
-      "email": "email@email"
-    },
-    {
-      "id": 3,
-      "name": "Michael Kaefer",
-      "username": "Mike",
-      "email": "email@email"
-    },
-    {
-      "id": 4,
-      "name": "John Benson",
-      "username": "John",
-      "email": "email@email"
-    }
-
-  ]
+  items:  IUserAccount[] =[];
+  selected = [
+  
+  ];
 
   searchUserInput(){
     console.log("logout")
   }
    
+  getUsers(): void {
+    this.UserAjaxServiceService.fetchUsers()
+    .subscribe(data => this.items = data);
+  }
 
 
 

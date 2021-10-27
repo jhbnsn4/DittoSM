@@ -2,6 +2,7 @@ package dittoSM.controller;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,10 @@ public class UserAccountController {
 	
 	@GetMapping(value="/getAllUsers")
 	public List<UserAccount> getAllUsers() {
+		  
+       
+	
+      
 		return userService.getAllUsers();
 	}
 	

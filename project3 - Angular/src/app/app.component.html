@@ -1,22 +1,22 @@
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
       <img classs="img-responsive" width="45px" height="" src="assets/ditto.png" alt="" />
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      
+      
           <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-          <span>
-              <input id="searchInput" onkeyup="populateTable()" type="text" class="form-control" placeholder="Search..." [(ngModel)]="filterTerm" />
-          </span>
+          <div class="scrollable-box">
+          <div class="overflow-box">
+            <ng-select [items]="items"
+               bindLabel="name"
+               placeholder="Search For Friends"
+               appendTo="body"
+               [searchable]="true"
+               [(ngModel)]="selected">
+     
+            </ng-select>
+         </div></div>
           <button type="submit" class="btn btn-dark" (click)="searchUserInput()">Logout</button>
       </div>
-  </div>
+
 </nav>
 <router-outlet></router-outlet>
-
-<table class="table" *ngIf="userRecords?.length">
-  <thead class="thead-dark"></thead>
-  <tbody>
-      <tr *ngFor="let user of userRecords | filter:filterTerm">
-          <td>{{user.name}}</td>
-      </tr>
-  </tbody>
-</table>
