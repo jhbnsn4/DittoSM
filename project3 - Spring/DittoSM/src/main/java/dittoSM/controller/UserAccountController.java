@@ -27,10 +27,10 @@ public class UserAccountController {
 	}
 	
 	@PostMapping(value="/addUser")
-	public String addUser(@RequestBody UserAccount user) {
+	public void addUser(@RequestBody UserAccount user) {
 		userDao.insertAccount(user);
-		
-		return "added successfully...probably";
+		System.out.println("Added Successfully");
+//		return "added successfully...probably";
 	}
 	
 	@GetMapping(value="/getUserById", params= {"id"})

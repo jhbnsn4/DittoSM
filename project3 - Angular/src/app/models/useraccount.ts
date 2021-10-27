@@ -5,13 +5,13 @@ export interface IUserAccount {
     userId: number;
     username: string;
     password: string;
-    userEmail: string;
+    // userEmail: string;
     firstName: string;
     lastName: string;
-    birthday: Date;
+    birthday: number;
     statusText: string;
-    profilePicture: IImageMap;
-    postList: IPost[];
-    dittoFollowerList: IUserAccount[];
-    dittoFollowingList: IUserAccount[];
+    profilePicture: IImageMap|null;
+    postList: IPost[]|null;
+    dittoFollowerList: IUserAccount[]|null;
+    dittoFollowingList: IUserAccount[]|null;
 }

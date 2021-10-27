@@ -13,18 +13,18 @@ export class LoginComponent implements OnInit {
 
   userAccount: IUserAccount= 
   {
-  'userId':0,
-  'username':'', 
-  'password':'',
-  'firstName':'',
-  'lastName':'',
-  'birthday': 0,
-  'statusText': '',
-  'profilePicture': {} as IImageMap,
-  'dittoFollowerList': {} as IUserAccount[],
-  'dittoFollowingList': {} as IUserAccount[],
-  'postList': {} as IPost[]
-  }
+    'userId':0,
+    'username':'', 
+    'password':'',
+    'firstName':'',
+    'lastName':'',
+    'birthday': 0,
+    'statusText': '',
+    'profilePicture': null, //{} as IImageMap,
+    'dittoFollowerList': null, // {} as IUserAccount[],
+    'dittoFollowingList': null,//{} as IUserAccount[],
+    'postList': null //{} as IPost[]
+    }
 
   constructor(private myAjax: SessionAjaxService) { }
 
@@ -32,10 +32,14 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+
+    
     console.log('login clicked');
 
     
   
   }
+
+
 
 }

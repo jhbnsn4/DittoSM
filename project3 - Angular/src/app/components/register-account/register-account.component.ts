@@ -17,17 +17,17 @@ export class RegisterAccountComponent implements OnInit {
 
   userAccount: IUserAccount= 
   {
-  userId:0,
-  username:'', 
-  password:'',
-  firstName:'',
-  lastName:'',
+  'userId':0,
+  'username':'', 
+  'password':'',
+  'firstName':'',
+  'lastName':'',
   'birthday': 0,
   'statusText': '',
-  'profilePicture': {} as IImageMap,
-  'dittoFollowerList': {} as IUserAccount[],
-  'dittoFollowingList': {} as IUserAccount[],
-  'postList': {} as IPost[]
+  'profilePicture': null, //{} as IImageMap,
+  'dittoFollowerList': null, // {} as IUserAccount[],
+  'dittoFollowingList': null,//{} as IUserAccount[],
+  'postList': null //{} as IPost[]
   }
 
 
@@ -38,6 +38,7 @@ export class RegisterAccountComponent implements OnInit {
     console.log("register button clicked");
 
     this.myAjax.addUserRequest(this.userAccount).subscribe(data => {console.log(data)});
+    
   }
 
 

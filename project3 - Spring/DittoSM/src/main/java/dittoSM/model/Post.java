@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="post")
 public class Post {
@@ -34,6 +36,7 @@ public class Post {
 	
 	@Column(name="created_time", nullable=false)
 	private Timestamp createdTime;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="author_FK", nullable=false)
@@ -96,6 +99,7 @@ public class Post {
 		return authorFK;
 	}
 
+	@JsonBackReference
 	public void setAuthorFK(UserAccount authorFK) {
 		this.authorFK = authorFK;
 	}
