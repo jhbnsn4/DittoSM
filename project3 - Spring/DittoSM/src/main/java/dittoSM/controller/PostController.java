@@ -19,7 +19,7 @@ import dittoSM.service.PostService;
 
 @RestController
 @RequestMapping("/posts")
-@CrossOrigin(origins="http://localhost:4201", allowCredentials="true")
+@CrossOrigin(origins="http://localhost:4200", allowCredentials="true")
 public class PostController {
 	
 	private PostService postServ;
