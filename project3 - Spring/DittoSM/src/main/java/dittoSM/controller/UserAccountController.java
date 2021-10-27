@@ -33,6 +33,11 @@ public class UserAccountController {
 		return "added successfully...probably";
 	}
 	
+	@GetMapping(value="/getUserById", params= {"id"})
+    public UserAccount getUserById(int id) {
+        return userDao.selectUserById(id);
+    }
+	
 	
 	public UserAccountController() {
 	}
