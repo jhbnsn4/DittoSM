@@ -13,7 +13,7 @@ import dittoSM.model.UserAccount;
 
 @Transactional
 @Repository("userAccountDao")
-public class UserAccountDaoImpl implements UserAccountService {
+public class UserAccountDaoImpl implements UserAccountDao {
 
 	private SessionFactory sesFact;
 	

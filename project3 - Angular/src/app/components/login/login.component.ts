@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IPost } from 'src/app/models/post';
 import { IUserAccount } from 'src/app/models/useraccount';
-import { SessionAjaxService } from 'src/app/service/session-ajax.service';
+import { SessionAjaxService } from 'src/app/services/session-ajax.service';
 
 @Component({
   selector: 'app-login',

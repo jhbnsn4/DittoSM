@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { IMyCustomMessage } from '../models/mycustommessage';
 import { IUserAccount } from '../models/useraccount';
 
@@ -9,17 +10,19 @@ import { IUserAccount } from '../models/useraccount';
 })
 export class SessionAjaxService {
 
+  private url=environment.dittoUrl;
+
   constructor(private myHttpCli: HttpClient) { }
 
   loginRequest(myUser: IUserAccount): Observable<IMyCustomMessage>{
 
-    return this.myHttpCli.post<IMyCustomMessage>('http://localhost:9015/DittoSM/api/userAccount/login', myUser,
+    return this.myHttpCli.post<IMyCustomMessage>(`${this.url}/userAccount/login`, myUser,
       {withCredentials: true});
   }
 
   logoutRequest(): Observable<IMyCustomMessage> {
 
-    return this.myHttpCli.post<IMyCustomMessage>('http://localhost:9015/DittoSM/api/userAccount/logout', {},
+    return this.myHttpCli.post<IMyCustomMessage>(`${this.url}/userAccount/logout`, {},
       {withCredentials: true});
 
   }
