@@ -1,12 +1,12 @@
-import { IImageMap } from "./images";
-import { IUser } from "./user";
+import { IImageMap } from "./imagemap";
+import { IUserAccount } from "../models/useraccount";
 
-export interface IPost{
+export interface IPost {
   postId: number;
   text: string;
   numLikes: number;
   createdTime: Date;
-  authorFK: IUser;
+  authorFK: IUserAccount;
   imageList: IImageMap[];
-  likes: IUser[];
+  likes: IUserAccount[];
 }

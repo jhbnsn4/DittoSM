@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IImageMap } from 'src/app/model/imagemap';
-import { IUserAccount } from 'src/app/model/useraccount';
-import { AjaxService } from 'src/app/service/ajax.service';
+import { IImageMap } from 'src/app/models/imagemap';
+import { IUserAccount } from 'src/app/models/useraccount';
+import { AjaxService } from 'src/app/services/ajax.service';
 
 @Component({
   selector: 'app-user-profile',
