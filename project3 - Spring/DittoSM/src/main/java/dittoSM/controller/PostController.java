@@ -2,6 +2,8 @@ package dittoSM.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +26,11 @@ public class PostController {
 	
 	private PostService postServ;
 
-	@PostMapping(value="/newPost/{userid}")
-	public boolean addPost(@RequestBody Post post, @PathVariable("userid") int userid) {
+	@PostMapping(value="/newPost")
+	public boolean addPost(@RequestBody Post post, HttpSession currentSes) {
 		System.out.println(post.getAuthorFK());
-		postServ.addNewPost(post, userid);
+		UserAccount currentUser = (UserAccount) currentSes.getAttribute("currentUser");
+		postServ.addNewPost(post, currentUser.getUserId());
 		return true;
 	}
 	

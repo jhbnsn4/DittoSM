@@ -13,7 +13,7 @@ export class PostService {
 
   constructor(private postHttpCli: HttpClient) { }
 
-  addPost(newPost: IPost, userid: number): Observable<string> {
+  addPost(newPost: IPost): Observable<string> {
     // const httpPost  = {
     //   headers: new HttpHeaders({
     //     'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ export class PostService {
 
     console.log(newPost);
 
-    return this.postHttpCli.post<string>(`${this.url}/posts/newPost/${userid}`, newPost);
+    return this.postHttpCli.post<string>(`${this.url}/posts/newPost/`, newPost);
 
   }
 
