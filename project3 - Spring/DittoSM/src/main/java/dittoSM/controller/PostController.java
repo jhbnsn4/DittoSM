@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import dittoSM.model.Post;
+import dittoSM.model.UserAccount;
 import dittoSM.service.PostService;
 
 @RestController
@@ -28,6 +29,8 @@ public class PostController {
 	public boolean addPost(@RequestBody Post post, HttpSession currentSes) {
 		System.out.println(post.getAuthorFK());
 		UserAccount currentUser = (UserAccount) currentSes.getAttribute("currentUser");
+//		System.out.println(currentSes.getAttribute("currentUser"));
+		System.out.println(currentUser);
 		postServ.addNewPost(post, currentUser.getUserId());
 		return true;
 	}

@@ -59,11 +59,11 @@ public class SessionController {
 		
 		//select user by username
 		UserAccount currentUser = userService.getUserByUsername(incomingUser.getUsername());
-		System.out.println(currentUser);
+		
 		
 		//Logic to check successful login
 		mySession.setAttribute("currentUser", currentUser);
-		
+//		System.out.println(mySession.getAttribute("currentUser"));
 		//check password
 		if(currentUser==null) 
 		{
@@ -86,7 +86,7 @@ public class SessionController {
 	public MyCustomMessage addNewUserAccount(HttpSession mySession) {
 
 		mySession.invalidate();
-		
+
 		return new MyCustomMessage("You have successfully logged OUT", "");
 	}
 
