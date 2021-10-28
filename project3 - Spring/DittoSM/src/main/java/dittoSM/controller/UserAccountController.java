@@ -47,8 +47,8 @@ public class UserAccountController {
 	}
 
 	@GetMapping(value="/getUserByUsername", params= {"username"})
-    public UserAccount getUserByUsername(String username) {
-        return userService.getUserByUsername(username);
+    public UserAccount getUserByUsername(String username, String email) {
+        return userService.getUserByUsername(username, email);
     }
 	
 ////////////////// CONSTRUCTORS

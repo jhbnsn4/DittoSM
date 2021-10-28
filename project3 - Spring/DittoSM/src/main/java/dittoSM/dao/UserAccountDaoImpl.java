@@ -1,6 +1,5 @@
 package dittoSM.dao;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.hibernate.Hibernate;
@@ -56,14 +55,15 @@ public class UserAccountDaoImpl implements UserAccountDao {
 	}
 	
 	@Override
-	public UserAccount selectUserByUsername(String username) {
-		
+	public UserAccount selectUserByUsername(String username, String email) {
+		System.out.println(username);
 		UserAccount account=null;
 		try 
 		{
 			account = sesFact.getCurrentSession()
-        		.createQuery("from UserAccount where username=:username", UserAccount.class)
+        		.createQuery("from UserAccount where username=:username or email=:email", UserAccount.class)
         		.setParameter("username", username)
+        		.setParameter("email", email)
         		.uniqueResult();
 		} catch(Exception e)
 		{

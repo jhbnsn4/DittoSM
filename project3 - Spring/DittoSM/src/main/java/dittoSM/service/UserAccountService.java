@@ -12,6 +12,6 @@ public interface UserAccountService {
 	
 	List<UserAccount> getAllUsers();
 	UserAccount getUserById(int id);
-	public UserAccount getUserByUsername(String username);
+	public UserAccount getUserByUsername(String username, String email);
 	
 }

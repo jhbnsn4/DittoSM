@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
  
   loginFailed: boolean =false;
 
+  loginName: string = ""
+
   userAccount: IUserAccount= 
   {
     'userId':0,
@@ -33,28 +35,34 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.myAjax.logoutRequest().subscribe(data => {console.log(data)})
   }
+  
+  userNameOrEmail(email: string){
+    const regularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regularExpression.test(String(email).toLowerCase());
+  }
 
   login(){
-
-
     console.log('login clicked');
+
+    if(this.userNameOrEmail(this.loginName)){
+      this.userAccount.userEmail=this.loginName;
+    } else {
+      this.userAccount.username=this.loginName;
+    }
+
 
     this.myAjax.loginRequest(this.userAccount).subscribe(data => {
       console.log(data)
       if(data.message==="Unsuccessfull login"){
         this.myRouter.navigate(['/login']);
-        this.userAccount.username=""
+        this.loginName=""
         this.userAccount.password=""
         this.loginFailed=true;
 
       } else{
         this.myRouter.navigate(['/profile']);
       }
-    
     });
-
-    
-    
   }
 
 

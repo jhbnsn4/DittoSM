@@ -62,8 +62,8 @@ public class SessionController {
 	public MyCustomMessage login(HttpSession mySession, @RequestBody UserAccount incomingUser) {
 		
 		//select user by username
-		UserAccount currentUser = userService.getUserByUsername(incomingUser.getUsername());
-		System.out.println(currentUser);
+		UserAccount currentUser = userService.getUserByUsername(incomingUser.getUsername(), incomingUser.getUserEmail());
+//		System.out.println(currentUser);
 		//Encoding Password
 		String hashedPassword = Hashing.sha256().hashString(incomingUser.getPassword(), StandardCharsets.UTF_8).toString();
 		incomingUser.setPassword(hashedPassword);

@@ -55,8 +55,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 	
 	@Override
-	public UserAccount getUserByUsername(String username) {
-		return userDao.selectUserByUsername(username);
+	public UserAccount getUserByUsername(String username, String email) {
+		return userDao.selectUserByUsername(username, email);
 	}
 	
 
