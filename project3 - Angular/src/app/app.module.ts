@@ -14,6 +14,8 @@ import { PostsComponent } from './components/posts/posts.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { GlobalFeedComponent } from './components/global-feed/global-feed.component';
 import { PostService } from './services/post.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
   declarations: [
@@ -30,9 +32,11 @@ import { PostService } from './services/post.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule, 
-    HttpClientModule
+    HttpClientModule,
+    NgSelectModule,
+    
   ],
-  providers: [UserService, PostService],
+  providers: [UserService, PostService, PostsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

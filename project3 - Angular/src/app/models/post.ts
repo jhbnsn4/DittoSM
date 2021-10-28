@@ -9,4 +9,6 @@ export interface IPost {
   authorFK: IUserAccount;
   imageList: IImageMap[];
   likes: IUserAccount[];
+
 }
+

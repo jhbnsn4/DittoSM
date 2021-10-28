@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
     return regularExpression.test(String(email).toLowerCase());
   }
 
+
   login(){
     console.log('login clicked');
 

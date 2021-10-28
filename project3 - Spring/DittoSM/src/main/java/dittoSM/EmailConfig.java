@@ -13,12 +13,15 @@ public class EmailConfig {
     @Bean
     public JavaMailSender getJavaMailSender() 
     {
+    	String companyEmail = "helper.ditto@gmail.com";
+    	String emailPassword = "Synergy!";
+    	
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(25);
           
-        mailSender.setUsername("admin@gmail.com");
-        mailSender.setPassword("password");
+        mailSender.setUsername(companyEmail);
+        mailSender.setPassword(emailPassword);
           
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

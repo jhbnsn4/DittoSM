@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 
 @Transactional
@@ -15,7 +16,7 @@ import dittoSM.model.UserAccount;
 public class UserAccountDaoImpl implements UserAccountDao {
 
 	private SessionFactory sesFact;
-	
+
 	@Override
 	public void insertAccount(UserAccount account) {
 		sesFact.getCurrentSession().save(account);
@@ -29,31 +30,35 @@ public class UserAccountDaoImpl implements UserAccountDao {
 	@Override
 	public List<UserAccount> selectAllUsers() {
 		
-		List<UserAccount> myList = sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class).list();
-		for(UserAccount e: myList) {
+		List<UserAccount> myList = sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class)
+				.list();
+		for (UserAccount e : myList) {
 			Hibernate.initialize(e.getPostList());
 			Hibernate.initialize(e.getDittoFollowerList());
 			Hibernate.initialize(e.getDittoFollowingList());
+			
+			for (Post post: e.getPostList()) {
+				Hibernate.initialize(post.getImageList());
+				Hibernate.initialize(post.getLikes());
+			}
 		}
 		return myList;
 	}
 
 	@Override
 	public UserAccount selectUserById(int id) {
-		
-        UserAccount account = sesFact.getCurrentSession().get(UserAccount.class, id);
-        
-        // Initialize lazily fetched proxies
-        if(account!=null) 
-        {
-        	Hibernate.initialize(account.getPostList());
-        	Hibernate.initialize(account.getDittoFollowerList());
-        	Hibernate.initialize(account.getDittoFollowingList());
-        }
-        
-        return account;
+
+		UserAccount account = sesFact.getCurrentSession().get(UserAccount.class, id);
+		if (account != null) {
+			Hibernate.initialize(account.getPostList());
+			Hibernate.initialize(account.getDittoFollowerList());
+			Hibernate.initialize(account.getDittoFollowingList());
+		}
+		// Initialize lazily fetched proxies
+
+		return account;
 	}
-	
+
 	@Override
 	public UserAccount selectUserByUsername(String username, String email) {
 		System.out.println(username);
@@ -78,9 +83,7 @@ public class UserAccountDaoImpl implements UserAccountDao {
         
         return account;
 	}
-	
-	
-	
+
 //////////////// CONSTRUCTORS
 	public UserAccountDaoImpl() {
 	}
@@ -99,7 +102,5 @@ public class UserAccountDaoImpl implements UserAccountDao {
 	public void setSesFact(SessionFactory sesFact) {
 		this.sesFact = sesFact;
 	}
-	
-	
 
 }

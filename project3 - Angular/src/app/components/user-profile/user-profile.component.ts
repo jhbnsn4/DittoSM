@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { Component, OnInit, Input } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
+import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
 import { UserService } from 'src/app/services/user.service';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -10,83 +13,109 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  private targetId: number = 1;
+  // When this is zero, target will be the user in the current session
+  _targetId: number = 0;
 
-  public targetUser: IUserAccount = {
+  public targetUser: IUserAccountPackaged = {
     userId: 0,
-    username: '',
-    password: '',
-    userEmail: '',
     firstName: '',
     lastName: '',
     birthday: '',
     statusText: '',
-    profilePicture: {imageId: 0, imageFile: '', postFK: null, profileFK: null},
-    postList: [],
-    dittoFollowerList: [],
-    dittoFollowingList: []
+    profilePicture: { imageId: 0, imageFile: '', postFK: null, profileFK: null },
   };
   public editing: boolean = false;
+
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    //check for nav bar data.
+    this.userService.currentMessage.subscribe(message => this._targetId = message)
 
-    // Retrieve user from database server (hardcoded for now)
-    let response = this.userService.getUserById(this.targetId).subscribe(
-      (data: IUserAccount) => {
-        this.targetUser = data;
-      }
-    );
+    this.retrieveUserInformation();
   }
 
   /////////// GETTERS & SETTERS
-  get firstName() {
-    return this.targetUser.firstName;
-  }
-  set firstName(firstName: string) {
-      this.targetUser.firstName = firstName;
-  }
-  get lastName() {
-    return this.targetUser.lastName;
-  }
-  set lastName(lastName: string) {
-      this.targetUser.lastName = lastName;
+  // For posts, target Id is the user's id
+  get targetId() {
+    return this.targetUser ? this.targetUser.userId : 0;
   }
 
+  get firstName() {
+    return this.targetUser ? this.targetUser?.firstName : "Something went wrong. Cannot find user.";
+  }
+  set firstName(firstName: string) {
+    this.targetUser.firstName = firstName;
+  }
+  get lastName() {
+    return this.targetUser?.lastName;
+  }
+  set lastName(lastName: string) {
+    this.targetUser.lastName = lastName;
+  }
+
+  // Event bound to birthday date form. Sets user's birthdate with the form's value.
   setBirthDate(event: Event) {
     if (this.targetUser) {
       this.targetUser.birthday = (event.target as HTMLInputElement).value;
     }
   }
+  /* Bound to the birthday date form's value attribute. 
+     Converts user's birthdate to an ISO string.
+  */
   parseDate(): String {
-    console.log(parseInt(this.targetUser.birthday));
-    return new Date(parseInt(this.targetUser.birthday)).toISOString().split('T')[0];
+    return (this.targetUser?.birthday) ?
+      (new Date(this.targetUser.birthday)).toISOString().split('T')[0] : "";
   }
   get statusText() {
-    return this.targetUser.statusText;
+    return this.targetUser?.statusText;
   }
   set statusText(statusText: string) {
-      this.targetUser.statusText = statusText;
+    this.targetUser.statusText = statusText;
   }
   // TOOD: Add getter/setter for profile picture
 
   //////////// OTHER METHODS
 
-  onClickEdit(event: Event) {
+  // Retrieve user from database server 
+  retrieveUserInformation() {
+    // Retrieve by id if we were given one
+    if (this._targetId) {
+      let response = this.userService.getUserById(this._targetId).subscribe(
+        (data: IUserAccountPackaged) => {
+          this.targetUser = data;
+          // ok to get user info
+        }
+      );
+    }
+    // Otherwise, retrieve user from current session
+    else {
+      let response = this.userService.getCurrentUser().subscribe(
+        (data: IUserAccountPackaged) => {
+          this.targetUser = data;
+        }
+      );
+    }
+  }
+
+  onClickEdit() {
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
     this.editing = !this.editing;
   }
 
   onClickUpdateProfile() {
+    // Act as if we toggled the edit button
+    this.onClickEdit();
+
+    // Update our user
     let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: string) => {
-        console.log("update data: " + data);
       }
     );
   }
 
-  
+
 
 
 }

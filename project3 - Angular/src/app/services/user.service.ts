@@ -1,35 +1,55 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IUserAccount } from "../models/useraccount";
+import { IUserAccountPackaged } from "../models/useraccount.packaged";
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+ 
+ 
 
   private url=environment.dittoUrl;
 
+  private messageSource = new BehaviorSubject<number>(0);
+  currentMessage = this.messageSource.asObservable();
+ 
   constructor(private myHttpCli: HttpClient) {
 
   }
 
+ // Calls next on behavior to change value
+changeMessage(message: number){
+this.messageSource.next(message)
+
+}
+
   // GET USER BY ID
-  getUserById(id: number): Observable<IUserAccount> {
-    return this.myHttpCli.get<IUserAccount>(`${this.url}/users/getUserById?id=${id}`);
+  getUserById(id: number): Observable<IUserAccountPackaged> {
+    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getUserById?id=${id}`);
+  }
+
+  // GET CURRENT USER
+  getCurrentUser(): Observable<IUserAccountPackaged> {
+    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getCurrentUser`, {withCredentials: true});
+  }
+
+  // GET USER ID BY USERNAME
+  getUserIdByUsername(username: number): Observable<number> {
+    return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`);
   }
 
   // UPDATE USER
-  updateUser(user: IUserAccount): Observable<string> {
-    console.log("updating user: " + user.username);
-    const httpPost = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    };
+  updateUser(user: IUserAccountPackaged): Observable<string> {
+    console.log("updating user: " + user.firstName);
+    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
 
-    return this.myHttpCli.put<string>(`${this.url}/api/users/updateUser`,
+    return this.myHttpCli.put<string>(`${this.url}/users/updateUser`,
       user, httpPost);
   }
 

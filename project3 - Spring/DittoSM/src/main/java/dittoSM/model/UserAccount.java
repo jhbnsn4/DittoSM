@@ -68,6 +68,10 @@ public class UserAccount {
 ////////////////////////////// CONSTRUCTORS
 	public UserAccount() {
 	}
+	
+	public UserAccount(UserAccountPackaged user) {
+		
+	}
 
 	public UserAccount(int userId, String username, String password, String userEmail, String firstName,
 			String lastName, Timestamp birthday, String statusText, ImageMap profilePicture, List<Post> postList,

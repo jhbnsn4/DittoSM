@@ -4,12 +4,13 @@ import { GlobalFeedComponent } from './components/global-feed/global-feed.compon
 import { LoginComponent } from './components/login/login.component';
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-
+import { PostsComponent } from './components/posts/posts.component';
 const routes: Routes = [
       {path: 'login', component: LoginComponent},
       {path: 'register', component: RegisterAccountComponent},
       {path: 'profile', component: UserProfileComponent},
       {path: 'global', component: GlobalFeedComponent},
+      {path: 'post', component: PostsComponent},
       {path: '**', redirectTo: 'login'}
 
 ];

@@ -60,7 +60,7 @@ public class SessionController {
 	// http://localhost:port/DittoSM/api/userAccount/login
 	@PostMapping(value="/login")
 	public MyCustomMessage login(HttpSession mySession, @RequestBody UserAccount incomingUser) {
-		
+
 		//select user by username
 		UserAccount currentUser = userService.getUserByUsername(incomingUser.getUsername(), incomingUser.getUserEmail());
 //		System.out.println(currentUser);
@@ -95,7 +95,7 @@ public class SessionController {
 	public MyCustomMessage addNewUserAccount(HttpSession mySession) {
 
 		mySession.invalidate();
-		
+
 		return new MyCustomMessage("You have successfully logged OUT", "");
 	}
 
