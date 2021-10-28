@@ -20,6 +20,11 @@ export class UserService {
     return this.myHttpCli.get<IUserAccount>(`${this.url}/users/getUserById?id=${id}`);
   }
 
+  // GET USER ID BY USERNAME
+  getUserIdByUsername(username: number): Observable<number> {
+    return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`);
+  }
+
   // UPDATE USER
   updateUser(user: IUserAccount): Observable<string> {
     console.log("updating user: " + user.username);

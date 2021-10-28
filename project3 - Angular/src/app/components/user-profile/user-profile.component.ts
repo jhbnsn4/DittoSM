@@ -3,6 +3,7 @@ import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { UserService } from 'src/app/services/user.service';
 
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  private targetId: number = 1;
+  targetId: number = 1;
 
   public targetUser: IUserAccount = {
     userId: 0,
@@ -27,6 +28,7 @@ export class UserProfileComponent implements OnInit {
     dittoFollowingList: []
   };
   public editing: boolean = false;
+
 
   constructor(private userService: UserService) { }
 
