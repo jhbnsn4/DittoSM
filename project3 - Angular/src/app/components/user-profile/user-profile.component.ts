@@ -21,7 +21,7 @@ export class UserProfileComponent implements OnInit {
     lastName: '',
     birthday: '',
     statusText: '',
-    profilePicture: {imageId: 0, imageFile: '', postFK: null, profileFK: null},
+    profilePicture: { imageId: 0, imageFile: '', postFK: null, profileFK: null },
     postList: [],
     dittoFollowerList: [],
     dittoFollowingList: []
@@ -45,40 +45,48 @@ export class UserProfileComponent implements OnInit {
     return this.targetUser.firstName;
   }
   set firstName(firstName: string) {
-      this.targetUser.firstName = firstName;
+    this.targetUser.firstName = firstName;
   }
   get lastName() {
     return this.targetUser.lastName;
   }
   set lastName(lastName: string) {
-      this.targetUser.lastName = lastName;
+    this.targetUser.lastName = lastName;
   }
 
+  // Event bound to birthday date form. Sets user's birthdate with the form's value.
   setBirthDate(event: Event) {
     if (this.targetUser) {
       this.targetUser.birthday = (event.target as HTMLInputElement).value;
     }
   }
+  /* Bound to the birthday date form's value attribute. 
+     Converts user's birthdate to an ISO string.
+  */
   parseDate(): String {
-    console.log(parseInt(this.targetUser.birthday));
-    return new Date(parseInt(this.targetUser.birthday)).toISOString().split('T')[0];
+    return (this.targetUser.birthday) ?
+      (new Date(this.targetUser.birthday)).toISOString().split('T')[0] : "";
   }
   get statusText() {
     return this.targetUser.statusText;
   }
   set statusText(statusText: string) {
-      this.targetUser.statusText = statusText;
+    this.targetUser.statusText = statusText;
   }
   // TOOD: Add getter/setter for profile picture
 
   //////////// OTHER METHODS
 
-  onClickEdit(event: Event) {
+  onClickEdit() {
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
     this.editing = !this.editing;
   }
 
   onClickUpdateProfile() {
+    // Act as if we toggled the edit button
+    this.onClickEdit();
+
+    // Update our user
     let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: string) => {
         console.log("update data: " + data);
@@ -86,7 +94,7 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
-  
+
 
 
 }

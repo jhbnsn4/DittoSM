@@ -29,7 +29,7 @@ export class UserService {
       })
     };
 
-    return this.myHttpCli.put<string>(`${this.url}/api/users/updateUser`,
+    return this.myHttpCli.put<string>(`${this.url}/users/updateUser`,
       user, httpPost);
   }
 
