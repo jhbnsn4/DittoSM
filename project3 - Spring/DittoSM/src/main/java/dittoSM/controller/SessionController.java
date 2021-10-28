@@ -1,5 +1,7 @@
 package dittoSM.controller;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.common.hash.Hashing;
 
 import dittoSM.model.MyCustomMessage;
 import dittoSM.model.UserAccount;
@@ -58,11 +62,16 @@ public class SessionController {
 	public MyCustomMessage login(HttpSession mySession, @RequestBody UserAccount incomingUser) {
 
 		//select user by username
-		UserAccount currentUser = userService.getUserByUsername(incomingUser.getUsername());
+		UserAccount currentUser = userService.getUserByUsername(incomingUser.getUsername(), incomingUser.getUserEmail());
+//		System.out.println(currentUser);
+		//Encoding Password
+		String hashedPassword = Hashing.sha256().hashString(incomingUser.getPassword(), StandardCharsets.UTF_8).toString();
+		incomingUser.setPassword(hashedPassword);
+		
+//		System.out.println(currentUser);
 		
 		//Logic to check successful login
-		mySession.setAttribute("currentUser", currentUser);
-
+		
 		//check password
 		if(currentUser==null) 
 		{
@@ -75,6 +84,7 @@ public class SessionController {
 		} else 
 		{
 			//MK: Need to add log4j to track successful login
+			mySession.setAttribute("currentUser", currentUser);
 			return new MyCustomMessage("You have successfully logged IN", currentUser.getUsername());
 		}
 		
