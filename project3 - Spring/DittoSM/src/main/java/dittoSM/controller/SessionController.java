@@ -85,7 +85,6 @@ public class SessionController {
 		{
 			//MK: Need to add log4j to track successful login
 			mySession.setAttribute("currentUser", currentUser);
-			System.out.println(mySession.getAttribute("currentUser"));
 			return new MyCustomMessage("You have successfully logged IN", currentUser.getUsername());
 		}
 		

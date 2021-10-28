@@ -10,7 +10,7 @@ import { SessionAjaxService } from 'src/app/services/session-ajax.service';
 })
 export class LoginComponent implements OnInit {
  
-  router: string=''
+  loginFailed: boolean =false;
 
   userAccount: IUserAccount= 
   {
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     'dittoFollowerList': null, // {} as IUserAccount[],
     'dittoFollowingList': null,//{} as IUserAccount[],
     'postList': null //{} as IPost[]
-    }
+    };
 
   constructor(private myAjax: SessionAjaxService, private myRouter: Router) { }
 
@@ -43,6 +43,10 @@ export class LoginComponent implements OnInit {
       console.log(data)
       if(data.message==="Unsuccessfull login"){
         this.myRouter.navigate(['/login']);
+        this.userAccount.username=""
+        this.userAccount.password=""
+        this.loginFailed=true;
+
       } else{
         this.myRouter.navigate(['/profile']);
       }
