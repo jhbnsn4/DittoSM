@@ -1,4 +1,6 @@
-<p>user-profile works!</p>
+<app-create-post></app-create-post>
+
+
 <button (click)="onClickEdit()">Edit Profile</button>
 
 <form>
@@ -20,3 +22,5 @@
 
     </fieldset>
 </form>
+
+<app-feed [userid]="targetId"></app-feed>

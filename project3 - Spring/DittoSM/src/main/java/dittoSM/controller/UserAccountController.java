@@ -104,6 +104,12 @@ public class UserAccountController {
         return userService.getUserByUsername(username);
     }
 	
+	@GetMapping(value="/getUserId", params= {"username"})
+	public Integer getUserIdByUserName(String username) {
+		
+		return userService.getUserByUsername(username).getUserId();
+	}
+	
 ////////////////// CONSTRUCTORS
 	
 	public UserAccountController() {

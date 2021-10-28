@@ -26,6 +26,11 @@ export class UserService {
     return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getCurrentUser`, {withCredentials: true});
   }
 
+  // GET USER ID BY USERNAME
+  getUserIdByUsername(username: number): Observable<number> {
+    return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`);
+  }
+
   // UPDATE USER
   updateUser(user: IUserAccountPackaged): Observable<string> {
     console.log("updating user: " + user.firstName);

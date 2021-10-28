@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-feed',
@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./feed.component.css']
 })
 export class FeedComponent implements OnInit {
+  
+  @Input() userid: number=0;
+  
 
   constructor() { }
 
   ngOnInit(): void {
+    // console.log(this.userid);
   }
 
 }

@@ -4,6 +4,7 @@ import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
 import { UserService } from 'src/app/services/user.service';
 
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -11,7 +12,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  private targetId: number = 0;
+  // When this is zero, target will be the user in the current session
+  _targetId: number = 0;
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
@@ -23,6 +25,7 @@ export class UserProfileComponent implements OnInit {
   };
   public editing: boolean = false;
 
+
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -31,6 +34,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   /////////// GETTERS & SETTERS
+  get targetId() {
+    return this._targetId;
+  }
+
   get firstName() {
     return this.targetUser ? this.targetUser?.firstName : "Something went wrong. Cannot find user.";
   }
@@ -70,8 +77,8 @@ export class UserProfileComponent implements OnInit {
   // Retrieve user from database server 
   retrieveUserInformation() {
     // Retrieve by id if we were given one
-    if (this.targetId) {
-      let response = this.userService.getUserById(this.targetId).subscribe(
+    if (this._targetId) {
+      let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
         }

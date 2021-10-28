@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IPost } from '../models/post';
 
@@ -11,28 +11,42 @@ export class PostService {
 
   private url=environment.dittoUrl;
 
+  _posts: IPost[] = [];  
+  private myBehavioralSubject = new BehaviorSubject<string>('');
+  private castMyBehaviorSubjectToObservable = this.myBehavioralSubject.asObservable(); //used to subscribe
+
+  
   constructor(private postHttpCli: HttpClient) { }
 
-  addPost(newPost: IPost, userid: number): Observable<string> {
-    // const httpPost  = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'application/json'
-    //   })
-    // }
-
-    console.log(newPost);
-
-    return this.postHttpCli.post<string>(`${this.url}/posts/newPost/${userid}`, newPost);
-    // return this.postHttpCli.post<string>(`localhost:9009/DittoSM/api/posts/newPost/${userid}`, newPost, httpPost);
-
+  addPost(newPost: IPost): Observable<IPost> {
+    return this.postHttpCli.post<IPost>(`${this.url}/posts/newPost/`, newPost , {withCredentials: true});
   }
 
-  getAllPosts(): Observable<IPost[]> {
-    return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getAllPosts`, {withCredentials: true});
-  }
-
-  getPostsByUserId(userid:number): Observable<IPost[]> {
+  getPostsByUserId(userid:number): Observable<IPost[]>{
+    console.log(userid + " this is from service");
+    if (userid==0) {
+      console.log("this is not supposed to happen unless....");
+      return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts`, {withCredentials: true});
+    } 
+    console.log(`${this.url}/posts/getPosts/${userid}`);
     return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts/${userid}`, {withCredentials: true});
   }
+
+  triggerBehaveSubj(newPostList: string){
+    this.myBehavioralSubject.next(newPostList);
+  }
+ 
+  get theOberv(){
+    return this.castMyBehaviorSubjectToObservable;
+  }
+
+  set posts(_posts: IPost[]) {
+    this._posts = _posts;
+  }
+
+  get posts() {
+    return this._posts;
+  }
+
 
 }

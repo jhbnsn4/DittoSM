@@ -30,9 +30,9 @@ import { PostService } from './services/post.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule, 
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [UserService, PostService],
+  providers: [UserService, PostService, PostsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
