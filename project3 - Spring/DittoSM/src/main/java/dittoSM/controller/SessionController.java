@@ -60,9 +60,9 @@ public class SessionController {
 		//select user by username
 		UserAccount currentUser = userService.getUserByUsername(incomingUser.getUsername());
 		
-		
 		//Logic to check successful login
 		mySession.setAttribute("currentUser", currentUser);
+//		System.out.println(mySession.getAttribute("currentUser"));
 //		System.out.println(mySession.getAttribute("currentUser"));
 		//check password
 		if(currentUser==null) 

@@ -1,7 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { IPost } from 'src/app/models/post';
 import { PostService } from 'src/app/services/post.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-posts',
@@ -9,25 +9,29 @@ import { PostService } from 'src/app/services/post.service';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
-  posts: IPost[] = [];
-  constructor(private postServ: PostService) { }
+  posts: IPost[] = [];  
+
+  @Input() userid: number = 0;
+
+  constructor(private postServ: PostService, private userServ: UserService) { }
 
   ngOnInit(): void {
-    this.getPosts();
+    console.log(this.userid);
+    this.getPosts(this.userid);
   }
 
-  getPosts():void {
+  getPosts(userid: number):void {
     console.log("this is getPosts");
+    // console.log(this.userAcc.userAccount.username);
 
-    this.postServ.getAllPosts().subscribe(
+    this.postServ.getPostsByUserId(userid).subscribe(
       (response: IPost[]) =>{
-        console.log(response);
+        // console.log(response);
         this.posts = response;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error.message);
       }
     )
   }
+
+  
 
 }

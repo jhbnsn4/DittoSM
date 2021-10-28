@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { IPost } from 'src/app/models/post';
 import { PostService } from 'src/app/services/post.service';
 
 @Component({
@@ -8,11 +10,17 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class CreatePostComponent implements OnInit {
 
-  // postInsert: IPost = {'postId': 0, 'text':'', 'numLikes': 0, 'createdTime': new Date, 'authorFK': {} as IUser, 'imageList': {} as IImageMap[], 'likes': {} as IUser[]  };
-
   constructor(private postServ: PostService) { }
 
   ngOnInit(): void {
+  }
+  public addPost(addPostForm: NgForm): void {
+    this.postServ.addPost(addPostForm.value).subscribe(
+      (response: IPost) =>{
+        console.log(response);
+        addPostForm.reset();
+      }
+    );
   }
 
   
