@@ -1,0 +1,170 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>project3</groupId>
+	<artifactId>DittoSM</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<properties>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+	</properties>
+
+	<dependencies>
+		<!-- Password Encoding Dependencies -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>20.0</version>
+		</dependency>
+	
+		<!-- SPRING CORE - provides the spring IoC container This IoC container 
+			IS Spring itself -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.3.10</version>
+		</dependency>
+
+		<!-- SPRING BEANS - provides the Dependency Injection (DI) feature -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>5.3.10</version>
+		</dependency>
+
+		<!-- SPRING CONTEXT - provides annotations and package scanning -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.10</version>
+		</dependency>
+
+		<!-- SPRING MVC - provides web tools -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.3.10</version>
+		</dependency>
+
+		<!-- SPRING ORM - provides ORM tools THIS IS NOT AN ORM FRAMEWORK!!!! it's 
+			a module of spring that HAPPENS to puppet Hibernate for us To put it another 
+			way, Spring ORM takes control of Hibernate's configurations for us, all we 
+			need to do is give Spring the appropriate configurations and it will configure 
+			Hibernate. But by itself Spring ORM can NOT map objects to database tables, 
+			that is why it needs to utilize/configure an ACTUAL ORM framework. -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>5.3.10</version>
+		</dependency>
+
+		<!-- HIBERNATE CORE -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.6.0.Final</version>
+		</dependency>
+
+		<!-- POSTGRESQL DRIVER -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.23</version>
+		</dependency>
+
+		<!-- JSON PARSER -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.12.5</version>
+		</dependency>
+
+		<!-- SERVLET API -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Logging with Log4J -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		
+		<!-- TESTING DEPENDENCIES -->
+		<!-- _____________________________________________________________________________ -->
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.12.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JUNIT -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- MOCKITO -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.12.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- LOGGING -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+	</dependencies>
+</project>
