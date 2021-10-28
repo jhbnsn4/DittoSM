@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IUserAccount } from "../models/useraccount";
+import { IUserAccountPackaged } from "../models/useraccount.packaged";
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +17,19 @@ export class UserService {
   }
 
   // GET USER BY ID
-  getUserById(id: number): Observable<IUserAccount> {
-    return this.myHttpCli.get<IUserAccount>(`${this.url}/users/getUserById?id=${id}`);
+  getUserById(id: number): Observable<IUserAccountPackaged> {
+    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getUserById?id=${id}`);
+  }
+
+  // GET CURRENT USER
+  getCurrentUser(): Observable<IUserAccountPackaged> {
+    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getCurrentUser`, {withCredentials: true});
   }
 
   // UPDATE USER
-  updateUser(user: IUserAccount): Observable<string> {
-    console.log("updating user: " + user.username);
-    const httpPost = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    };
+  updateUser(user: IUserAccountPackaged): Observable<string> {
+    console.log("updating user: " + user.firstName);
+    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
 
     return this.myHttpCli.put<string>(`${this.url}/users/updateUser`,
       user, httpPost);

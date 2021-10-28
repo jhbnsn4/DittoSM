@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
+import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -10,21 +11,15 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  private targetId: number = 1;
+  private targetId: number = 0;
 
-  public targetUser: IUserAccount = {
+  public targetUser: IUserAccountPackaged = {
     userId: 0,
-    username: '',
-    password: '',
-    userEmail: '',
     firstName: '',
     lastName: '',
     birthday: '',
     statusText: '',
     profilePicture: { imageId: 0, imageFile: '', postFK: null, profileFK: null },
-    postList: [],
-    dittoFollowerList: [],
-    dittoFollowingList: []
   };
   public editing: boolean = false;
 
@@ -32,23 +27,18 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // Retrieve user from database server (hardcoded for now)
-    let response = this.userService.getUserById(this.targetId).subscribe(
-      (data: IUserAccount) => {
-        this.targetUser = data;
-      }
-    );
+    this.retrieveUserInformation();
   }
 
   /////////// GETTERS & SETTERS
   get firstName() {
-    return this.targetUser.firstName;
+    return this.targetUser ? this.targetUser?.firstName : "Something went wrong. Cannot find user.";
   }
   set firstName(firstName: string) {
     this.targetUser.firstName = firstName;
   }
   get lastName() {
-    return this.targetUser.lastName;
+    return this.targetUser?.lastName;
   }
   set lastName(lastName: string) {
     this.targetUser.lastName = lastName;
@@ -64,11 +54,11 @@ export class UserProfileComponent implements OnInit {
      Converts user's birthdate to an ISO string.
   */
   parseDate(): String {
-    return (this.targetUser.birthday) ?
+    return (this.targetUser?.birthday) ?
       (new Date(this.targetUser.birthday)).toISOString().split('T')[0] : "";
   }
   get statusText() {
-    return this.targetUser.statusText;
+    return this.targetUser?.statusText;
   }
   set statusText(statusText: string) {
     this.targetUser.statusText = statusText;
@@ -76,6 +66,26 @@ export class UserProfileComponent implements OnInit {
   // TOOD: Add getter/setter for profile picture
 
   //////////// OTHER METHODS
+
+  // Retrieve user from database server 
+  retrieveUserInformation() {
+    // Retrieve by id if we were given one
+    if (this.targetId) {
+      let response = this.userService.getUserById(this.targetId).subscribe(
+        (data: IUserAccountPackaged) => {
+          this.targetUser = data;
+        }
+      );
+    }
+    // Otherwise, retrieve user from current session
+    else {
+      let response = this.userService.getCurrentUser().subscribe(
+        (data: IUserAccountPackaged) => {
+          this.targetUser = data;
+        }
+      );
+    }
+  }
 
   onClickEdit() {
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
@@ -89,7 +99,6 @@ export class UserProfileComponent implements OnInit {
     // Update our user
     let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: string) => {
-        console.log("update data: " + data);
       }
     );
   }
