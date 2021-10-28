@@ -13,6 +13,7 @@ export class UserProfileComponent implements OnInit {
 
  
   private targetId: number = 1;
+  
 
   public targetUser: IUserAccount = {
     userId: 0,
@@ -33,10 +34,10 @@ export class UserProfileComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    // Retrieve user from database server (hardcoded for now)
+    //check for nav bar data.
     this.userService.currentMessage.subscribe(message => this.targetId = message)
-    console.log("targetId")
-    console.log(this.targetId)
+
+    // Retrieve user from database server (hardcoded for now)
     let response = this.userService.getUserById(this.targetId).subscribe(
       (data: IUserAccount) => {
         this.targetUser = data;
