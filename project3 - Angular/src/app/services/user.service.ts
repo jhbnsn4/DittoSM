@@ -58,4 +58,5 @@ export class UserService {
     return this.myHttpCli.post<string>(`${this.url}/users/addUser`, newUser, httpPost)
 
   }
+
 }

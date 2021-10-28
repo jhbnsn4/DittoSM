@@ -1,17 +1,18 @@
 <p>Welcome to Ditto!</p>
-    <div class="mb-3">
-      <label for="login-username" class="form-label">Username or Email</label>
-      <input type="text" class="form-control" [(ngModel)]="loginName" aria-describedby="login-username-help">
-      <div id="login-username-help" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
-    <div class="mb-3">
-      <label for="login-password" class="form-label">Password</label>
-      <input type="password" class="form-control" [(ngModel)]="userAccount.password">
-      <p *ngIf = 'loginFailed'>Invalid Username or Password. Please try again.</p>
-    </div>
-    <nav>
-      <a routerLink='/register'>Register New Account</a>
-    </nav>
-    <!-- <a routerLink='/profile'> -->
-      <button type="button" class="btn btn-primary" (click)="login()">Login</button>
-    <!-- </a> -->
+<form>
+
+  <div class="mb-3">
+    <label for="login-username" class="form-label">Username or Email</label>
+    <input type="text" class="form-control" [(ngModel)]="loginName" aria-describedby="login-username-help" name="username">
+    <div id="login-username-help" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <label for="login-password" class="form-label">Password</label>
+    <input type="password" class="form-control" [(ngModel)]="userAccount.password" name="password">
+    <p *ngIf = 'loginFailed'>Invalid Username or Password. Please try again.</p>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="login()">Login</button>
+</form>
+  <nav>
+    <a routerLink='/register'>Register New Account</a>
+  </nav>
