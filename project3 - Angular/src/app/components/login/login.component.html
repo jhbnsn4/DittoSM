@@ -8,4 +8,8 @@
       <label for="login-password" class="form-label">Password</label>
       <input type="password" class="form-control" [(ngModel)]="userAccount.password">
     </div>
-    <button type="button" class="btn btn-primary" (click)="login()">Login</button>
+    <nav>
+      <a routerLink='/register'>Register New Account</a>
+    </nav>
+    <a routerLink='/profile'>
+      <button type="button" class="btn btn-primary" (click)="login()">Login</button></a>

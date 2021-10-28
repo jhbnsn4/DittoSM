@@ -62,7 +62,6 @@ public class SessionController {
 		System.out.println(currentUser);
 		
 		//Logic to check successful login
-		mySession.setAttribute("currentUser", currentUser);
 		
 		//check password
 		if(currentUser==null) 
@@ -76,6 +75,7 @@ public class SessionController {
 		} else 
 		{
 			//MK: Need to add log4j to track successful login
+			mySession.setAttribute("currentUser", currentUser);
 			return new MyCustomMessage("You have successfully logged IN", currentUser.getUsername());
 		}
 		

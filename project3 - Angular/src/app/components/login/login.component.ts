@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IImageMap } from 'src/app/models/imagemap';
-import { IPost } from 'src/app/models/post';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { SessionAjaxService } from 'src/app/services/session-ajax.service';
 
@@ -10,6 +8,8 @@ import { SessionAjaxService } from 'src/app/services/session-ajax.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+ 
+  router: string=''
 
   userAccount: IUserAccount= 
   {
@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   constructor(private myAjax: SessionAjaxService) { }
 
   ngOnInit(): void {
+    this.myAjax.logoutRequest().subscribe(data => {console.log(data)})
   }
 
   login(){
@@ -39,7 +40,6 @@ export class LoginComponent implements OnInit {
 
     this.myAjax.loginRequest(this.userAccount).subscribe(data => {console.log(data)});
     
-  
   }
 
 
