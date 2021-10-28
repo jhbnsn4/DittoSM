@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 
 @Transactional
@@ -28,13 +29,18 @@ public class UserAccountDaoImpl implements UserAccountDao {
 
 	@Override
 	public List<UserAccount> selectAllUsers() {
-
+		
 		List<UserAccount> myList = sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class)
 				.list();
 		for (UserAccount e : myList) {
 			Hibernate.initialize(e.getPostList());
 			Hibernate.initialize(e.getDittoFollowerList());
 			Hibernate.initialize(e.getDittoFollowingList());
+			
+			for (Post post: e.getPostList()) {
+				Hibernate.initialize(post.getImageList());
+				Hibernate.initialize(post.getLikes());
+			}
 		}
 		return myList;
 	}

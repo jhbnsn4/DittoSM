@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { Component, OnInit, Input } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
@@ -29,13 +30,16 @@ export class UserProfileComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    //check for nav bar data.
+    this.userService.currentMessage.subscribe(message => this._targetId = message)
 
     this.retrieveUserInformation();
   }
 
   /////////// GETTERS & SETTERS
+  // For posts, target Id is the user's id
   get targetId() {
-    return this._targetId;
+    return this.targetUser ? this.targetUser.userId : 0;
   }
 
   get firstName() {
@@ -81,6 +85,7 @@ export class UserProfileComponent implements OnInit {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
+          // ok to get user info
         }
       );
     }
