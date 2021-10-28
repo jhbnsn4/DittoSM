@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IPost } from '../models/post';
 
@@ -11,6 +11,11 @@ export class PostService {
 
   private url=environment.dittoUrl;
 
+  _posts: IPost[] = [];  
+  private myBehavioralSubject = new BehaviorSubject<string>('');
+  private castMyBehaviorSubjectToObservable = this.myBehavioralSubject.asObservable(); //used to subscribe
+
+  
   constructor(private postHttpCli: HttpClient) { }
 
   addPost(newPost: IPost): Observable<IPost> {
@@ -25,6 +30,22 @@ export class PostService {
     } 
     console.log(`${this.url}/posts/getPosts/${userid}`);
     return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts/${userid}`, {withCredentials: true});
+  }
+
+  triggerBehaveSubj(newPostList: string){
+    this.myBehavioralSubject.next(newPostList);
+  }
+ 
+  get theOberv(){
+    return this.castMyBehaviorSubjectToObservable;
+  }
+
+  set posts(_posts: IPost[]) {
+    this._posts = _posts;
+  }
+
+  get posts() {
+    return this._posts;
   }
 
 

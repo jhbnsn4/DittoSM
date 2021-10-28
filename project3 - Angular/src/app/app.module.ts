@@ -32,7 +32,7 @@ import { PostService } from './services/post.service';
     FormsModule, 
     HttpClientModule,
   ],
-  providers: [UserService, PostService],
+  providers: [UserService, PostService, PostsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

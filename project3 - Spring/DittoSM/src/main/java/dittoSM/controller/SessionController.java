@@ -62,11 +62,7 @@ public class SessionController {
 		
 		//Logic to check successful login
 		mySession.setAttribute("currentUser", currentUser);
-<<<<<<< HEAD
-=======
-//		System.out.println(mySession.getAttribute("currentUser"));
-//		System.out.println(mySession.getAttribute("currentUser"));
->>>>>>> 6e2ecec60a09c6678d4019b6285ee443e8fc4b46
+
 		//check password
 		if(currentUser==null) 
 		{

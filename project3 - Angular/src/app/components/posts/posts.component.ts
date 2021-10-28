@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { IPost } from 'src/app/models/post';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
@@ -9,25 +10,33 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
+
+  
   posts: IPost[] = [];  
 
   @Input() userid: number = 0;
 
-  constructor(private postServ: PostService, private userServ: UserService) { }
+  constructor(private postServ: PostService) { }
 
   ngOnInit(): void {
     console.log(this.userid);
-    this.getPosts(this.userid);
+    this.getPosts();
+    this.postServ.theOberv.subscribe((payload:string)=>{
+      if(payload=='get list') {
+        this.posts = this.postServ.posts;
+        this.getPosts();
+
+      }
+    });
   }
 
-  getPosts(userid: number):void {
+  getPosts():void {
     console.log("this is getPosts");
-    // console.log(this.userAcc.userAccount.username);
 
-    this.postServ.getPostsByUserId(userid).subscribe(
+    this.postServ.getPostsByUserId(this.userid).subscribe(
       (response: IPost[]) =>{
-        // console.log(response);
         this.posts = response;
+        this.postServ.posts = this.posts;
       }
     )
   }
