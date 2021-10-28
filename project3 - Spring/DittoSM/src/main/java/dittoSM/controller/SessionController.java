@@ -56,14 +56,13 @@ public class SessionController {
 	// http://localhost:port/DittoSM/api/userAccount/login
 	@PostMapping(value="/login")
 	public MyCustomMessage login(HttpSession mySession, @RequestBody UserAccount incomingUser) {
-		
+
 		//select user by username
 		UserAccount currentUser = userService.getUserByUsername(incomingUser.getUsername());
 		
 		
 		//Logic to check successful login
 		mySession.setAttribute("currentUser", currentUser);
-//		System.out.println(mySession.getAttribute("currentUser"));
 		//check password
 		if(currentUser==null) 
 		{

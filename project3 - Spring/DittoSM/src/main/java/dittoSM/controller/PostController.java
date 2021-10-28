@@ -27,10 +27,7 @@ public class PostController {
 
 	@PostMapping(value="/newPost")
 	public boolean addPost(@RequestBody Post post, HttpSession currentSes) {
-		System.out.println(post.getAuthorFK());
 		UserAccount currentUser = (UserAccount) currentSes.getAttribute("currentUser");
-//		System.out.println(currentSes.getAttribute("currentUser"));
-		System.out.println(currentUser);
 		postServ.addNewPost(post, currentUser.getUserId());
 		return true;
 	}
