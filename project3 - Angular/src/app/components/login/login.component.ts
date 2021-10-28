@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { SessionAjaxService } from 'src/app/services/session-ajax.service';
 
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
     'postList': null //{} as IPost[]
     }
 
-  constructor(private myAjax: SessionAjaxService) { }
+  constructor(private myAjax: SessionAjaxService, private myRouter: Router) { }
 
   ngOnInit(): void {
     this.myAjax.logoutRequest().subscribe(data => {console.log(data)})
@@ -38,7 +39,17 @@ export class LoginComponent implements OnInit {
 
     console.log('login clicked');
 
-    this.myAjax.loginRequest(this.userAccount).subscribe(data => {console.log(data)});
+    this.myAjax.loginRequest(this.userAccount).subscribe(data => {
+      console.log(data)
+      if(data.message==="Unsuccessfull login"){
+        this.myRouter.navigate(['/login']);
+      } else{
+        this.myRouter.navigate(['/profile']);
+      }
+    
+    });
+
+    
     
   }
 

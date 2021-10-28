@@ -1,9 +1,12 @@
 package dittoSM.model;
 
+import java.security.SecureRandom;
+import java.security.spec.KeySpec;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.spec.PBEKeySpec;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -126,6 +129,8 @@ public class UserAccount {
 	}
 
 	public void setPassword(String password) {
+		
+		
 		this.password = password;
 	}
 
@@ -209,5 +214,6 @@ public class UserAccount {
 				+ ", statusText=" + statusText + ", profilePicture=" + profilePicture + ", postList=" + postList
 				+ ", dittoFollowerList=" + dittoFollowerList + ", dittoFollowingList=" + dittoFollowingList + "]";
 	}
+	
 
 }

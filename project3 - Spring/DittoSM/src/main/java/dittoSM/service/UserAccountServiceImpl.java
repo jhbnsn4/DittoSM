@@ -1,9 +1,12 @@
 package dittoSM.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.hash.Hashing;
 
 import dittoSM.dao.UserAccountDao;
 import dittoSM.model.UserAccount;
@@ -15,6 +18,10 @@ public class UserAccountServiceImpl implements UserAccountService {
 	
 	@Override
 	public void addAccount(UserAccount account) {
+		//Encoding Password
+		String hashedPassword = Hashing.sha256().hashString(account.getPassword(), StandardCharsets.UTF_8).toString();
+		account.setPassword(hashedPassword);
+		
 		userDao.insertAccount(account);
 	}
 

@@ -45,9 +45,12 @@ public class UserAccountDaoImpl implements UserAccountDao {
         UserAccount account = sesFact.getCurrentSession().get(UserAccount.class, id);
         
         // Initialize lazily fetched proxies
-        Hibernate.initialize(account.getPostList());
-        Hibernate.initialize(account.getDittoFollowerList());
-        Hibernate.initialize(account.getDittoFollowingList());
+        if(account!=null) 
+        {
+        	Hibernate.initialize(account.getPostList());
+        	Hibernate.initialize(account.getDittoFollowerList());
+        	Hibernate.initialize(account.getDittoFollowingList());
+        }
         
         return account;
 	}
@@ -55,12 +58,23 @@ public class UserAccountDaoImpl implements UserAccountDao {
 	@Override
 	public UserAccount selectUserByUsername(String username) {
 		
-        UserAccount account = sesFact.getCurrentSession().createQuery("from UserAccount where username=:username", UserAccount.class).setParameter("username", username).getSingleResult();
-        
+		UserAccount account=null;
+		try 
+		{
+			account = sesFact.getCurrentSession()
+        		.createQuery("from UserAccount where username=:username", UserAccount.class)
+        		.setParameter("username", username)
+        		.uniqueResult();
+		} catch(Exception e)
+		{
+		}
         // Initialize lazily fetched proxies
-        Hibernate.initialize(account.getPostList());
-        Hibernate.initialize(account.getDittoFollowerList());
-        Hibernate.initialize(account.getDittoFollowingList());
+        if(account!=null) 
+        {
+        	Hibernate.initialize(account.getPostList());
+        	Hibernate.initialize(account.getDittoFollowerList());
+        	Hibernate.initialize(account.getDittoFollowingList());
+        }
         
         return account;
 	}

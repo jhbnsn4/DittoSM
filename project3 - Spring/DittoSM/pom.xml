@@ -13,6 +13,13 @@
 	</properties>
 
 	<dependencies>
+		<!-- Password Encoding Dependencies -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>20.0</version>
+		</dependency>
+	
 		<!-- SPRING CORE - provides the spring IoC container This IoC container 
 			IS Spring itself -->
 		<dependency>
