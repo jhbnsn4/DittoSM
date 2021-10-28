@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IUserAccount } from './models/useraccount';
 import { UserService } from './services/user.service';
 import { Router } from '@angular/router';
@@ -7,24 +7,42 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'Ditto Social Media';
+
+
+  filterTerm!: string 
+  
+  
   
  
   constructor(private currentUserService: UserService, private router: Router) { }
 
-  filterTerm!: string 
-
+  message: number;
   items:  IUserAccount[] =[];
   selected = [];
+
+
   ngOnInit(): void {
     this.getUsers();
+    this.currentUserService.currentMessage.subscribe(message => this.message = message)
     
   }
+
   logout(){
     console.log("logout")
-    
+      
   }
+  
+  changeFn(val: any) {
+    this.selected = null;
+    console.log("Dropdown selection:", val.userId);
+    this.currentUserService.changeMessage(val.userId);
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigateByUrl('/profile')
+}
+
    
   profileRoute(){
     this.router.navigateByUrl('/profile');

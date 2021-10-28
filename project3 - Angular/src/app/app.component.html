@@ -11,13 +11,18 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
             <div class="scrollable-box">
             <div class="overflow-box">
-              <ng-select [items]="items"
-                 bindLabel="firstName"
-                 placeholder="Search For Friends"
-                 appendTo="body"
-                 [searchable]="true"
-                 [(ngModel)]="selected">
-       
+              <ng-select 
+          
+              [items]="items"
+              bindLabel="firstName"
+              placeholder="Search For Friends"
+              appendTo="body"
+              [searchable]="true"
+              (change)='changeFn(selected)'
+              [clearSearchOnAdd]="true"
+              [closeOnSelect] ="true"
+                 [(ngModel)]="selected" #selectDropdwn>
+        
               </ng-select>
            </div>
           </div>
@@ -28,5 +33,6 @@
 
   <div class="container">
     <router-outlet></router-outlet>
+    
   </div>
 

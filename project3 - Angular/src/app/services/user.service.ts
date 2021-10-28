@@ -1,19 +1,32 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IUserAccount } from "../models/useraccount";
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+ 
+ 
 
   private url=environment.dittoUrl;
 
+  private messageSource = new BehaviorSubject<number>(1);
+  currentMessage = this.messageSource.asObservable();
+ 
   constructor(private myHttpCli: HttpClient) {
 
   }
+
+ // Calls next on behavior to change value
+changeMessage(message: number){
+this.messageSource.next(message)
+
+}
 
   // GET USER BY ID
   getUserById(id: number): Observable<IUserAccount> {

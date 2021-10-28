@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { Component, OnInit, Input } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { UserService } from 'src/app/services/user.service';
@@ -10,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
+ 
   private targetId: number = 1;
 
   public targetUser: IUserAccount = {
@@ -31,13 +33,16 @@ export class UserProfileComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-
     // Retrieve user from database server (hardcoded for now)
+    this.userService.currentMessage.subscribe(message => this.targetId = message)
+    console.log("targetId")
+    console.log(this.targetId)
     let response = this.userService.getUserById(this.targetId).subscribe(
       (data: IUserAccount) => {
         this.targetUser = data;
       }
     );
+ 
   }
 
   /////////// GETTERS & SETTERS
