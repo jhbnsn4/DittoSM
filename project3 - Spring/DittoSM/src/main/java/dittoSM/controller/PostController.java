@@ -34,6 +34,7 @@ public class PostController {
 
 	@GetMapping(value = "/getPosts")
 	public List<Post> getAllUsers() {
+//		System.out.println(postServ.findAllPosts());
 		return postServ.findAllPosts();
 	}
 
