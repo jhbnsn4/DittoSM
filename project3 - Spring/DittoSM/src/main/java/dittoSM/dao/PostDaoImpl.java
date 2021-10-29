@@ -24,11 +24,13 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public List<Post> selectAllPosts() {
-		List<Post> post1 = sesFact.getCurrentSession().createQuery("FROM Post order by createdTime desc", Post.class).list();
+		List<Post> post1 = sesFact.getCurrentSession().createQuery("SELECT FROM Post order by createdTime desc", Post.class).list();
 		List<UserAccount> users = sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class).list();
 		
 		for(UserAccount elem: users) {
 			Hibernate.initialize(elem.getPostList());
+			Hibernate.initialize(elem.getDittoFollowerList());
+			Hibernate.initialize(elem.getDittoFollowingList());
 		}
 		for(Post elem: post1) {
 			Hibernate.initialize(elem.getImageList());
@@ -46,9 +48,11 @@ public class PostDaoImpl implements PostDao {
 		for(Post elem: post) {
 			Hibernate.initialize(elem.getImageList());
 			Hibernate.initialize(elem.getLikes());
+			Hibernate.initialize(elem.getAuthorFK());
 		}
 		return post;
 	}
+	
 
 	////////////////////// Constructors
 	public PostDaoImpl() {

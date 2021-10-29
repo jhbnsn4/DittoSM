@@ -28,7 +28,7 @@ public class Post {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int postId;
 	
-	@Column(name="post_text")
+	@Column(name="post_text", columnDefinition="TEXT")
 	private String text;
 	
 	@Column(name="like_num")
