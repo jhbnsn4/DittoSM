@@ -33,7 +33,9 @@ public class PostDaoImpl implements PostDao {
 		for(Post elem: post1) {
 			Hibernate.initialize(elem.getImageList());
 			Hibernate.initialize(elem.getLikes());
+			Hibernate.initialize(elem.getAuthorFK());
 		}
+		
 		return post1;
 	}
 

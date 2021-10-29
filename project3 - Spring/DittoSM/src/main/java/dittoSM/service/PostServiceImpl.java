@@ -29,7 +29,7 @@ public class PostServiceImpl implements PostService {
 		post.setCreatedTime(timestamp);
 		UserAccount user1 = userService.getUserById(userid);
 
-		post.setAuthorFK(user1);
+		post.setAuthorFK(user1);;
 
 		postDao.insertNewPost(post);
 		return true;
