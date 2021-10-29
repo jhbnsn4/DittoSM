@@ -1,5 +1,6 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit, Input } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
@@ -25,6 +26,7 @@ export class UserProfileComponent implements OnInit {
     profilePicture: { imageId: 0, imageFile: '', postFK: null, profileFK: null },
   };
   public editing: boolean = false;
+  eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 
   constructor(private userService: UserService) { }
@@ -85,6 +87,8 @@ export class UserProfileComponent implements OnInit {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
+          console.log(this.targetUser.userId + " inside retreieveUserinfo if stmt");
+          this.eventsSubject.next(this.targetUser.userId);
           // ok to get user info
         }
       );
@@ -94,6 +98,9 @@ export class UserProfileComponent implements OnInit {
       let response = this.userService.getCurrentUser().subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
+          console.log(this.targetUser.userId + " inside retreieveUserinfo else stmt");
+          this.eventsSubject.next(this.targetUser.userId);
+
         }
       );
     }
