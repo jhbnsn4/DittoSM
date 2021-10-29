@@ -42,5 +42,9 @@ export class PostsComponent implements OnInit {
   }
 
   
+  likeCLicked(){
+  console.log("like");
+}
+  
 
 }

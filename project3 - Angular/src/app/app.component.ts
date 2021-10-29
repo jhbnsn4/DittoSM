@@ -21,7 +21,7 @@ export class AppComponent implements OnInit{
 
   message: number;
   items:  IUserAccount[] =[];
-  selected = [];
+  selected: number;
 
 
   ngOnInit(): void {
@@ -42,8 +42,14 @@ export class AppComponent implements OnInit{
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigateByUrl('/profile')
 }
+clearFn(){
+  this.selected = null;
+console.log("clear")
+}
+profileLoad(){
+  this.router.navigateByUrl('/profile');
 
-   
+}
   profileRoute(){
     this.router.navigateByUrl('/profile');
     }
