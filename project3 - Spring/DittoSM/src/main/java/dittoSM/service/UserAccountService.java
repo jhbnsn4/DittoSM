@@ -7,6 +7,7 @@ import dittoSM.model.UserAccount;
 public interface UserAccountService {
 
 	void addAccount(UserAccount account);
+	void addProfilePicture(byte[] imgFile, UserAccount currentUser);
 	
 	void updateAccount(UserAccount account);
 	

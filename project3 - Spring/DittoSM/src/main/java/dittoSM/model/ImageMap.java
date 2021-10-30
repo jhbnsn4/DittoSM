@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="image_map")
 public class ImageMap {
@@ -33,12 +36,29 @@ public class ImageMap {
 	
 	public ImageMap() {
 	}
-
-	public ImageMap(int imageId, byte[] imageFile, Post postFK) {
+	
+	// Constructor for user profile
+	public ImageMap(byte[] imageFile, UserAccount profileFK) {
+		super();
+		this.imageFile = imageFile;
+		this.postFK = null;
+		this.profileFK = profileFK;
+	}
+	
+	// Constructor for post img
+	public ImageMap(byte[] imageFile, Post postFK) {
+		super();
+		this.imageFile = imageFile;
+		this.postFK = postFK;
+		this.profileFK = null;
+	}
+	
+	public ImageMap(int imageId, byte[] imageFile, Post postFK, UserAccount profileFK) {
 		super();
 		this.imageId = imageId;
 		this.imageFile = imageFile;
 		this.postFK = postFK;
+		this.profileFK = profileFK;
 	}
 
 	public int getImageId() {
@@ -64,6 +84,16 @@ public class ImageMap {
 	public void setPostFK(Post postFK) {
 		this.postFK = postFK;
 	}
+	
+	@JsonBackReference
+	public UserAccount getProfileFK() {
+		return profileFK;
+	}
+
+	@JsonBackReference
+	public void setProfileFK(UserAccount profileFK) {
+		this.profileFK = profileFK;
+	}
 
 	@Override
 	public String toString() {
@@ -71,6 +101,5 @@ public class ImageMap {
 				+ "]";
 	}
 
-	
 	
 }

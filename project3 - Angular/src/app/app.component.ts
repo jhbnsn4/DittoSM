@@ -31,6 +31,7 @@ export class AppComponent implements OnInit{
   }
 
   logout(){
+    this.currentUserService.changeMessage(0);
     this.router.navigateByUrl('/login');
   }
   

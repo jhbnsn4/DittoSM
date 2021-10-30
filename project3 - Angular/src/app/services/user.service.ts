@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { IImageMap } from "../models/imagemap";
+import { ITestImageContainer } from "../models/testImageContainer";
 import { IUserAccount } from "../models/useraccount";
 import { IUserAccountPackaged } from "../models/useraccount.packaged";
 
@@ -77,5 +79,17 @@ this.messageSource.next(message)
 
     return this.myHttpCli.post<string>(`${this.url}/users/addUser`, newUser, httpPost)
 
+  }
+
+  // ADD/UPDATE PROFILE PICTURE
+  addProfilePicture(profileImage: string | ArrayBuffer | null): Observable<string> {
+    let image: ITestImageContainer = {imageId: 0, imageFile: profileImage as string};
+
+    // let image: IImageMap = {imageId: 0, imageFile: profileImage, postFK: null, profileFK: null}
+    // const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
+    // const httpPost = { headers: new HttpHeaders({'Content-Type': 'application/json'})};
+
+    console.log("sending image");
+    return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, image);
   }
 }
