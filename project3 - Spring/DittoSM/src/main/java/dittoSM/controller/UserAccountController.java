@@ -1,10 +1,12 @@
 package dittoSM.controller;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.hash.Hashing;
+
+import dittoSM.EmailService;
+import dittoSM.model.MyCustomMessage;
 import dittoSM.model.UserAccount;
 import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.UserAccountService;
@@ -26,6 +32,7 @@ public class UserAccountController {
 	
 	private UserAccountService userService;
 	
+	private EmailService mailer;
 	
 	@PostMapping(value="/addUser")
 	public void addUser(@RequestBody UserAccount user) {
@@ -62,6 +69,52 @@ public class UserAccountController {
 //		return "updated account";
 	}
 	
+//////////////////////////////////FOR UPDATE PASSWORD/////////////////////////////////////////////////////
+	@PutMapping(value="/updateUserPassword")
+	public void updateUserPassword(HttpSession mySession, @RequestBody UserAccount userAccount) {
+		
+		// Get actual user from DB
+		UserAccount user = userService.getUserById(userAccount.getUserId());
+		
+		// Don't update if account could not be found
+		if (user == null) {
+			Logger log = MyLogger.getLoggerForClass(this);
+			log.error("Attempting to update invalid account: " + userAccount.getUserId());
+			return;
+		}
+		
+		// Change packaged fields
+		String hashedPassword = Hashing.sha256().hashString(userAccount.getPassword(), StandardCharsets.UTF_8).toString();
+		userAccount.setPassword(hashedPassword);
+		
+		// Update session
+		mySession.setAttribute("currentUser", user);
+		
+		// Update record in DB
+		userService.updateAccount(user);
+		
+	}
+	
+	@PostMapping(value="/resetPassword")
+	public MyCustomMessage resetPassword(HttpSession mySession, @RequestBody String email) {
+		
+		//Get User from DB
+		UserAccount currentUser = userService.getUserByUsername("", email);
+		//Check if user or not
+		if(currentUser==null) 
+		{
+			return new MyCustomMessage("Invalid Email Address", "Please Try Again");
+		} else 
+		{
+			//Prepare message
+			String message = "This is a test";
+			System.out.println(message);
+			mailer.sendMail(email, "Password Reset", message);
+			return new MyCustomMessage("Message has been sent to:", email);
+		}
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	@GetMapping(value="/getUserById", params= {"id"})
 	public UserAccountPackaged getUserById(int id) {
 		// Find the user in the DB
@@ -110,9 +163,10 @@ public class UserAccountController {
 	}
 
 	@Autowired
-	public UserAccountController(UserAccountService userService) {
+	public UserAccountController(UserAccountService userService, EmailService mailer) {
 		super();
 		this.userService = userService;
+		this.mailer = mailer;
 	}
 	
 }

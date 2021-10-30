@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { IMyCustomMessage } from "../models/mycustommessage";
 import { IUserAccount } from "../models/useraccount";
 import { IUserAccountPackaged } from "../models/useraccount.packaged";
 
@@ -44,6 +45,11 @@ this.messageSource.next(message)
     return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`);
   }
 
+  //SEND EMAIL
+  postResetPassword(userEmail: string): Observable<IMyCustomMessage>{
+    return this.myHttpCli.post<IMyCustomMessage>(`${this.url}/users/resetPassword`, userEmail, {});
+  }
+
   // UPDATE USER
   updateUser(user: IUserAccountPackaged): Observable<string> {
     console.log("updating user: " + user.firstName);
@@ -72,8 +78,6 @@ this.messageSource.next(message)
         'Content-Type': 'application/json'
       })
     };
-
-    console.log(newUser);
 
     return this.myHttpCli.post<string>(`${this.url}/users/addUser`, newUser, httpPost)
 
