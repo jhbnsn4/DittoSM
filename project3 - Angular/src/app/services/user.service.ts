@@ -11,9 +11,6 @@ import { IUserAccountPackaged } from "../models/useraccount.packaged";
   providedIn: 'root'
 })
 export class UserService {
- 
- 
-
   private url=environment.dittoUrl;
 
   private messageSource = new BehaviorSubject<number>(0);

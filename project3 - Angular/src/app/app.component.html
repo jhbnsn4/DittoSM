@@ -12,7 +12,7 @@
     <div class="scrollable-box">
       <div class="overflow-box">
         <ng-select [items]="items" bindLabel="firstName" placeholder="Search For Friends" appendTo="body"
-          [searchable]="true" (change)='changeFn(selected)' [clearSearchOnAdd]="true" [closeOnSelect]="true"
+          [searchable]="true" (change)='changeFn(selected)' [clearable] = "false" [clearSearchOnAdd]="true" [closeOnSelect]="true"
           [(ngModel)]="selected" #selectDropdwn>
 
         </ng-select>

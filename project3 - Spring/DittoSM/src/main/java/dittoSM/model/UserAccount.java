@@ -1,12 +1,9 @@
 package dittoSM.model;
 
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.crypto.spec.PBEKeySpec;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,7 +45,7 @@ public class UserAccount {
 
 	@Column(name = "birthday", nullable = false)
 	private Timestamp birthday;
-
+//
 	@Column(name = "statusText")
 	private String statusText;
 
@@ -186,7 +183,7 @@ public class UserAccount {
 		this.profilePicture = profilePicture;
 	}
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	public List<Post> getPostList() {
 		return postList;
 	}
@@ -213,9 +210,9 @@ public class UserAccount {
 
 	@Override
 	public String toString() {
-		return "UserAccount [userId=" + userId + ", username=" + username + ", password=" + password + ", userEmail="
+		return "\nUserAccount [userId=" + userId + ", username=" + username + ", password=" + password + ", userEmail="
 				+ userEmail + ", firstName=" + firstName + ", lastName=" + lastName + ", birthday=" + birthday
-				+ ", statusText=" + statusText + ", profilePicture=" + profilePicture + ", postList=" + postList
+				+ ", statusText=" + statusText + ", profilePicture=" + profilePicture 
 				+ ", dittoFollowerList=" + dittoFollowerList + ", dittoFollowingList=" + dittoFollowingList + "]";
 	}
 	

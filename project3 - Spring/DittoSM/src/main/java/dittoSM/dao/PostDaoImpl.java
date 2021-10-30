@@ -29,11 +29,15 @@ public class PostDaoImpl implements PostDao {
 		
 		for(UserAccount elem: users) {
 			Hibernate.initialize(elem.getPostList());
+			Hibernate.initialize(elem.getDittoFollowerList());
+			Hibernate.initialize(elem.getDittoFollowingList());
 		}
 		for(Post elem: post1) {
 			Hibernate.initialize(elem.getImageList());
 			Hibernate.initialize(elem.getLikes());
+			Hibernate.initialize(elem.getAuthorFK());
 		}
+		
 		return post1;
 	}
 
@@ -44,9 +48,11 @@ public class PostDaoImpl implements PostDao {
 		for(Post elem: post) {
 			Hibernate.initialize(elem.getImageList());
 			Hibernate.initialize(elem.getLikes());
+			Hibernate.initialize(elem.getAuthorFK());
 		}
 		return post;
 	}
+	
 
 	////////////////////// Constructors
 	public PostDaoImpl() {

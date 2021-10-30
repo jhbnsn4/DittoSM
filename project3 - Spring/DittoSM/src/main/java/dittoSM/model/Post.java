@@ -18,6 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import dittoSM.utils.CustomListSerializer;
 
 @Entity
 @Table(name="post")
@@ -28,7 +31,7 @@ public class Post {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int postId;
 	
-	@Column(name="post_text")
+	@Column(name="post_text", columnDefinition="TEXT")
 	private String text;
 	
 	@Column(name="like_num")
@@ -39,6 +42,7 @@ public class Post {
 	
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="author_FK", nullable=false)
+    @JsonSerialize(using = CustomListSerializer.class)
 	private UserAccount authorFK;
 	
 	@OneToMany(mappedBy="postFK")
@@ -70,13 +74,6 @@ public class Post {
 		this.authorFK = authorFK;
 		this.imageList = imageList;
 		this.likes = likes;
-	}
-	public Post(String text, int numLikes, Timestamp createdTime, UserAccount authorFK) {
-		super();
-		this.text = text;
-		this.numLikes = numLikes;
-		this.createdTime = createdTime;
-		this.authorFK = authorFK;
 	}
 
 	public int getPostId() {
@@ -111,12 +108,12 @@ public class Post {
 		this.createdTime = createdTime;
 	}
 	
-	@JsonBackReference
+//	@JsonBackReference
 	public UserAccount getAuthorFK() {
 		return authorFK;
 	}
 
-	@JsonBackReference
+//	@JsonBackReference
 	public void setAuthorFK(UserAccount authorFK) {
 		this.authorFK = authorFK;
 	}
@@ -139,7 +136,7 @@ public class Post {
 
 	@Override
 	public String toString() {
-		return "Post [postId=" + postId + ", text=" + text + ", numLikes=" + numLikes + ", createdTime=" + createdTime
+		return "\nPost [postId=" + postId + ", text=" + text + ", numLikes=" + numLikes + ", createdTime=" + createdTime
 				+ ", authorFK=" + authorFK + ", imageList=" + imageList + ", likes=" + likes + "]";
 	}
 

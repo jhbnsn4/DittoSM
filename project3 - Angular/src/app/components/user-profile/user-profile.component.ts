@@ -1,8 +1,10 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit, Input } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
+import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 
 
@@ -25,9 +27,10 @@ export class UserProfileComponent implements OnInit {
     profilePicture: { imageId: 0, imageFile: '', postFK: null, profileFK: null },
   };
   public editing: boolean = false;
+  eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private postService: PostService) { }
 
   ngOnInit(): void {
     //check for nav bar data.
@@ -85,6 +88,8 @@ export class UserProfileComponent implements OnInit {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
+          console.log(this.targetUser.userId + " inside retreieveUserinfo if stmt");
+          this.eventsSubject.next(this.targetUser.userId);
           // ok to get user info
         }
       );
@@ -94,6 +99,9 @@ export class UserProfileComponent implements OnInit {
       let response = this.userService.getCurrentUser().subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
+          console.log(this.targetUser.userId + " inside retreieveUserinfo else stmt");
+          this.eventsSubject.next(this.targetUser.userId);
+
         }
       );
     }
@@ -111,6 +119,8 @@ export class UserProfileComponent implements OnInit {
     // Update our user
     let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: string) => {
+        console.log("onclickupdate");
+        this.postService.triggerBehaveSubj('get list');
       }
     );
   }

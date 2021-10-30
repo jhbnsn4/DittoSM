@@ -27,10 +27,10 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.getUsers();
     this.currentUserService.currentMessage.subscribe(message => this.message = message)
-    
   }
 
   logout(){
+    this.currentUserService.changeMessage(0);
     this.router.navigateByUrl('/login');
   }
   

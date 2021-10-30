@@ -34,6 +34,7 @@ public class PostController {
 
 	@GetMapping(value = "/getPosts")
 	public List<Post> getAllUsers() {
+		System.out.println(postServ.findAllPosts());
 		return postServ.findAllPosts();
 	}
 
@@ -47,7 +48,6 @@ public class PostController {
 			System.out.println(userid + " this is if it's not 0 or not null");
 			return postServ.findAllPostsById(userid);
 		}
-
 	}
 
 	////////////// Constructor
