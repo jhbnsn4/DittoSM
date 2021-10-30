@@ -1,11 +1,20 @@
 <app-create-post></app-create-post>
 
 
-<button (click)="onClickEdit()">Edit Profile</button>
 
+
+<button (click)="onClickEdit()">Edit Profile</button>
 <form>
     <fieldset id="profileFieldset" disabled>
         <legend>User Profile</legend>
+        <div class="mb-3">
+            <label for="imageInput">Profile Picture</label>
+            <input type="file" class="form-control" id="imageInput" name="profileImage" (change)="onImageLoad($event)" accept="image/png, image/jpeg">
+            <br>
+            <img [src]="profileImage">
+        </div>
+        <br>
+
         <div class="mb-3">
             <input type="text" class="form-control" [(ngModel)]="firstName" name="firstNameInput">
             <input type="text" class="form-control" [(ngModel)]="lastName" name="lastNameInput">
@@ -14,7 +23,8 @@
             <input type="text" class="form-control" [(ngModel)]="statusText" name="statusInput">
         </div>
         <div class="mb-3">
-            <input type="date" class="form-control" [value]="parseDate()" (input)="setBirthDate($event)" name="birthday">
+            <input type="date" class="form-control" [value]="parseDate()" (input)="setBirthDate($event)"
+                name="birthday">
         </div>
         <div class="mb-3" *ngIf="editing">
             <button class="btn btn-success" (click)="onClickUpdateProfile()">Update Profile</button>

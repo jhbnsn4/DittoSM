@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
 
   // When this is zero, target will be the user in the current session
   _targetId: number = 0;
+  private _profileImage: string | ArrayBuffer | null = "";
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
@@ -77,7 +78,10 @@ export class UserProfileComponent implements OnInit {
   set statusText(statusText: string) {
     this.targetUser.statusText = statusText;
   }
-  // TOOD: Add getter/setter for profile picture
+
+  get profileImage() {
+    return this._profileImage;
+  }
 
   //////////// OTHER METHODS
 
@@ -107,22 +111,44 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  // Enable edit profile
   onClickEdit() {
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
     this.editing = !this.editing;
   }
 
+  // Send updated profile to database
   onClickUpdateProfile() {
     // Act as if we toggled the edit button
     this.onClickEdit();
 
     // Update our user
-    let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
+    let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: string) => {
         console.log("onclickupdate");
         this.postService.triggerBehaveSubj('get list');
+      });
+
+    // Add/Update our profile picture
+    if (this._profileImage) {
+      let imageResponse = this.userService.addProfilePicture(this._profileImage).subscribe(
+        (data: string) => {
+        });
+    }
+  }
+
+  // Load an image from our file HTML element
+  onImageLoad(event: Event) {
+    let targetFile = (event.target as HTMLInputElement).files;
+    if (targetFile && targetFile.length) {
+
+      const reader = new FileReader();
+      reader.readAsDataURL(targetFile[0]);
+      reader.onload = (event)=>{
+        this._profileImage = reader.result;
       }
-    );
+
+    }
   }
 
 

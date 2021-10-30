@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.hash.Hashing;
 
 import dittoSM.dao.UserAccountDao;
+import dittoSM.model.ImageMap;
 import dittoSM.model.UserAccount;
 
 @Service("userAccountService")
@@ -23,6 +24,14 @@ public class UserAccountServiceImpl implements UserAccountService {
 		account.setPassword(hashedPassword);
 		
 		userDao.insertAccount(account);
+	}
+	
+	@Override
+	public void addProfilePicture(byte[] imgFile, UserAccount currentUser) {
+		
+		// Create ImageMap object
+		ImageMap image = new ImageMap(imgFile, currentUser);
+		userDao.insertProfilePicture(image);
 	}
 
 	@Override
@@ -59,7 +68,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 		return userDao.selectUserByUsername(username, email);
 	}
 	
-
+	
 /////////////////////// CONSTRUCTORS
 	public UserAccountServiceImpl() {
 	}
@@ -69,5 +78,6 @@ public class UserAccountServiceImpl implements UserAccountService {
 		super();
 		this.userDao = userDao;
 	}
+
 	
 }

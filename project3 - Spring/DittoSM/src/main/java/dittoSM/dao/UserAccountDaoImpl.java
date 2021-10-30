@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import dittoSM.model.ImageMap;
 import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 
@@ -22,6 +23,11 @@ public class UserAccountDaoImpl implements UserAccountDao {
 		sesFact.getCurrentSession().save(account);
 	}
 
+	@Override
+	public void insertProfilePicture(ImageMap image) {
+		sesFact.getCurrentSession().saveOrUpdate(image);
+	}
+	
 	@Override
 	public void updateAccount(UserAccount account) {
 		sesFact.getCurrentSession().update(account);
