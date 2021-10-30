@@ -15,11 +15,11 @@ export class PostsComponent implements OnInit {
 
   @Input() events: Observable<number>;
 
-  posts: IPost[] = [];
+  posts: IPost[] = [  ];
 
   userid: number = 0;
 
-  constructor(private postServ: PostService) {}
+  constructor(private postServ: PostService) { }
 
   ngOnInit(): void {
     this.postServ.theOberv.subscribe((payload: string) => {
@@ -30,7 +30,7 @@ export class PostsComponent implements OnInit {
     });
 
 
-    if (this.events==undefined) {
+    if (this.events == undefined) {
       this.getPosts();
 
     } else {
@@ -39,7 +39,7 @@ export class PostsComponent implements OnInit {
           console.log(response + ' inside eventssuc');
           this.userid = response;
           this.getPosts();
-        } 
+        }
       });
     }
   }

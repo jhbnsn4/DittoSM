@@ -4,6 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
+import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 
 
@@ -29,7 +30,7 @@ export class UserProfileComponent implements OnInit {
   eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private postService: PostService) { }
 
   ngOnInit(): void {
     //check for nav bar data.
@@ -118,6 +119,8 @@ export class UserProfileComponent implements OnInit {
     // Update our user
     let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: string) => {
+        console.log("onclickupdate");
+        this.postService.triggerBehaveSubj('get list');
       }
     );
   }

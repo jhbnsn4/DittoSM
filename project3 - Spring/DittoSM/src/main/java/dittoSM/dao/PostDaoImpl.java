@@ -24,7 +24,7 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public List<Post> selectAllPosts() {
-		List<Post> post1 = sesFact.getCurrentSession().createQuery("SELECT FROM Post order by createdTime desc", Post.class).list();
+		List<Post> post1 = sesFact.getCurrentSession().createQuery("FROM Post order by createdTime desc", Post.class).list();
 		List<UserAccount> users = sesFact.getCurrentSession().createQuery("from UserAccount", UserAccount.class).list();
 		
 		for(UserAccount elem: users) {
