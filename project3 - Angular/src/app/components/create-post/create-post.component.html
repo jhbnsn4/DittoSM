@@ -1,9 +1,0 @@
-<div class="row spacer">
-  <div class="mb-3">
-    <form #addPostForm="ngForm" (ngSubmit)="addPost(addPostForm)">
-      <label for="postText" class="form-label">Create a Post</label>
-      <textarea class="form-control" ngModel id="postText" name="text" rows="3" required></textarea>
-      <button type="submit" [disabled]="addPostForm.invalid" class="btn btn-dark">Create</button>
-    </form>
-  </div>
-</div>
