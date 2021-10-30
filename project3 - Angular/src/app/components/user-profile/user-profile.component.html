@@ -1,19 +1,21 @@
 <app-create-post></app-create-post>
 
-
+<form [formGroup]="profileImageForm" (ngSubmit)="onProfileImageSubmit()">
+    <div class="mb-3">
+        <label for="imageInput">Profile Picture</label>
+        <input type="file" class="form-control" id="imageInput" name="imageFile" (change)="onImageLoad($event)"
+            accept="image/png, image/jpeg">
+        <br>
+        <img [src]="profileImage">
+    </div>
+    <input type="submit" class="form-control">
+</form>
 
 
 <button (click)="onClickEdit()">Edit Profile</button>
 <form>
     <fieldset id="profileFieldset" disabled>
         <legend>User Profile</legend>
-        <div class="mb-3">
-            <label for="imageInput">Profile Picture</label>
-            <input type="file" class="form-control" id="imageInput" name="profileImage" (change)="onImageLoad($event)" accept="image/png, image/jpeg">
-            <br>
-            <img [src]="profileImage">
-        </div>
-        <br>
 
         <div class="mb-3">
             <input type="text" class="form-control" [(ngModel)]="firstName" name="firstNameInput">

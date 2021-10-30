@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import dittoSM.model.ImageMap;
 import dittoSM.model.UserAccount;
 import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.UserAccountService;
@@ -105,8 +106,8 @@ public class UserAccountController {
 	}
 
 	@PostMapping(value = "/addProfilePicture")
-	public void addProfilePicture(HttpSession mySession, @RequestBody byte[] imageFile) {
-		System.out.println("Image received ");
+	public void addProfilePicture(HttpSession mySession, @RequestParam("imageFile") MultipartFile imageFile) {
+		System.out.println("Image received: " + imageFile.getOriginalFilename());
 		// Get current user
 
 		// Retrieve the user from the current session
@@ -116,10 +117,10 @@ public class UserAccountController {
 		if (currentUser == null) {
 			Logger log = MyLogger.getLoggerForClass(this);
 			log.error("Session's current user is null");
-			//return;
+			return;
 		}
-		
-		userService.addProfilePicture(imageFile, currentUser);
+		System.out.println("current user is not null");
+		//userService.addProfilePicture(imageFile, currentUser);
 	}
 
 ////////////////// CONSTRUCTORS

@@ -79,14 +79,15 @@ this.messageSource.next(message)
   }
 
   // ADD/UPDATE PROFILE PICTURE
-  addProfilePicture(profileImage: string | ArrayBuffer | null): Observable<string> {
-    let image: ITestImageContainer = {imageId: 0, imageFile: profileImage as string};
+  addProfilePicture(profileForm: FormData): Observable<string> {
+    const httpPost = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
 
-    // let image: IImageMap = {imageId: 0, imageFile: profileImage, postFK: null, profileFK: null}
-    // const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
-    // const httpPost = { headers: new HttpHeaders({'Content-Type': 'application/json'})};
-
-    console.log("sending image");
-    return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, image);
+    console.log("sending profile image"); 
+    return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, profileForm, {withCredentials: true});
   }
 }

@@ -1,5 +1,6 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
@@ -18,6 +19,7 @@ export class UserProfileComponent implements OnInit {
   // When this is zero, target will be the user in the current session
   _targetId: number = 0;
   private _profileImage: string | ArrayBuffer | null = "";
+  profileImageForm: FormGroup;
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
@@ -31,9 +33,16 @@ export class UserProfileComponent implements OnInit {
   eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 
-  constructor(private userService: UserService, private postService: PostService) { }
+
+  constructor(private userService: UserService, private postService: PostService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+
+    // Set up profile image form
+    this.profileImageForm = this.formBuilder.group({
+      imageFile: ['']
+    });
+
     //check for nav bar data.
     this.userService.currentMessage.subscribe(message => this._targetId = message)
 
@@ -130,28 +139,40 @@ export class UserProfileComponent implements OnInit {
       });
 
     // Add/Update our profile picture
-    if (this._profileImage) {
-      let imageResponse = this.userService.addProfilePicture(this._profileImage).subscribe(
-        (data: string) => {
-        });
-    }
+    // if (this._profileImage) {
+    //   let imageResponse = this.userService.addProfilePicture(this._profileImage).subscribe(
+    //     (data: string) => {
+    //     });
+    // }
   }
 
   // Load an image from our file HTML element
   onImageLoad(event: Event) {
     let targetFile = (event.target as HTMLInputElement).files;
+
+    // Set the image in our form
+    this.profileImageForm.get('imageFile').setValue(targetFile[0]);
+
+    // Read the image file
     if (targetFile && targetFile.length) {
 
       const reader = new FileReader();
       reader.readAsDataURL(targetFile[0]);
       reader.onload = (event)=>{
+        // Display the image in our img element
         this._profileImage = reader.result;
       }
 
     }
   }
 
-
+  onProfileImageSubmit() {
+    const formData = new FormData();
+    formData.append('imageFile', this.profileImageForm.get('imageFile').value);
+    this.userService.addProfilePicture(formData).subscribe(
+      data => { console.log("image stored")}
+    );    
+  }
 
 
 }
