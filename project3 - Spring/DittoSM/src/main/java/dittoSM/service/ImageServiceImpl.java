@@ -1,6 +1,7 @@
 package dittoSM.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class ImageServiceImpl implements ImageService {
 	public void addImage(ImageMap image) {
 		imageDao.insertImage(image);
 	}
+	
+	@Override
+	public void addImages(List<ImageMap> imageList) {
+		imageDao.insertImages(imageList);
+	}
 
 	/**
 	 * Sends our profile image to the DAO layer to be persisted, but also checks the user's original
@@ -28,7 +34,7 @@ public class ImageServiceImpl implements ImageService {
 	 */
 	@Override
 	public boolean addProfilePicture(MultipartFile imageFile, String originalProfileImage) {
-
+		System.out.println("adding profile picture");
 		// Does this user already have a profile picture?
 		ImageMap originalImage = getImageByName(originalProfileImage);
 		if (originalImage != null) {
@@ -70,6 +76,11 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public ImageMap getImageByName(String imageName) {
 		return imageDao.selectImageByName(imageName);
+	}
+	
+	@Override
+	public ImageMap getDefaultImage() {
+		return imageDao.selectFirstImage();
 	}
 
 ////////////////// CONSTRUCTORS

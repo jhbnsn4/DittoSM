@@ -1,33 +1,19 @@
 <app-create-post></app-create-post>
 
+<!-- Profile image -->
 <form [formGroup]="profileImageForm" (ngSubmit)="onProfileImageSubmit()">
-    <div class="mb-3">
+    <div class="mb-3" *ngIf="editingImage">
         <label for="imageInput">Profile Picture</label>
         <input type="file" class="form-control" id="imageInput" name="imageFile" (change)="onImageLoad($event)"
             accept="image/png, image/jpeg">
-        <br>
-        <img [src]="profileImage">
+        <button type="submit" class="btn btn-dark">Change Profile Picture</button>
     </div>
-    <input type="submit" class="form-control">
+    <img [src]="profileImage" height="150" width="200px" (click)="onProfilImageClick()" (mouseover)="mouseOverProfile = true"
+    (mouseout)="mouseOverProfile = false">
+    <p *ngIf="mouseOverProfile">Click to edit</p>
 </form>
 
-<form [formGroup]="postForm" (ngSubmit)="onTestPostSubmit()">
-    <legend>Test files&textbox</legend>
-    <div class="form-group">
-        <label for="textInput">Post Text</label>
-        <input type="text" formControlName="postText" id="textInput" class="form-control">
-    </div>
-    <div class="form-group">
-        <input type="file" formControlName="postFile" id="fileInput" class="form-control" multiple="" (change)="onTestPostFileChange($event)"
-        accept="image/png, image/jpeg">
-    </div>
-
-    <img *ngFor="let url of postFormImages" [src]="url" height="150" width="200px">
-
-    <button type="submit" class="btn btn-success">Post</button>
-</form>
-
-
+<!-- Profile information -->
 <button (click)="onClickEdit()">Edit Profile</button>
 <form>
     <fieldset id="profileFieldset" disabled>

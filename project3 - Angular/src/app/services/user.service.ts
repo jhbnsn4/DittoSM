@@ -90,8 +90,4 @@ this.messageSource.next(message)
     //${userId}
     return this.myHttpCli.get(`${this.url}/users/getProfileImage?userId=${userId}`, {responseType: 'blob'});
   }
-
-  testSendMultipleImages(testForm: FormData): Observable<HttpResponse<object>> {
-    return this.myHttpCli.post(`${this.url}/users/receiveTestForm`, testForm, {observe: 'response', responseType: 'json'});
-  }
 }

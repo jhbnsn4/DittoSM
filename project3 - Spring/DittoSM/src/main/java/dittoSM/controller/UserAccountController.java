@@ -1,5 +1,6 @@
 package dittoSM.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import dittoSM.model.Post;
+import dittoSM.model.ImageMap;
 import dittoSM.model.UserAccount;
 import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.ImageService;
@@ -123,52 +123,61 @@ public class UserAccountController {
 		if (currentUser == null) {
 			Logger log = MyLogger.getLoggerForClass(this);
 			log.error("Session's current user is null");
+			System.out.println("Session's user is null");
 			return;
 		}
-		
+
 		// Save the image to our database
 		boolean newProfile = imageService.addProfilePicture(imageFile, currentUser.getProfilePicture());
-		
+
 		// If we added a NEW profile image
 		if (newProfile) {
-			// Update user with new image name 
+			// Update user with new image name
 			currentUser.setProfilePicture(imageFile.getOriginalFilename());
 			mySession.setAttribute("currentUser", currentUser);
 			userService.updateAccount(currentUser);
 		}
-		
+
 	}
-	
-	@GetMapping(value="/getProfileImage", params="userId")
+
+	@GetMapping(value = "/getProfileImage", params = "userId")
 	public ResponseEntity<byte[]> getProfileImage(@RequestParam("userId") Integer userId) {
 		// Get the user
 		UserAccount user = userService.getUserById(userId);
+		
+		// If we don't have a profile picture, use the default
+		if (user.getProfilePicture() == null) {
+			ImageMap defaultImg = imageService.getDefaultImage();
+			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(defaultImg.getImageFile());
+		}
 
 		// Retrieve the image file
 		byte[] imageByteArray = {};
 		if (user != null && user.getProfilePicture() != null) {
 			imageByteArray = imageService.getImageByName(user.getProfilePicture()).getImageFile();
 		}
-		
+
 		// Send as Blob
 		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageByteArray);
 	}
 
-	@PostMapping(value="/receiveTestForm")
-	public Post receiveTestForm(
-			@RequestParam("postText") String postText, 
-			@RequestParam("postFile") String postFile,
-			@RequestParam("fileSource") MultipartFile[] fileSource) {
-		
-		System.out.println("hit endpoint testForm. Text: " + postText);
-		System.out.println("hit endpoint testForm. Text: " + postFile);
-		System.out.println("hit endpoint testForm. Text: " + fileSource.length);
-		//System.out.println("hit endpoint testForm. Filenum: " + fileSource.length);
-		
-		return new Post();
+	@PostMapping(value = "/addPicture")
+	public void addProfilePicture(@RequestParam("imageFile") MultipartFile imageFile) {
+
+		// Read the new image file
+		byte[] imageBytes = {};
+		try {
+			imageBytes = imageFile.getBytes();
+		} catch (IOException e) {
+			Logger log = MyLogger.getLoggerForClass(this);
+			log.error("Exception when reading image file", e);
+			e.printStackTrace();
+			return;
+		}
+
+		imageService.addImage(new ImageMap(imageBytes, imageFile.getOriginalFilename()));
 	}
-	
-	
+
 ////////////////// CONSTRUCTORS
 
 	public UserAccountController() {

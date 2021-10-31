@@ -1,13 +1,14 @@
 package dittoSM.dao;
 
-import org.apache.log4j.Logger;
+import java.util.List;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import dittoSM.model.ImageMap;
-import dittoSM.utils.MyLogger;
 
 @Transactional
 @Repository("imageDao")
@@ -18,6 +19,14 @@ public class ImageDaoImpl implements ImageDao {
 	@Override
 	public void insertImage(ImageMap image) {
 		sesFact.getCurrentSession().save(image);
+	}
+	
+	@Override
+	public void insertImages(List<ImageMap> imageList) {
+		Session curSes = sesFact.getCurrentSession();
+		for (ImageMap image : imageList) {
+			curSes.save(image);
+		}
 	}
 	
 	@Override
@@ -35,10 +44,21 @@ public class ImageDaoImpl implements ImageDao {
 
 	@Override
 	public ImageMap selectImageByName(String imageName) {
-		ImageMap image = sesFact.getCurrentSession().createQuery("from ImageMap where imageName=:imageName", ImageMap.class)
-				.setParameter("imageName", imageName).uniqueResult();
+		// Get a list of all images with that name
+		List<ImageMap> imageList = sesFact.getCurrentSession().createQuery("from ImageMap where imageName=:imageName", ImageMap.class)
+				.setParameter("imageName", imageName).getResultList();
 		
-		return image;
+		// Don't access elements if list is empty, just return null 
+		if (imageList.isEmpty())
+			return null;
+		
+		return imageList.get(0);
+	}
+	
+	@Override
+	public ImageMap selectFirstImage() {
+		return sesFact.getCurrentSession().createQuery("from ImageMap where imageId=1", ImageMap.class)
+				.uniqueResult();
 	}
 
 //////////////// CONSTRUCTORS

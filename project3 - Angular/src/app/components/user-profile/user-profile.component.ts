@@ -23,91 +23,6 @@ export class UserProfileComponent implements OnInit {
   private _profileImage: string | ArrayBuffer | null = "";
   profileImageForm: FormGroup;
 
-  // test multi-file & text
-  postFormImages: string[] = [];
-  postFormFiles: File[] = [];
-  postForm: FormGroup = new FormGroup({
-    postText: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    postFile: new FormControl(''),
-    fileSource: new FormControl('')
-  });
-
-  onTestPostFileChange(event:Event) {
-    let inputElement = event.target as HTMLInputElement;
-    let numFiles = inputElement.files.length;
-
-    // Is our file too large?
-    let sizeOK = this.checkFileSize(inputElement, numFiles);
-    if (!sizeOK) {
-      // Zero out the vars tracking our form
-      this.postForm.patchValue({fileSource: []});
-      this.postFormImages = [];
-      this.postFormFiles = [];
-      return;
-    }
-
-    // Remember add these to our list of selected files
-    for (let i = 0; i < numFiles; i++) {
-      this.postFormFiles.push(inputElement.files[i]);
-    }
-    for (let i = 0; i < numFiles; i++) {
-      this.postForm.patchValue({
-        fileSource: inputElement.files
-      });
-
-      let reader = new FileReader();
-      reader.onload = (event) => {
-        this.postFormImages.push(event.target.result as string);
-        
-        console.log("patching value");
-      }
-      reader.readAsDataURL(inputElement.files[i]);
-    }
-  }
-
-  // Prevent user from uploading file(s) above a certain size
-  checkFileSize(inputElement: HTMLInputElement, numFiles: number): boolean {
-    // Count the total size of all files
-    let totalSize = 0;
-
-    // Count new files
-    for (let i = 0; i < numFiles; i++) {
-      totalSize += inputElement.files[i].size;
-    }
-    // Count other selected files
-    for (let i = 0; i < this.postFormFiles.length; i++) {
-      totalSize += this.postFormFiles[i].size;
-    }
-    console.log("size:",totalSize);
-    //                3MB
-    if (totalSize > 3145728) {
-      alert("File is too big!");
-      // Clear file form (Sadly, removing only the most recent elemnt is impossible)
-      inputElement.value = "";
-      return false;
-    }
-
-    return true;
-  }
-
-  onTestPostSubmit() {
-    console.log("submitted test form");
-    console.log(this.postForm.value);
-
-    const formData = new FormData();
-    formData.append('postText', this.postForm.get('postText').value);
-    formData.append('postFile', this.postForm.get('postFile').value);
-
-    // Add all of our selected files under the SAME name (necessary for receiving server)
-    for (let i = 0; i < this.postFormImages.length; i++) {
-      // old way: 'fileSource', this.postForm.get('fileSource').value[i]
-      formData.append('fileSource', this.postFormFiles[i]);
-    }
-    this.userService.testSendMultipleImages(formData).subscribe(
-      data => {}
-    );
-  }
-
   public targetUser: IUserAccountPackaged = {
     userId: 0,
     firstName: '',
@@ -116,7 +31,11 @@ export class UserProfileComponent implements OnInit {
     statusText: '',
     profilePicture: '',
   };
+  // Booleans for editing profile info & editing image
   public editing: boolean = false;
+  public editingImage: boolean = false;
+  public mouseOverProfile: boolean = false;
+
   eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 
@@ -132,7 +51,8 @@ export class UserProfileComponent implements OnInit {
     });
 
     //check for nav bar data.
-    this.userService.currentMessage.subscribe(message => this._targetId = message)
+    this.userService.currentMessage.subscribe(message => this._targetId = message);
+    
 
     this.retrieveUserInformation();
   }
@@ -184,8 +104,9 @@ export class UserProfileComponent implements OnInit {
 
   // Retrieve user from database server 
   retrieveUserInformation() {
+    console.log("id",this._targetId);
     // Retrieve by id if we were given one
-    if (this._targetId) {
+    if (this._targetId > 0) {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
@@ -261,16 +182,36 @@ export class UserProfileComponent implements OnInit {
   }
 
   onProfileImageSubmit() {
+    console.log("submitting profile");
     const formData = new FormData();
     formData.append('imageFile', this.profileImageForm.get('imageFile').value);
 
-    // If we have an image to send (if formData != {})
-    if (!(Object.keys(formData).length === 0)) {
+    // If we have an image to send 
+    if (this.profileImageForm.get("imageFile").value) {
       this.userService.addProfilePicture(formData).subscribe(
         data => { console.log("image stored") }
       );
-
     }
+    else {
+      console.log("attempting to submit empty profile pic");
+    }
+
+    this.editingImage = false;
+
+  }
+
+  // Toggle profile picture editing
+  onProfilImageClick() {
+    this.editingImage = !this.editingImage;
+  }
+
+  onProfileMouseOver(event: Event) {
+    this.mouseOverProfile = true;
+    console.log("mouse over");
+  }
+  onProfileMouseOut() {
+    this.mouseOverProfile = false;
+    console.log("mouse out");
   }
 
 
