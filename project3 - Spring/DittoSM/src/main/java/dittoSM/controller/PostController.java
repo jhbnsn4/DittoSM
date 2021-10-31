@@ -34,18 +34,18 @@ public class PostController {
 
 	@GetMapping(value = "/getPosts")
 	public List<Post> getAllUsers() {
-		System.out.println(postServ.findAllPosts());
+//		System.out.println(postServ.findAllPosts());
 		return postServ.findAllPosts();
 	}
 
 	@GetMapping(value = "/getPosts/{userid}")
 	public @ResponseBody List<Post> getPostById(@PathVariable("userid") Integer userid) {
-		System.out.println(userid);
+//		System.out.println(userid);
 		if (userid == 0 || userid.equals(null)) {
-			System.out.println(userid + " this is if it's 0 or null");
+//			System.out.println(userid + " this is if it's 0 or null");
 			return postServ.findAllPosts();
 		} else {
-			System.out.println(userid + " this is if it's not 0 or not null");
+//			System.out.println(userid + " this is if it's not 0 or not null");
 			return postServ.findAllPostsById(userid);
 		}
 	}

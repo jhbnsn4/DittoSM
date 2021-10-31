@@ -2,34 +2,59 @@
     <div>
         <img />
     </div>
-    <div class="row ">
-        <div class="col-3 ">
-            <div class="row justify-content-between ">
+    <!-- Entire thing -->
+    <div class="row">
+        <!-- Form stuff -->
+        <div class="col-4 p-4 me-5">
+            <!-- User profile legend + edit btn -->
+            <div class="row justify-content-between">
                 <div class="col p-0 mb-1 align-self-center">
                     <legend class="pb-0 mb-0 ">User Profile</legend>
                 </div>
-                <div class="col-2 p-0 mb-1 ">
-                    <button data-bs-toggle="button" class="btn btn-light btn-sm pb-0" (click)="onClickEdit()">
-                        <mat-icon>edit</mat-icon>
+                <div class="col-2 p-0 mb-1 align-self-end border">
+                    <button data-bs-toggle="button" class="btn btn-light" (click)="onClickEdit()">
+                        <i class="bi bi-pencil-fill "></i>
                     </button>
                 </div>
             </div>
+            <!-- The actual form -->
             <div class="row ">
                 <form class="p-0">
                     <fieldset id="profileFieldset" disabled>
-                        <div class="mb-2 ">
-                            <!-- [className]="editing ? '-plaintext': ''" -->
-                            <input type="text" class="form-control" [(ngModel)]="firstName" name="firstNameInput">
-                            <input type="text" class="form-control" [(ngModel)]="lastName" name="lastNameInput">
+                        <!-- [className]="editing ? '-plaintext': ''" -->
+                        <div class="row">
+                            <div class="col-3 align-self-center">First Name:</div>
+                            <div class="col">
+                                <input type="text"
+                                    [className]="editing ? 'form-control animated': 'form-control-plaintext'"
+                                    [(ngModel)]="firstName" name="firstNameInput">
+                            </div>
                         </div>
+                        <!-- <div class="" -->
+                        <div class="row">
+                            <div class="col-3 align-self-center">Last Name:</div>
+                            <div class="col">
+                                <input type="text" [className]="editing ? 'form-control': 'form-control-plaintext'"
+                                    [(ngModel)]="lastName" name="lastNameInput">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-3 align-self-center">Birthday:</div>
+                            <div class="col">
+                                <input type="date" [className]="editing ? 'form-control': 'form-control-plaintext'"
+                                    [value]="parseDate()" (input)="setBirthDate($event)" name="birthday">
+                            </div>
+                        </div>
+                        <span>Status: </span>
                         <div class="mb-2">
-                            <input type="text" class="form-control" [(ngModel)]="statusText" name="statusInput">
+                            <textarea type="text" rows="5" style="resize: none;"
+                                [className]="editing ? 'form-control': 'form-control-plaintext'"
+                                [(ngModel)]="statusText" name="statusInput"></textarea>
                         </div>
-                        <div class="mb-2">
-                            <input type="date" class="form-control" [value]="parseDate()" (input)="setBirthDate($event)"
-                                name="birthday">
-                        </div>
+
                         <div class="mb-2" *ngIf="editing">
+                            <button class="btn btn-dark" (click)="onClickEdit()">Cancel</button>
                             <button class="btn btn-success" (click)="onClickUpdateProfile()">Update Profile</button>
                         </div>
 
