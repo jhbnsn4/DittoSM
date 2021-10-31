@@ -71,7 +71,7 @@ public class UserAccountController {
 	
 //////////////////////////////////FOR UPDATE PASSWORD/////////////////////////////////////////////////////
 	@PutMapping(value="/updateUserPassword")
-	public void updateUserPassword(HttpSession mySession, @RequestBody UserAccount userAccount) {
+	public MyCustomMessage updateUserPassword(HttpSession mySession, @RequestBody UserAccount userAccount) {
 		
 		// Get actual user from DB
 		UserAccount user = userService.getUserById(userAccount.getUserId());
@@ -80,18 +80,18 @@ public class UserAccountController {
 		if (user == null) {
 			Logger log = MyLogger.getLoggerForClass(this);
 			log.error("Attempting to update invalid account: " + userAccount.getUserId());
-			return;
+			return new MyCustomMessage("Invalid Account","");
 		}
 		
-		// Change packaged fields
+		// Change Password
 		String hashedPassword = Hashing.sha256().hashString(userAccount.getPassword(), StandardCharsets.UTF_8).toString();
-		userAccount.setPassword(hashedPassword);
-		
-		// Update session
-		mySession.setAttribute("currentUser", user);
+		user.setPassword(hashedPassword);
 		
 		// Update record in DB
+		System.out.println(user.getPassword());
 		userService.updateAccount(user);
+		System.out.println(user.getPassword());
+		return new MyCustomMessage("Password Succefully Updated","");
 		
 	}
 	
@@ -107,7 +107,9 @@ public class UserAccountController {
 		} else 
 		{
 			//Prepare message
-			String message = "This is a test";
+			int userId = currentUser.getUserId();
+			String url = "http://localhost:4200/reset/";
+			String message = "Click the following link to reset your password: "+url+userId;
 			System.out.println(message);
 			mailer.sendMail(email, "Password Reset", message);
 			return new MyCustomMessage("Message has been sent to:", email);

@@ -51,11 +51,21 @@ this.messageSource.next(message)
   }
 
   // UPDATE USER
-  updateUser(user: IUserAccountPackaged): Observable<string> {
+  updateUser(user: IUserAccountPackaged): Observable<IMyCustomMessage> {
     console.log("updating user: " + user.firstName);
     const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
 
-    return this.myHttpCli.put<string>(`${this.url}/users/updateUser`,
+    return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUser`,
+      user, httpPost);
+      
+  }
+
+  //UPDATE PASSWORD
+  updatePassword(user: IUserAccount): Observable<IMyCustomMessage> {
+    console.log("updating user: " + user.firstName);
+    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
+
+    return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUserPassword`,
       user, httpPost);
   }
 

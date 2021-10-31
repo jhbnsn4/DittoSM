@@ -31,8 +31,8 @@ export class PasswordLandingComponent implements OnInit {
         this.emailFailed = true;
         
       } else{
-        // this.myRouter.navigate(['/profile']);
         this.emailFailed = false;
+        this.myRouter.navigate(['/login']);
       }
     })
 

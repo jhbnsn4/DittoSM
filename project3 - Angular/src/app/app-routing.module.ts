@@ -15,7 +15,7 @@ const routes: Routes = [
       {path: 'global', component: GlobalFeedComponent},
       {path: 'post', component: PostsComponent},
       {path: 'passlanding', component: PasswordLandingComponent},
-      {path: 'reset', component: PasswordResetComponent},
+      {path: 'reset/:id', component: PasswordResetComponent},
       {path: '**', redirectTo: 'login'}
 
 ];

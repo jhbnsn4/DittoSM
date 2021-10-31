@@ -1,6 +1,7 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit, Input } from '@angular/core';
 import { IImageMap } from 'src/app/models/imagemap';
+import { IMyCustomMessage } from 'src/app/models/mycustommessage';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
 import { UserService } from 'src/app/services/user.service';
@@ -110,7 +111,7 @@ export class UserProfileComponent implements OnInit {
 
     // Update our user
     let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
-      (data: string) => {
+      (data: IMyCustomMessage) => {
       }
     );
   }
