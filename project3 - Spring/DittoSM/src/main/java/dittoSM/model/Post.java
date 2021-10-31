@@ -45,8 +45,8 @@ public class Post {
     @JsonSerialize(using = CustomListSerializer.class)
 	private UserAccount authorFK;
 	
-	@OneToMany(mappedBy="postFK")
-	private List<ImageMap> imageList = new ArrayList<>();
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<ImageMap> imageList;
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<UserAccount> likes;

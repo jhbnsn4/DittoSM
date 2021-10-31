@@ -6,8 +6,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dittoSM.model.UserAccount;
 import dittoSM.model.UserAccountPackaged;
+import dittoSM.service.ImageService;
 import dittoSM.service.UserAccountService;
 import dittoSM.utils.MyLogger;
 
@@ -27,6 +31,7 @@ import dittoSM.utils.MyLogger;
 public class UserAccountController {
 
 	private UserAccountService userService;
+	private ImageService imageService;
 
 	@PostMapping(value = "/addUser")
 	public void addUser(@RequestBody UserAccount user) {
@@ -119,8 +124,33 @@ public class UserAccountController {
 			log.error("Session's current user is null");
 			return;
 		}
-		System.out.println("current user is not null");
-		//userService.addProfilePicture(imageFile, currentUser);
+		
+		// Save the image to our database
+		boolean newProfile = imageService.addProfilePicture(imageFile, currentUser.getProfilePicture());
+		
+		// If we added a NEW profile image
+		if (newProfile) {
+			// Update user with new image name 
+			currentUser.setProfilePicture(imageFile.getOriginalFilename());
+			mySession.setAttribute("currentUser", currentUser);
+			userService.updateAccount(currentUser);
+		}
+		
+	}
+	
+	@GetMapping(value="/getProfileImage", params="userId")
+	public ResponseEntity<byte[]> getProfileImage(@RequestParam("userId") Integer userId) {
+		// Get the user
+		UserAccount user = userService.getUserById(userId);
+
+		// Retrieve the image file
+		byte[] imageByteArray = {};
+		if (user != null && user.getProfilePicture() != null) {
+			imageByteArray = imageService.getImageByName(user.getProfilePicture()).getImageFile();
+		}
+		
+		// Send as Blob
+		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageByteArray);
 	}
 
 ////////////////// CONSTRUCTORS
@@ -129,9 +159,10 @@ public class UserAccountController {
 	}
 
 	@Autowired
-	public UserAccountController(UserAccountService userService) {
+	public UserAccountController(UserAccountService userService, ImageService imageService) {
 		super();
 		this.userService = userService;
+		this.imageService = imageService;
 	}
 
 }

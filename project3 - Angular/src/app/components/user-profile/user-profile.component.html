@@ -22,7 +22,7 @@
             <input type="text" class="form-control" [(ngModel)]="lastName" name="lastNameInput">
         </div>
         <div class="mb-3">
-            <input type="text" class="form-control" [(ngModel)]="statusText" name="statusInput">
+            <input type="text" class="form-control" [(ngModel)]="statusText" name="statusInput" placeholder="Tell everyone how you're feeling!">
         </div>
         <div class="mb-3">
             <input type="date" class="form-control" [value]="parseDate()" (input)="setBirthDate($event)"

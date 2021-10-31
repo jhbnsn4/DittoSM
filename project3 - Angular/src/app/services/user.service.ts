@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IImageMap } from "../models/imagemap";
-import { ITestImageContainer } from "../models/testImageContainer";
 import { IUserAccount } from "../models/useraccount";
 import { IUserAccountPackaged } from "../models/useraccount.packaged";
 
@@ -89,5 +88,11 @@ this.messageSource.next(message)
 
     console.log("sending profile image"); 
     return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, profileForm, {withCredentials: true});
+  }
+
+  // GET PROFILE PICTURE
+  getProfilePicture(userId: number): Observable<Blob> {
+    //${userId}
+    return this.myHttpCli.get(`${this.url}/users/getProfileImage?userId=${userId}`, {responseType: 'blob'});
   }
 }

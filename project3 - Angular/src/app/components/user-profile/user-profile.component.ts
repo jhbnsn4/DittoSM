@@ -1,12 +1,14 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IImageMap } from 'src/app/models/imagemap';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
 import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -27,14 +29,15 @@ export class UserProfileComponent implements OnInit {
     lastName: '',
     birthday: '',
     statusText: '',
-    profilePicture: { imageId: 0, imageFile: '', postFK: null, profileFK: null },
+    profilePicture: '',
   };
   public editing: boolean = false;
   eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 
 
-  constructor(private userService: UserService, private postService: PostService, private formBuilder: FormBuilder) { }
+  constructor(private userService: UserService, private postService: PostService, 
+    private formBuilder: FormBuilder, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
 
@@ -104,6 +107,8 @@ export class UserProfileComponent implements OnInit {
           console.log(this.targetUser.userId + " inside retreieveUserinfo if stmt");
           this.eventsSubject.next(this.targetUser.userId);
           // ok to get user info
+          // set user's profile picture
+          this.retrieveProfilePicture(this.targetUser.userId);
         }
       );
     }
@@ -111,13 +116,43 @@ export class UserProfileComponent implements OnInit {
     else {
       let response = this.userService.getCurrentUser().subscribe(
         (data: IUserAccountPackaged) => {
+          // set user's profile information
           this.targetUser = data;
           console.log(this.targetUser.userId + " inside retreieveUserinfo else stmt");
           this.eventsSubject.next(this.targetUser.userId);
 
+          // set user's profile picture
+          this.retrieveProfilePicture(this.targetUser.userId);
         }
       );
     }
+    
+  }
+  
+  retrieveProfilePicture(userId: number) {
+    
+    console.log("userId:",this.targetUser.userId);
+    this._profileImage = `${environment.dittoUrl}/users/getProfileImage?userId=${userId}`;
+
+    // // Retrieve the profile picture from our server
+    // let response = this.userService.getProfilePicture(userId).subscribe(
+    //   (data: Blob) => {
+
+    //     // Read the image file
+    //     const reader = new FileReader();
+    //     reader.onload = (event) => {
+    //       // Display the image from our img element
+    //       this._profileImage = reader.result;
+
+    //       // Set the image in our form
+    //       let formFiles = (document.getElementById("imageInput") as HTMLInputElement).files;
+    //       this.profileImageForm.get('imageFile').setValue(formFiles[0]);
+    //     }
+    //     reader.readAsDataURL(data);
+
+
+    //   }
+    // );
   }
 
   // Enable edit profile
@@ -158,7 +193,7 @@ export class UserProfileComponent implements OnInit {
 
       const reader = new FileReader();
       reader.readAsDataURL(targetFile[0]);
-      reader.onload = (event)=>{
+      reader.onload = (event) => {
         // Display the image in our img element
         this._profileImage = reader.result;
       }
@@ -169,9 +204,14 @@ export class UserProfileComponent implements OnInit {
   onProfileImageSubmit() {
     const formData = new FormData();
     formData.append('imageFile', this.profileImageForm.get('imageFile').value);
-    this.userService.addProfilePicture(formData).subscribe(
-      data => { console.log("image stored")}
-    );    
+    
+    // If we have an image to send (if formData != {})
+    if (!(Object.keys(formData).length === 0)) {
+      this.userService.addProfilePicture(formData).subscribe(
+        data => { console.log("image stored") }
+      );
+
+    }
   }
 
 
