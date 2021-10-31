@@ -57,7 +57,6 @@ export class PasswordResetComponent implements OnInit {
   // Retrieve user from database server 
   retrieveUserInformation() {
     // Retrieve by id if we were given one
-    console.log('checkpoint 1', this.targetId)
     if (this.targetId) {
       let response = this.userService.getUserById(this.targetId).subscribe(
         (data: IUserAccount) => {
@@ -65,7 +64,6 @@ export class PasswordResetComponent implements OnInit {
           // ok to get user info
         }
         );
-        console.log('in out IF');
     }
 
   }
