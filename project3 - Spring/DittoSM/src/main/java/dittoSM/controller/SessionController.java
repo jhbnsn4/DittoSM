@@ -67,7 +67,6 @@ public class SessionController {
 		//Encoding Password
 		String hashedPassword = Hashing.sha256().hashString(incomingUser.getPassword(), StandardCharsets.UTF_8).toString();
 		incomingUser.setPassword(hashedPassword);
-		
 //		System.out.println(currentUser);
 		
 		//Logic to check successful login

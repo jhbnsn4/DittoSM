@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IImageMap } from "../models/imagemap";
 import { ITestImageContainer } from "../models/testImageContainer";
+import { IMyCustomMessage } from "../models/mycustommessage";
 import { IUserAccount } from "../models/useraccount";
 import { IUserAccountPackaged } from "../models/useraccount.packaged";
 
@@ -43,12 +44,27 @@ this.messageSource.next(message)
     return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`);
   }
 
+  //SEND EMAIL
+  postResetPassword(userEmail: string): Observable<IMyCustomMessage>{
+    return this.myHttpCli.post<IMyCustomMessage>(`${this.url}/users/resetPassword`, userEmail, {});
+  }
+
   // UPDATE USER
-  updateUser(user: IUserAccountPackaged): Observable<string> {
+  updateUser(user: IUserAccountPackaged): Observable<IMyCustomMessage> {
     console.log("updating user: " + user.firstName);
     const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
 
-    return this.myHttpCli.put<string>(`${this.url}/users/updateUser`,
+    return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUser`,
+      user, httpPost);
+      
+  }
+
+  //UPDATE PASSWORD
+  updatePassword(user: IUserAccount): Observable<IMyCustomMessage> {
+    console.log("updating user: " + user.firstName);
+    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
+
+    return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUserPassword`,
       user, httpPost);
   }
 
@@ -71,8 +87,6 @@ this.messageSource.next(message)
         'Content-Type': 'application/json'
       })
     };
-
-    console.log(newUser);
 
     return this.myHttpCli.post<string>(`${this.url}/users/addUser`, newUser, httpPost)
 

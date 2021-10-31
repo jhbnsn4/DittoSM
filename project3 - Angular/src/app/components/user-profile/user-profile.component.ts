@@ -2,6 +2,7 @@ import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit, Input } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IImageMap } from 'src/app/models/imagemap';
+import { IMyCustomMessage } from 'src/app/models/mycustommessage';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
 import { PostService } from 'src/app/services/post.service';
@@ -124,7 +125,7 @@ export class UserProfileComponent implements OnInit {
 
     // Update our user
     let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
-      (data: string) => {
+      (data: IMyCustomMessage) => {
         console.log("onclickupdate");
         this.postService.triggerBehaveSubj('get list');
       });
