@@ -148,6 +148,10 @@ public class UserAccountController {
 		// If we don't have a profile picture, use the default
 		if (user.getProfilePicture() == null) {
 			ImageMap defaultImg = imageService.getDefaultImage();
+			if (defaultImg == null) {
+				System.out.println("No default image!");
+				return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(null);
+			}
 			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(defaultImg.getImageFile());
 		}
 
