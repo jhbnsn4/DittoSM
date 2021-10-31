@@ -40,8 +40,6 @@ export class UserProfileComponent implements OnInit {
 
   eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-
-
   constructor(private userService: UserService, private postService: PostService, 
     private formBuilder: FormBuilder, private sanitizer: DomSanitizer) { }
 
