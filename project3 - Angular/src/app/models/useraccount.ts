@@ -10,7 +10,7 @@ export interface IUserAccount {
     lastName: string;
     birthday: string;
     statusText: string;
-    profilePicture: IImageMap|null;
+    profilePicture: string;
     postList: IPost[]|null;
     dittoFollowerList: IUserAccount[]|null;
     dittoFollowingList: IUserAccount[]|null;

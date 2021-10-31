@@ -3,14 +3,16 @@ package dittoSM.service;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.hash.Hashing;
 
 import dittoSM.dao.UserAccountDao;
-import dittoSM.model.ImageMap;
 import dittoSM.model.UserAccount;
+import dittoSM.utils.MyLogger;
 
 @Service("userAccountService")
 public class UserAccountServiceImpl implements UserAccountService {
@@ -27,19 +29,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 	
 	@Override
-	public void addProfilePicture(byte[] imgFile, UserAccount currentUser) {
-		
-		// Create ImageMap object
-		ImageMap image = new ImageMap(imgFile, currentUser);
-		userDao.insertProfilePicture(image);
-	}
-
-	@Override
 	public void updateAccount(UserAccount account) {
 		
 		// Account cannot be null and its id must be 1 or greater
 		if (account == null || account.getUserId() <= 0) {
-			// TODO: log here
+			Logger log = MyLogger.getLoggerForClass(this);
+			log.error("Cannot update account that is either null or has id of 0 or less");
 			return;
 		}
 		
@@ -51,7 +46,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 	public UserAccount getUserById(int id) {
 		// Id must be 1 or greater
 		if (id <= 0) {
-			//TODO: log here
+			Logger log = MyLogger.getLoggerForClass(this);
+			log.error("Cannot get account that has id of 0 or less");
 			return null;
 		}
 		

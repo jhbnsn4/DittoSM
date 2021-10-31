@@ -8,19 +8,16 @@ import { SessionAjaxService } from './services/session-ajax.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'Ditto Social Media';
 
 
-  filterTerm!: string 
-  
-  
-  
- 
+  filterTerm!: string
+
   constructor(private currentUserService: UserService, private router: Router) { }
 
   message: number;
-  items:  IUserAccount[] =[];
+  items: IUserAccount[] = [];
   selected = [];
 
 
@@ -29,11 +26,11 @@ export class AppComponent implements OnInit{
     this.currentUserService.currentMessage.subscribe(message => this.message = message)
   }
 
-  logout(){
+  logout() {
     this.currentUserService.changeMessage(0);
     this.router.navigateByUrl('/login');
   }
-  
+
   changeFn(val: any) {
     this.selected = null;
     console.log("Dropdown selection:", val.userId);
@@ -41,23 +38,29 @@ export class AppComponent implements OnInit{
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigateByUrl('/profile')
-}
+  }
 
-   
-  profileRoute(){
+
+  profileRoute() {
     this.router.navigateByUrl('/profile');
-    }
+  }
 
-    globalRoute(){
-      this.router.navigateByUrl('/global');
-      }
-  
+  globalRoute() {
+    this.router.navigateByUrl('/global');
+  }
+
   getUsers(): void {
     this.currentUserService.allUsersRequest()
-    .subscribe(data => this.items = data);
+      .subscribe(data => this.items = data);
     console.log("items: ")
     console.log(this.items);
   }
-  
+
+  clickProfile() {
+    // Send message setting profile id to 0
+    console.log("profile clicked");
+    this.currentUserService.changeMessage(0);
+  }
+
 
 }

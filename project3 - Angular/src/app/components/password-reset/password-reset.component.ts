@@ -20,7 +20,7 @@ export class PasswordResetComponent implements OnInit {
     lastName: '',
     birthday: '',
     statusText: '',
-    profilePicture: { imageId: 0, imageFile: '', postFK: null, profileFK: null },
+    profilePicture: '',
     username: '',
     password: '',
     userEmail: '',
