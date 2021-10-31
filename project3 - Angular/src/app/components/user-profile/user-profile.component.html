@@ -11,6 +11,22 @@
     <input type="submit" class="form-control">
 </form>
 
+<form [formGroup]="postForm" (ngSubmit)="onTestPostSubmit()">
+    <legend>Test files&textbox</legend>
+    <div class="form-group">
+        <label for="textInput">Post Text</label>
+        <input type="text" formControlName="postText" id="textInput" class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="file" formControlName="postFile" id="fileInput" class="form-control" multiple="" (change)="onTestPostFileChange($event)"
+        accept="image/png, image/jpeg">
+    </div>
+
+    <img *ngFor="let url of postFormImages" [src]="url" height="150" width="200px">
+
+    <button type="submit" class="btn btn-success">Post</button>
+</form>
+
 
 <button (click)="onClickEdit()">Edit Profile</button>
 <form>

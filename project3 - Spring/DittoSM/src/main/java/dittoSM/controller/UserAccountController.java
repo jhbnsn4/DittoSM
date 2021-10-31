@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.ImageService;
@@ -153,6 +154,21 @@ public class UserAccountController {
 		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageByteArray);
 	}
 
+	@PostMapping(value="/receiveTestForm")
+	public Post receiveTestForm(
+			@RequestParam("postText") String postText, 
+			@RequestParam("postFile") String postFile,
+			@RequestParam("fileSource") MultipartFile[] fileSource) {
+		
+		System.out.println("hit endpoint testForm. Text: " + postText);
+		System.out.println("hit endpoint testForm. Text: " + postFile);
+		System.out.println("hit endpoint testForm. Text: " + fileSource.length);
+		//System.out.println("hit endpoint testForm. Filenum: " + fileSource.length);
+		
+		return new Post();
+	}
+	
+	
 ////////////////// CONSTRUCTORS
 
 	public UserAccountController() {

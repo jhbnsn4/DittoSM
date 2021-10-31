@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IImageMap } from "../models/imagemap";
+import { IPost } from "../models/post";
 import { IUserAccount } from "../models/useraccount";
 import { IUserAccountPackaged } from "../models/useraccount.packaged";
 
@@ -79,14 +80,8 @@ this.messageSource.next(message)
 
   // ADD/UPDATE PROFILE PICTURE
   addProfilePicture(profileForm: FormData): Observable<string> {
-    const httpPost = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      }),
-      withCredentials: true
-    };
-
     console.log("sending profile image"); 
+
     return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, profileForm, {withCredentials: true});
   }
 
@@ -94,5 +89,9 @@ this.messageSource.next(message)
   getProfilePicture(userId: number): Observable<Blob> {
     //${userId}
     return this.myHttpCli.get(`${this.url}/users/getProfileImage?userId=${userId}`, {responseType: 'blob'});
+  }
+
+  testSendMultipleImages(testForm: FormData): Observable<HttpResponse<object>> {
+    return this.myHttpCli.post(`${this.url}/users/receiveTestForm`, testForm, {observe: 'response', responseType: 'json'});
   }
 }

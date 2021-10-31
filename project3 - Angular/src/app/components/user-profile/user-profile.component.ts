@@ -1,6 +1,6 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IImageMap } from 'src/app/models/imagemap';
@@ -22,6 +22,48 @@ export class UserProfileComponent implements OnInit {
   _targetId: number = 0;
   private _profileImage: string | ArrayBuffer | null = "";
   profileImageForm: FormGroup;
+
+  // test multi-file & text
+  postFormImages: string[] = [];
+  postForm: FormGroup = new FormGroup({
+    postText: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    postFile: new FormControl(''),
+    fileSource: new FormControl('')
+  });
+
+  onTestPostFileChange(event:Event) {
+    let inputElement = event.target as HTMLInputElement;
+    let numFiles = inputElement.files.length;
+    for (let i = 0; i < numFiles; i++) {
+      this.postForm.patchValue({
+        fileSource: inputElement.files
+      });
+
+      let reader = new FileReader();
+      reader.onload = (event) => {
+        this.postFormImages.push(event.target.result as string);
+        
+        console.log("patching value");
+      }
+      reader.readAsDataURL(inputElement.files[i]);
+    }
+  }
+
+  onTestPostSubmit() {
+    console.log("submitted test form");
+    console.log(this.postForm.value);
+
+    const formData = new FormData();
+    formData.append('postText', this.postForm.get('postText').value);
+    formData.append('postFile', this.postForm.get('postFile').value);
+    for (let i = 0; i < this.postFormImages.length; i++) {
+      formData.append('fileSource', this.postForm.get('fileSource').value[i]);
+    }
+    this.userService.testSendMultipleImages(formData).subscribe(
+      data => {}
+    );
+  }
+
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
@@ -130,29 +172,9 @@ export class UserProfileComponent implements OnInit {
   }
   
   retrieveProfilePicture(userId: number) {
-    
-    console.log("userId:",this.targetUser.userId);
+    // Set our img element's src to our profile image's url
     this._profileImage = `${environment.dittoUrl}/users/getProfileImage?userId=${userId}`;
 
-    // // Retrieve the profile picture from our server
-    // let response = this.userService.getProfilePicture(userId).subscribe(
-    //   (data: Blob) => {
-
-    //     // Read the image file
-    //     const reader = new FileReader();
-    //     reader.onload = (event) => {
-    //       // Display the image from our img element
-    //       this._profileImage = reader.result;
-
-    //       // Set the image in our form
-    //       let formFiles = (document.getElementById("imageInput") as HTMLInputElement).files;
-    //       this.profileImageForm.get('imageFile').setValue(formFiles[0]);
-    //     }
-    //     reader.readAsDataURL(data);
-
-
-    //   }
-    // );
   }
 
   // Enable edit profile
@@ -173,12 +195,6 @@ export class UserProfileComponent implements OnInit {
         this.postService.triggerBehaveSubj('get list');
       });
 
-    // Add/Update our profile picture
-    // if (this._profileImage) {
-    //   let imageResponse = this.userService.addProfilePicture(this._profileImage).subscribe(
-    //     (data: string) => {
-    //     });
-    // }
   }
 
   // Load an image from our file HTML element
@@ -204,7 +220,7 @@ export class UserProfileComponent implements OnInit {
   onProfileImageSubmit() {
     const formData = new FormData();
     formData.append('imageFile', this.profileImageForm.get('imageFile').value);
-    
+
     // If we have an image to send (if formData != {})
     if (!(Object.keys(formData).length === 0)) {
       this.userService.addProfilePicture(formData).subscribe(
