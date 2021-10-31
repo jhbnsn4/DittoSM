@@ -7,5 +7,5 @@ export interface IUserAccountPackaged {
     lastName: string;
     birthday: string;
     statusText: string;
-    profilePicture: IImageMap|null;
+    profilePicture: string;
 }

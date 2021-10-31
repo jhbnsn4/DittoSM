@@ -9,7 +9,7 @@ public class UserAccountPackaged {
 	private String lastName;
 	private String statusText;
 	private Timestamp birthday;
-	private ImageMap profilePicture;
+	private String profilePicture;
 	
 //////////////////////////// CONSTRUCTORS
 	public UserAccountPackaged() {
@@ -24,7 +24,7 @@ public class UserAccountPackaged {
 		this.profilePicture = account.getProfilePicture();
 	}
 	public UserAccountPackaged(int userId, String firstName, String lastName, String statusText, Timestamp birthday,
-			ImageMap profilePicture) {
+			String profilePicture) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -65,10 +65,10 @@ public class UserAccountPackaged {
 	public void setBirthday(Timestamp birthday) {
 		this.birthday = birthday;
 	}
-	public ImageMap getProfilePicture() {
+	public String getProfilePicture() {
 		return profilePicture;
 	}
-	public void setProfilePicture(ImageMap profilePicture) {
+	public void setProfilePicture(String profilePicture) {
 		this.profilePicture = profilePicture;
 	}
 	@Override

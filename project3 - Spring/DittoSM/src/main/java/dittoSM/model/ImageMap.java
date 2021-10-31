@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="image_map")
 public class ImageMap {
@@ -24,21 +27,22 @@ public class ImageMap {
 	@Column(name="image_file", nullable=false)
 	private byte[] imageFile;
 	
-	@ManyToOne
-	@JoinColumn(name="post_FK")
-	private Post postFK;
-	
-	@OneToOne(mappedBy="profilePicture")
-	private UserAccount profileFK;
+	@Column(name="image_name", nullable=false)
+	private String imageName;
 	
 	public ImageMap() {
 	}
 
-	public ImageMap(int imageId, byte[] imageFile, Post postFK) {
+	public ImageMap(byte[] imageFile, String imageName) {
+		super();
+		this.imageFile = imageFile;
+		this.imageName = imageName;
+	}
+	public ImageMap(int imageId, byte[] imageFile, String imageName) {
 		super();
 		this.imageId = imageId;
 		this.imageFile = imageFile;
-		this.postFK = postFK;
+		this.imageName = imageName;
 	}
 
 	public int getImageId() {
@@ -57,20 +61,19 @@ public class ImageMap {
 		this.imageFile = imageFile;
 	}
 
-	public Post getPostFK() {
-		return postFK;
+	public String getImageName() {
+		return imageName;
 	}
 
-	public void setPostFK(Post postFK) {
-		this.postFK = postFK;
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
 	@Override
 	public String toString() {
-		return "ImageMap [imageId=" + imageId + ", imageFile=" + Arrays.toString(imageFile) + ", postFK=" + postFK
+		return "ImageMap [imageId=" + imageId + ", imageFile=" + Arrays.toString(imageFile) + ", imageName=" + imageName
 				+ "]";
 	}
-
 	
 	
 }

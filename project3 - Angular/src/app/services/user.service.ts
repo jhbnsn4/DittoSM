@@ -1,7 +1,10 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { IImageMap } from "../models/imagemap";
+import { IMyCustomMessage } from "../models/mycustommessage";
+import { IPost } from "../models/post";
 import { IUserAccount } from "../models/useraccount";
 import { IUserAccountPackaged } from "../models/useraccount.packaged";
 
@@ -11,9 +14,6 @@ import { IUserAccountPackaged } from "../models/useraccount.packaged";
   providedIn: 'root'
 })
 export class UserService {
- 
- 
-
   private url=environment.dittoUrl;
 
   private messageSource = new BehaviorSubject<number>(0);
@@ -44,12 +44,27 @@ this.messageSource.next(message)
     return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`);
   }
 
+  //SEND EMAIL
+  postResetPassword(userEmail: string): Observable<IMyCustomMessage>{
+    return this.myHttpCli.post<IMyCustomMessage>(`${this.url}/users/resetPassword`, userEmail, {});
+  }
+
   // UPDATE USER
-  updateUser(user: IUserAccountPackaged): Observable<string> {
+  updateUser(user: IUserAccountPackaged): Observable<IMyCustomMessage> {
     console.log("updating user: " + user.firstName);
     const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
 
-    return this.myHttpCli.put<string>(`${this.url}/users/updateUser`,
+    return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUser`,
+      user, httpPost);
+      
+  }
+
+  //UPDATE PASSWORD
+  updatePassword(user: IUserAccount): Observable<IMyCustomMessage> {
+    console.log("updating user: " + user.firstName);
+    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
+
+    return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUserPassword`,
       user, httpPost);
   }
 
@@ -73,9 +88,20 @@ this.messageSource.next(message)
       })
     };
 
-    console.log(newUser);
-
     return this.myHttpCli.post<string>(`${this.url}/users/addUser`, newUser, httpPost)
 
+  }
+
+  // ADD/UPDATE PROFILE PICTURE
+  addProfilePicture(profileForm: FormData): Observable<string> {
+    console.log("sending profile image"); 
+
+    return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, profileForm, {withCredentials: true});
+  }
+
+  // GET PROFILE PICTURE
+  getProfilePicture(userId: number): Observable<Blob> {
+    //${userId}
+    return this.myHttpCli.get(`${this.url}/users/getProfileImage?userId=${userId}`, {responseType: 'blob'});
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,8 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 import { GlobalFeedComponent } from './components/global-feed/global-feed.component';
 import { PostService } from './services/post.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PasswordLandingComponent } from './components/password-landing/password-landing.component';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 
 
 @NgModule({
@@ -27,11 +29,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
     PostsComponent,
     CreatePostComponent,
     GlobalFeedComponent,
+    PasswordLandingComponent,
+    PasswordResetComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule, 
+    ReactiveFormsModule,
     HttpClientModule,
     NgSelectModule,
     

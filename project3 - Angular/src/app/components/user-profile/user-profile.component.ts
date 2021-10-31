@@ -1,9 +1,16 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, assertPlatform } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { IImageMap } from 'src/app/models/imagemap';
+import { IMyCustomMessage } from 'src/app/models/mycustommessage';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { IUserAccountPackaged } from 'src/app/models/useraccount.packaged';
+import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
+
 
 
 @Component({
@@ -15,6 +22,8 @@ export class UserProfileComponent implements OnInit {
 
   // When this is zero, target will be the user in the current session
   _targetId: number = 0;
+  private _profileImage: string | ArrayBuffer | null = "";
+  profileImageForm: FormGroup;
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
@@ -22,16 +31,30 @@ export class UserProfileComponent implements OnInit {
     lastName: '',
     birthday: '',
     statusText: '',
-    profilePicture: { imageId: 0, imageFile: '', postFK: null, profileFK: null },
+    profilePicture: '',
   };
+  // Booleans for editing profile info & editing image
   public editing: boolean = false;
+  public editingImage: boolean = false;
+  public mouseOverProfile: boolean = false;
+
+  eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 
-  constructor(private userService: UserService) { }
+
+  constructor(private userService: UserService, private postService: PostService, 
+    private formBuilder: FormBuilder, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+
+    // Set up profile image form
+    this.profileImageForm = this.formBuilder.group({
+      imageFile: ['']
+    });
+
     //check for nav bar data.
-    this.userService.currentMessage.subscribe(message => this._targetId = message)
+    this.userService.currentMessage.subscribe(message => this._targetId = message);
+    
 
     this.retrieveUserInformation();
   }
@@ -74,18 +97,26 @@ export class UserProfileComponent implements OnInit {
   set statusText(statusText: string) {
     this.targetUser.statusText = statusText;
   }
-  // TOOD: Add getter/setter for profile picture
+
+  get profileImage() {
+    return this._profileImage;
+  }
 
   //////////// OTHER METHODS
 
   // Retrieve user from database server 
   retrieveUserInformation() {
+    console.log("id",this._targetId);
     // Retrieve by id if we were given one
-    if (this._targetId) {
+    if (this._targetId > 0) {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
+          console.log(this.targetUser.userId + " inside retreieveUserinfo if stmt");
+          this.eventsSubject.next(this.targetUser.userId);
           // ok to get user info
+          // set user's profile picture
+          this.retrieveProfilePicture(this.targetUser.userId);
         }
       );
     }
@@ -93,29 +124,100 @@ export class UserProfileComponent implements OnInit {
     else {
       let response = this.userService.getCurrentUser().subscribe(
         (data: IUserAccountPackaged) => {
+          // set user's profile information
           this.targetUser = data;
+          console.log(this.targetUser.userId + " inside retreieveUserinfo else stmt");
+          this.eventsSubject.next(this.targetUser.userId);
+
+          // set user's profile picture
+          this.retrieveProfilePicture(this.targetUser.userId);
         }
       );
     }
+    
+  }
+  
+  retrieveProfilePicture(userId: number) {
+    // Set our img element's src to our profile image's url
+    this._profileImage = `${environment.dittoUrl}/users/getProfileImage?userId=${userId}`;
+
   }
 
+  // Enable edit profile
   onClickEdit() {
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
     this.editing = !this.editing;
+    this.retrieveUserInformation();
   }
 
+  // Send updated profile to database
   onClickUpdateProfile() {
     // Act as if we toggled the edit button
-    this.onClickEdit();
+    (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
+    this.editing = !this.editing;
+    // this.onClickEdit();
 
     // Update our user
-    let response = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
-      (data: string) => {
-      }
-    );
+    let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
+      (data: IMyCustomMessage) => {
+        console.log("onclickupdate");
+        this.postService.triggerBehaveSubj('get list');
+      });
+
   }
 
+  // Load an image from our file HTML element
+  onImageLoad(event: Event) {
+    let targetFile = (event.target as HTMLInputElement).files;
 
+    // Set the image in our form
+    this.profileImageForm.get('imageFile').setValue(targetFile[0]);
+
+    // Read the image file
+    if (targetFile && targetFile.length) {
+
+      const reader = new FileReader();
+      reader.readAsDataURL(targetFile[0]);
+      reader.onload = (event) => {
+        // Display the image in our img element
+        this._profileImage = reader.result;
+      }
+
+    }
+  }
+
+  onProfileImageSubmit() {
+    console.log("submitting profile");
+    const formData = new FormData();
+    formData.append('imageFile', this.profileImageForm.get('imageFile').value);
+
+    // If we have an image to send 
+    if (this.profileImageForm.get("imageFile").value) {
+      this.userService.addProfilePicture(formData).subscribe(
+        data => { console.log("image stored") }
+      );
+    }
+    else {
+      console.log("attempting to submit empty profile pic");
+    }
+
+    this.editingImage = false;
+
+  }
+
+  // Toggle profile picture editing
+  onProfilImageClick() {
+    this.editingImage = !this.editingImage;
+  }
+
+  onProfileMouseOver(event: Event) {
+    this.mouseOverProfile = true;
+    console.log("mouse over");
+  }
+  onProfileMouseOut() {
+    this.mouseOverProfile = false;
+    console.log("mouse out");
+  }
 
 
 }

@@ -1,12 +1,9 @@
 package dittoSM.model;
 
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.crypto.spec.PBEKeySpec;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,13 +45,12 @@ public class UserAccount {
 
 	@Column(name = "birthday", nullable = false)
 	private Timestamp birthday;
-
+//
 	@Column(name = "statusText")
 	private String statusText;
 
-	@OneToOne
-	@JoinColumn(name = "picture_FK")
-	private ImageMap profilePicture;
+	@Column(name= "profile_picture")
+	private String profilePicture;
 
 	@OneToMany(mappedBy = "authorFK", fetch=FetchType.LAZY)
 	private List<Post> postList = new ArrayList<>();
@@ -74,7 +70,7 @@ public class UserAccount {
 	}
 
 	public UserAccount(int userId, String username, String password, String userEmail, String firstName,
-			String lastName, Timestamp birthday, String statusText, ImageMap profilePicture, List<Post> postList,
+			String lastName, Timestamp birthday, String statusText, String profilePicture, List<Post> postList,
 			List<UserAccount> dittoFollowerList, List<UserAccount> dittoFollowingList) {
 		super();
 		this.userId = userId;
@@ -178,15 +174,15 @@ public class UserAccount {
 		this.statusText = statusText;
 	}
 
-	public ImageMap getProfilePicture() {
+	public String getProfilePicture() {
 		return profilePicture;
 	}
 
-	public void setProfilePicture(ImageMap profilePicture) {
+	public void setProfilePicture(String profilePicture) {
 		this.profilePicture = profilePicture;
 	}
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	public List<Post> getPostList() {
 		return postList;
 	}
@@ -213,9 +209,9 @@ public class UserAccount {
 
 	@Override
 	public String toString() {
-		return "UserAccount [userId=" + userId + ", username=" + username + ", password=" + password + ", userEmail="
+		return "\nUserAccount [userId=" + userId + ", username=" + username + ", password=" + password + ", userEmail="
 				+ userEmail + ", firstName=" + firstName + ", lastName=" + lastName + ", birthday=" + birthday
-				+ ", statusText=" + statusText + ", profilePicture=" + profilePicture + ", postList=" + postList
+				+ ", statusText=" + statusText + ", profilePicture=" + profilePicture 
 				+ ", dittoFollowerList=" + dittoFollowerList + ", dittoFollowingList=" + dittoFollowingList + "]";
 	}
 	

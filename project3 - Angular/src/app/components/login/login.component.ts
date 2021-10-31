@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
 
     this.myAjax.loginRequest(this.userAccount).subscribe(data => {
       console.log(data)
+      console.log(this.userAccount)
       if(data.message==="Unsuccessfull login"){
         this.myRouter.navigate(['/login']);
         this.loginName=""
