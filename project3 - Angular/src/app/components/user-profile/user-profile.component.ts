@@ -1,5 +1,5 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, assertPlatform } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -25,6 +25,7 @@ export class UserProfileComponent implements OnInit {
 
   // test multi-file & text
   postFormImages: string[] = [];
+  postFormFiles: File[] = [];
   postForm: FormGroup = new FormGroup({
     postText: new FormControl('', [Validators.required, Validators.minLength(3)]),
     postFile: new FormControl(''),
@@ -34,6 +35,21 @@ export class UserProfileComponent implements OnInit {
   onTestPostFileChange(event:Event) {
     let inputElement = event.target as HTMLInputElement;
     let numFiles = inputElement.files.length;
+
+    // Is our file too large?
+    let sizeOK = this.checkFileSize(inputElement, numFiles);
+    if (!sizeOK) {
+      // Zero out the vars tracking our form
+      this.postForm.patchValue({fileSource: []});
+      this.postFormImages = [];
+      this.postFormFiles = [];
+      return;
+    }
+
+    // Remember add these to our list of selected files
+    for (let i = 0; i < numFiles; i++) {
+      this.postFormFiles.push(inputElement.files[i]);
+    }
     for (let i = 0; i < numFiles; i++) {
       this.postForm.patchValue({
         fileSource: inputElement.files
@@ -49,6 +65,31 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  // Prevent user from uploading file(s) above a certain size
+  checkFileSize(inputElement: HTMLInputElement, numFiles: number): boolean {
+    // Count the total size of all files
+    let totalSize = 0;
+
+    // Count new files
+    for (let i = 0; i < numFiles; i++) {
+      totalSize += inputElement.files[i].size;
+    }
+    // Count other selected files
+    for (let i = 0; i < this.postFormFiles.length; i++) {
+      totalSize += this.postFormFiles[i].size;
+    }
+    console.log("size:",totalSize);
+    //                3MB
+    if (totalSize > 3145728) {
+      alert("File is too big!");
+      // Clear file form (Sadly, removing only the most recent elemnt is impossible)
+      inputElement.value = "";
+      return false;
+    }
+
+    return true;
+  }
+
   onTestPostSubmit() {
     console.log("submitted test form");
     console.log(this.postForm.value);
@@ -56,14 +97,16 @@ export class UserProfileComponent implements OnInit {
     const formData = new FormData();
     formData.append('postText', this.postForm.get('postText').value);
     formData.append('postFile', this.postForm.get('postFile').value);
+
+    // Add all of our selected files under the SAME name (necessary for receiving server)
     for (let i = 0; i < this.postFormImages.length; i++) {
-      formData.append('fileSource', this.postForm.get('fileSource').value[i]);
+      // old way: 'fileSource', this.postForm.get('fileSource').value[i]
+      formData.append('fileSource', this.postFormFiles[i]);
     }
     this.userService.testSendMultipleImages(formData).subscribe(
       data => {}
     );
   }
-
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
