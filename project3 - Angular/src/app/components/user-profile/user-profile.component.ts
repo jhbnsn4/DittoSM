@@ -9,6 +9,7 @@ import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 
 
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -116,12 +117,15 @@ export class UserProfileComponent implements OnInit {
   onClickEdit() {
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
     this.editing = !this.editing;
+    this.retrieveUserInformation();
   }
 
   // Send updated profile to database
   onClickUpdateProfile() {
     // Act as if we toggled the edit button
-    this.onClickEdit();
+    (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
+    this.editing = !this.editing;
+    // this.onClickEdit();
 
     // Update our user
     let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
