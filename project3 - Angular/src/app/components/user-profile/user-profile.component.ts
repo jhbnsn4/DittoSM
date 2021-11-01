@@ -203,6 +203,10 @@ export class UserProfileComponent implements OnInit {
     this.editingImage = false;
 
   }
+  onProfileImageCancel() {
+    this.editingImage = false;
+    this.retrieveUserInformation();
+  }
 
   // Toggle profile picture editing
   onProfilImageClick() {

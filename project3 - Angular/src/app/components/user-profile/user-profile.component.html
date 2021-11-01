@@ -1,20 +1,20 @@
 <div class="container">
-    <div>
-        <img />
+    <!-- Profile Image -->
+    <div class="row justify-content-center">
+        <form class="align-self-center" [formGroup]="profileImageForm" (ngSubmit)="onProfileImageSubmit()">
+            <div class="mb-3" *ngIf="editingImage">
+                <label for="imageInput">Profile Picture</label>
+                <input type="file" class="form-control" id="imageInput" name="imageFile" (change)="onImageLoad($event)"
+                    accept="image/png, image/jpeg">
+                <button class="btn btn-dark" (click)="onProfileImageCancel()">Cancel</button>
+                <button type="submit" class="btn btn-dark">Change Profile Picture</button>
+            </div>
+            <img [src]="profileImage" height="150" width="200px" (click)="onProfilImageClick()"
+                (mouseover)="mouseOverProfile = true" (mouseout)="mouseOverProfile = false">
+            <p *ngIf="mouseOverProfile">Click to edit</p>
+        </form>
     </div>
 
-    <!-- Profile Image -->
-    <form [formGroup]="profileImageForm" (ngSubmit)="onProfileImageSubmit()">
-        <div class="mb-3" *ngIf="editingImage">
-            <label for="imageInput">Profile Picture</label>
-            <input type="file" class="form-control" id="imageInput" name="imageFile" (change)="onImageLoad($event)"
-                accept="image/png, image/jpeg">
-            <button type="submit" class="btn btn-dark">Change Profile Picture</button>
-        </div>
-        <img [src]="profileImage" height="150" width="200px" (click)="onProfilImageClick()" (mouseover)="mouseOverProfile = true"
-        (mouseout)="mouseOverProfile = false">
-        <p *ngIf="mouseOverProfile">Click to edit</p>
-    </form>
 
     <!-- Entire thing -->
     <div class="row">
