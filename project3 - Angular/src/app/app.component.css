@@ -1,0 +1,19 @@
+
+.overflow-box {
+    padding: 5px;
+    width: 235px;
+    height: auto;
+    overflow: hidden;
+}
+
+.scrollable-box {
+    position: relative;
+    width: 235px;
+    height: auto;
+    overflow: auto;
+}
+.nav{
+    padding: 5px;
+}
+
+

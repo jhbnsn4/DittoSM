@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      
+      <form>
+        <div class="mb-3">
+          <label for="login-username" class="form-label">Username or Email</label>
+          <input type="text" class="form-control" [(ngModel)]="loginName" aria-describedby="login-username-help"
+            name="loginNameInput">
+          <div id="login-username-help" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="login-password" class="form-label">Password</label>
+          <input type="password" class="form-control" [(ngModel)]="userAccount.password" name="passwordInput">
+          <p *ngIf='loginFailed'>Invalid Username or Password. Please try again.</p>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary" (click)="login()">Login</button>
+        </div>
+      </form>
+
+      <nav>
+        <a routerLink='/register'>Register New Account</a>
+      </nav>
+    </div>
+  </div>
+</div>
