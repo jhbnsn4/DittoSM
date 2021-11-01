@@ -66,6 +66,13 @@
 			<artifactId>spring-orm</artifactId>
 			<version>5.3.10</version>
 		</dependency>
+		
+		<!-- Spring Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>5.3.10</version>
+		</dependency>
 
 		<!-- HIBERNATE CORE -->
 		<dependency>
@@ -127,36 +134,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>3.12.4</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- JUNIT -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.8.1</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.8.1</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.8.1</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- MOCKITO -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -165,13 +142,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- LOGGING -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-		
 		<!-- Commons dependencies needed for file(image) uploading -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>

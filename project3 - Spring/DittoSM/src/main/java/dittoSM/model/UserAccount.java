@@ -3,6 +3,7 @@ package dittoSM.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -213,6 +214,30 @@ public class UserAccount {
 				+ userEmail + ", firstName=" + firstName + ", lastName=" + lastName + ", birthday=" + birthday
 				+ ", statusText=" + statusText + ", profilePicture=" + profilePicture 
 				+ ", dittoFollowerList=" + dittoFollowerList + ", dittoFollowingList=" + dittoFollowingList + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(birthday, dittoFollowerList, dittoFollowingList, firstName, lastName, password, postList,
+				profilePicture, statusText, userEmail, userId, username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserAccount other = (UserAccount) obj;
+		return Objects.equals(birthday, other.birthday) && Objects.equals(dittoFollowerList, other.dittoFollowerList)
+				&& Objects.equals(dittoFollowingList, other.dittoFollowingList)
+				&& Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
+				&& Objects.equals(password, other.password) && Objects.equals(postList, other.postList)
+				&& Objects.equals(profilePicture, other.profilePicture) && Objects.equals(statusText, other.statusText)
+				&& Objects.equals(userEmail, other.userEmail) && userId == other.userId
+				&& Objects.equals(username, other.username);
 	}
 	
 
