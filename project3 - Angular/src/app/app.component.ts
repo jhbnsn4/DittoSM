@@ -52,8 +52,8 @@ export class AppComponent implements OnInit {
   getUsers(): void {
     this.currentUserService.allUsersRequest()
       .subscribe(data => this.items = data);
-    console.log("items: ")
-    console.log(this.items);
+    // console.log("items: ")
+    // console.log(this.items);
   }
 
   clickProfile() {
