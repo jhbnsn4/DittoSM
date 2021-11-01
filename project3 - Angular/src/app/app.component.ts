@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
 
   filterTerm!: string
 
-  constructor(private currentUserService: UserService, private router: Router) { }
+  constructor(private currentUserService: UserService, private sesService: SessionAjaxService, private router: Router) { }
 
   message: number;
   items: IUserAccount[] = [];
@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.currentUserService.changeMessage(0);
+    localStorage.setItem("isLoggedIn", "false");
+    localStorage.removeItem("userId");
     this.router.navigateByUrl('/login');
   }
 
@@ -60,6 +62,10 @@ export class AppComponent implements OnInit {
     // Send message setting profile id to 0
     console.log("profile clicked");
     this.currentUserService.changeMessage(0);
+  }
+
+  checkLoggedIn(): boolean {
+    return (localStorage.getItem("isLoggedIn") == "true");
   }
 
 

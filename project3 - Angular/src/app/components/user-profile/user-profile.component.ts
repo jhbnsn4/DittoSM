@@ -154,7 +154,7 @@ export class UserProfileComponent implements OnInit {
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
     this.editing = !this.editing;
     // this.onClickEdit();
-
+    
     // Update our user
     let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: IMyCustomMessage) => {

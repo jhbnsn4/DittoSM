@@ -105,19 +105,15 @@ public class PostController {
 
 	@GetMapping(value = "/getPosts/{userid}")
 	public @ResponseBody List<Post> getPostById(@PathVariable("userid") Integer userid) {
-//		System.out.println(userid);
 		if (userid == 0 || userid.equals(null)) {
-//			System.out.println(userid + " this is if it's 0 or null");
 			return postServ.findAllPosts();
 		} else {
-//			System.out.println(userid + " this is if it's not 0 or not null");
 			return postServ.findAllPostsById(userid);
 		}
 	}
 
 	@GetMapping(value = "/getPostImages", params = "imageName")
 	public ResponseEntity<byte[]> getImageFromPost(@RequestParam("imageName") String imageName) {
-		System.out.println("in getPostImages");
 		
 		// Get image 
 		ImageMap image = imageServ.getImageByName(imageName);
