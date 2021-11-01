@@ -43,7 +43,6 @@ public class UserAccountController {
 	@PostMapping(value = "/addUser")
 	public void addUser(@RequestBody UserAccount user) {
 		userService.addAccount(user);
-
 //		return "added successfully...probably";
 	}
 
