@@ -45,17 +45,28 @@ public class Post {
     @JsonSerialize(using = CustomListSerializer.class)
 	private UserAccount authorFK;
 	
-	@OneToMany(mappedBy="postFK")
-	private List<ImageMap> imageList = new ArrayList<>();
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<ImagePath> imageList;
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<UserAccount> likes;
 	
 	public Post() {
 	}
+	
+	public Post(String text) {
+		super();
+		this.text = text;
+	}
+	
+	public Post(String text, List<ImagePath> imageList) {
+		super();
+		this.text = text;
+		this.imageList = imageList;
+	}
 
 	public Post(int postId, String text, int numLikes, Timestamp createdTime, UserAccount authorFK,
-			List<ImageMap> imageList, List<UserAccount> likes) {
+			List<ImagePath> imageList, List<UserAccount> likes) {
 		super();
 		this.postId = postId;
 		this.text = text;
@@ -66,7 +77,7 @@ public class Post {
 		this.likes = likes;
 	}
 	public Post(String text, int numLikes, Timestamp createdTime, UserAccount authorFK,
-			List<ImageMap> imageList, List<UserAccount> likes) {
+			List<ImagePath> imageList, List<UserAccount> likes) {
 		super();
 		this.text = text;
 		this.numLikes = numLikes;
@@ -118,11 +129,11 @@ public class Post {
 		this.authorFK = authorFK;
 	}
 
-	public List<ImageMap> getImageList() {
+	public List<ImagePath> getImageList() {
 		return imageList;
 	}
 
-	public void setImageList(List<ImageMap> imageList) {
+	public void setImageList(List<ImagePath> imageList) {
 		this.imageList = imageList;
 	}
 

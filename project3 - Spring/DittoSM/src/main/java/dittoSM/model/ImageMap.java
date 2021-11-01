@@ -27,38 +27,22 @@ public class ImageMap {
 	@Column(name="image_file", nullable=false)
 	private byte[] imageFile;
 	
-	@ManyToOne
-	@JoinColumn(name="post_FK")
-	private Post postFK;
-	
-	@OneToOne(mappedBy="profilePicture")
-	private UserAccount profileFK;
+	@Column(name="image_name", nullable=false)
+	private String imageName;
 	
 	public ImageMap() {
 	}
-	
-	// Constructor for user profile
-	public ImageMap(byte[] imageFile, UserAccount profileFK) {
+
+	public ImageMap(byte[] imageFile, String imageName) {
 		super();
 		this.imageFile = imageFile;
-		this.postFK = null;
-		this.profileFK = profileFK;
+		this.imageName = imageName;
 	}
-	
-	// Constructor for post img
-	public ImageMap(byte[] imageFile, Post postFK) {
-		super();
-		this.imageFile = imageFile;
-		this.postFK = postFK;
-		this.profileFK = null;
-	}
-	
-	public ImageMap(int imageId, byte[] imageFile, Post postFK, UserAccount profileFK) {
+	public ImageMap(int imageId, byte[] imageFile, String imageName) {
 		super();
 		this.imageId = imageId;
 		this.imageFile = imageFile;
-		this.postFK = postFK;
-		this.profileFK = profileFK;
+		this.imageName = imageName;
 	}
 
 	public int getImageId() {
@@ -77,29 +61,19 @@ public class ImageMap {
 		this.imageFile = imageFile;
 	}
 
-	public Post getPostFK() {
-		return postFK;
+	public String getImageName() {
+		return imageName;
 	}
 
-	public void setPostFK(Post postFK) {
-		this.postFK = postFK;
-	}
-	
-	@JsonBackReference
-	public UserAccount getProfileFK() {
-		return profileFK;
-	}
-
-	@JsonBackReference
-	public void setProfileFK(UserAccount profileFK) {
-		this.profileFK = profileFK;
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
 	@Override
 	public String toString() {
-		return "ImageMap [imageId=" + imageId + ", imageFile=" + Arrays.toString(imageFile) + ", postFK=" + postFK
+		return "ImageMap [imageId=" + imageId + ", imageFile=" + Arrays.toString(imageFile) + ", imageName=" + imageName
 				+ "]";
 	}
-
+	
 	
 }
