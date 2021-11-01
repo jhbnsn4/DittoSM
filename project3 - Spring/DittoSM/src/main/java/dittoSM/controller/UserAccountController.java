@@ -159,7 +159,7 @@ public class UserAccountController {
 
 	@PostMapping(value = "/addProfilePicture")
 	public void addProfilePicture(HttpSession mySession, @RequestBody byte[] imageFile) {
-		System.out.println("Image received ");
+//		System.out.println("Image received ");
 		// Get current user
 
 		// Retrieve the user from the current session
