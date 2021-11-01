@@ -22,7 +22,7 @@ import dittoSM.utils.CustomListSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import dittoSM.utils.CustomListSerializer;
-@JsonIgnoreProperties({"likes", "imageList"})
+@JsonIgnoreProperties({"likes"})
 @Entity
 @Table(name="post")
 public class Post {

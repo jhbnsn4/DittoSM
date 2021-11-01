@@ -4,8 +4,10 @@
     <!-- </div> -->
 
     <!-- Images -->
+    
     <div class="col-md-4" *ngFor="let imageSrc of post.imageList">
       <!-- <div > -->
+      
       <img class="img-fluid" src="{{imageSrc.imageName}}">
       <!-- </div> -->
     </div>
@@ -21,7 +23,7 @@
       </div>
 
 
-      <div class="row justify-content-end">
+      <div class="row justify-content-end ">
         <div class="col-auto align-self-center">
           <small class="text-muted">Posted {{ post.createdTime | date: 'MMM d, h:mm a' }}</small>
         </div>
@@ -29,7 +31,8 @@
           <span id="likeNumber">{{ post.numLikes }}</span>
         </div>
         <div class="col-auto">
-          <button type="button" (click)="likeButtonClicked(indexOfelement)" data-mdb-ripple-color="light" class="btn btn-dark btn-floating">
+          <button type="button" (click)="likeButtonClicked(indexOfelement)" data-mdb-ripple-color="light"
+            class="btn btn-dark btn-floating">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
               <path

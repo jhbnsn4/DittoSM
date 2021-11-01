@@ -73,6 +73,7 @@ export class PostsComponent implements OnInit {
       .subscribe((response: IPost[]) => {
         this.posts = response;
         console.log(this.posts.length, " how many posts are in it");
+        console.log(this.posts, " list of images");
         this.isPostEmpty = this.posts.length;
       });
   }
