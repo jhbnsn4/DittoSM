@@ -110,11 +110,12 @@ export class UserProfileComponent implements OnInit {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
-          console.log(this.targetUser.userId + " inside retreieveUserinfo if stmt");
-          this.eventsSubject.next(this.targetUser.userId);
+          console.log(this.targetUser?.userId + " inside retreieveUserinfo if stmt");
+          this.eventsSubject.next(this.targetUser?.userId);
           // ok to get user info
           // set user's profile picture
-          this.retrieveProfilePicture(this.targetUser.userId);
+          if (this.targetUser)
+            this.retrieveProfilePicture(this.targetUser.userId);
         }
       );
     }
@@ -124,11 +125,12 @@ export class UserProfileComponent implements OnInit {
         (data: IUserAccountPackaged) => {
           // set user's profile information
           this.targetUser = data;
-          console.log(this.targetUser.userId + " inside retreieveUserinfo else stmt");
-          this.eventsSubject.next(this.targetUser.userId);
+          console.log(this.targetUser?.userId + " inside retreieveUserinfo else stmt");
+          this.eventsSubject.next(this.targetUser?.userId);
 
           // set user's profile picture
-          this.retrieveProfilePicture(this.targetUser.userId);
+          if (this.targetUser)
+            this.retrieveProfilePicture(this.targetUser.userId);
         }
       );
     }

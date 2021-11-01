@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -49,7 +50,7 @@ public class PostController {
 		// Create Post object and send to database
 		Post newPost = new Post(postText);
 		postServ.addNewPost(newPost, currentUser.getUserId());
-
+		
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(newPost);
 	}
 
@@ -110,6 +111,7 @@ public class PostController {
 		} else {
 			return postServ.findAllPostsById(userid);
 		}
+		
 	}
 
 	@GetMapping(value = "/getPostImages", params = "imageName")
