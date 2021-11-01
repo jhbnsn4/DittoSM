@@ -37,6 +37,7 @@ export class UserProfileComponent implements OnInit {
   public editing: boolean = false;
   public editingImage: boolean = false;
   public mouseOverProfile: boolean = false;
+  public createCondition: boolean = false; 
 
   eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
@@ -220,6 +221,10 @@ export class UserProfileComponent implements OnInit {
   onProfileMouseOut() {
     this.mouseOverProfile = false;
     console.log("mouse out");
+  }
+
+  onCreateBtnClick() {
+    this.createCondition = !this.createCondition;
   }
 
 

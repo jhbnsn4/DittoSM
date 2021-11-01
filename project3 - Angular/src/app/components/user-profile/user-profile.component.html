@@ -12,23 +12,38 @@
             
         </form> -->
         <div class="col-auto">
-            <div class="row">
+            <!-- <div class="row">
                 <p *ngIf="mouseOverProfile">Click to edit</p>
+            </div> -->
+            <div class="bg-image hover-overlay ripple rounded" data-mdb-ripple-color="light"
+                (click)="onProfilImageClick()" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                (mouseover)="mouseOverProfile = true" (mouseout)="mouseOverProfile = false">
+                <img [src]="profileImage" height="150" width="200px">
+                <div class="row align-content-center justify-content-center mask"
+                    style="background-color: rgba(251, 251, 251, 0.5)">
+                    Click to Edit
+                </div>
             </div>
-            <img [src]="profileImage" height="150" width="200px" (click)="onProfilImageClick()" data-bs-toggle="modal"
-                data-bs-target="#exampleModal" (mouseover)="mouseOverProfile = true"
-                (mouseout)="mouseOverProfile = false">
-            
         </div>
 
     </div>
 
+    <div class="row mb-3 pe-2 justify-content-end">
+        <!-- <div class="col">
+
+        </div> -->
+        <button type="button" class="btn btn-dark btn-floating " (click)="onCreateBtnClick()" 
+            data-bs-toggle="tooltip"
+            data-bs-placement="left" title="Tooltip on left">
+            <i class="bi bi-plus-lg"></i>
+        </button>
+    </div>
 
 
     <!-- Entire thing -->
     <div class="row">
         <!-- Form stuff -->
-        <div class="col-4 me-5 border">
+        <div class="col-4 me-5 rounded border border-dark">
             <div class="p-4">
                 <!-- User profile legend + edit btn -->
                 <div class="row justify-content-between">
@@ -36,7 +51,7 @@
                         <legend class="pb-0 mb-0 ">About Me</legend>
                     </div>
                     <div class="col-auto p-0 mb-1">
-                        <button data-bs-toggle="button" class="btn" (click)="onClickEdit()">
+                        <button data-bs-toggle="button" class="btn btn-floating shadow-0" (click)="onClickEdit()">
                             <i class="bi bi-pencil-fill "></i>
                         </button>
                     </div>
@@ -64,7 +79,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-auto align-self-center">Birthday:</div>
+                                <div class="col-3 align-self-center">Birthday:</div>
                                 <div class="col">
                                     <input type="date" [className]="editing ? 'form-control': 'form-control-plaintext'"
                                         [value]="parseDate()" (input)="setBirthDate($event)" name="birthday">
@@ -96,7 +111,9 @@
 
         <div class="col">
             <div class="row">
-                <app-create-post></app-create-post>
+                <div *ngIf="createCondition">
+                    <app-create-post></app-create-post>
+                </div>
             </div>
             <div class="row">
                 <app-posts [events]="eventsSubject.asObservable()"></app-posts>
