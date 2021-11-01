@@ -29,7 +29,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 			"users/addUser",
 			"users/resetPassword",
 			"users/addPicture",
-			"users/updateUser"
+			"users/updateUser",
+			"posts/addLike"
 	};
 	
 	@Override
@@ -51,7 +52,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 		// Check session
 		UserAccount user = (UserAccount) session.getAttribute("currentUser");
 		if (user == null) {
-//			System.out.println("in interceptor - no user");
 			return false;
 		}
 		

@@ -40,6 +40,8 @@ public class PostController {
 
 	@PutMapping(value = "/addLike")
 	public void addLike(HttpSession currentSes, @RequestBody Post post) {
+		
+		System.out.println("in add like");
 
 //		UserAccount currentUserForLike = (UserAccount)currentSes.getAttribute("currentUser");
 //

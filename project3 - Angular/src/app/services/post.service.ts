@@ -62,7 +62,12 @@ export class PostService {
   //adding a like
   addLike(post: IPost): Observable<string> {
     console.log("updating like: ");
-    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
+    const httpPost = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
 
     return this.postHttpCli.put<string>(`http://localhost:9009/DittoSM/api/posts/addLike`, post, httpPost);
   }
