@@ -22,7 +22,7 @@ export class PostService {
 
   addPost(postForm: FormData, withImages:boolean): Observable<HttpResponse<object>> {
 
-    // Hit endpoint that only receives text
+   // Hit endpoint that only receives text
     if (!withImages) {
       return this.postHttpCli.post(`${this.url}/posts/newPost`, postForm, 
       {observe: 'response', responseType: 'json', withCredentials: true});
@@ -57,6 +57,14 @@ export class PostService {
 
   get posts() {
     return this._posts;
+  }
+
+  //adding a like
+  addLike(post: IPost): Observable<string> {
+    console.log("updating like: ");
+    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
+
+    return this.postHttpCli.put<string>(`http://localhost:9009/DittoSM/api/posts/addLike`, post, httpPost);
   }
 
   

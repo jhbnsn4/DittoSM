@@ -1,3 +1,3 @@
 # ditto
 
-LJ dev branch. Testing
+This is the main branch.

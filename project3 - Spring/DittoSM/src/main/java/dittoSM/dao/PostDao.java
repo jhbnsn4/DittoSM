@@ -10,5 +10,8 @@ public interface PostDao {
 	
 	public List<Post> selectAllPosts();
 	public List<Post> selectPostsById(int userid);
+
+
+	void updatePost(Post post, UserAccount user);
 	
 }

@@ -67,7 +67,7 @@ public class UserAccountDaoImpl implements UserAccountDao {
 
 	@Override
 	public UserAccount selectUserByUsername(String username, String email) {
-		System.out.println(username);
+//		System.out.println(username);
 		UserAccount account=null;
 		try 
 		{

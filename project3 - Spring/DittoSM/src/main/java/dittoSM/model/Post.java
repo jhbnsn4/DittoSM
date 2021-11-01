@@ -18,7 +18,10 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import dittoSM.utils.CustomListSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import dittoSM.utils.CustomListSerializer;
+@JsonIgnoreProperties({"likes", "imageList"})
 @Entity
 @Table(name="post")
 public class Post {
