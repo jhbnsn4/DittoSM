@@ -3,6 +3,7 @@ import { IUserAccount } from './models/useraccount';
 import { UserService } from './services/user.service';
 import { Router } from '@angular/router';
 import { SessionAjaxService } from './services/session-ajax.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,7 +11,7 @@ import { SessionAjaxService } from './services/session-ajax.service';
 })
 export class AppComponent implements OnInit {
   title = 'Ditto Social Media';
-
+  hideDiv: number;
 
   filterTerm!: string
 
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   message: number;
   items: IUserAccount[] = [];
   selected = [];
+  load: number;
 
 
   ngOnInit(): void {
