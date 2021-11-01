@@ -3,9 +3,7 @@ package dittoSM.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,8 +39,6 @@ public class PostController {
 	@PostMapping(value = "/newPost")
 	public ResponseEntity<Post> addPostNoImages(HttpSession currentSes, @RequestParam("postText") String postText) {
 
-		System.out.println("received post: " + postText);
-
 		UserAccount currentUser = (UserAccount) currentSes.getAttribute("currentUser");
 		System.out.println("currentUser is not null: " + (currentUser != null));
 
@@ -57,10 +52,6 @@ public class PostController {
 	@PostMapping(value = "/newPostWithImages")
 	public ResponseEntity<Post> addPostWithImages(HttpSession currentSes, @RequestParam("postText") String postText,
 			@RequestParam("postFile") String postFile, @RequestParam("fileSource") MultipartFile[] fileSource) {
-
-		System.out.println("received post: " + postText);
-		System.out.println("received post: " + postFile);
-		System.out.println("received post: " + fileSource.length);
 
 		// Create ImageMap(s)
 		List<ImageMap> images = new ArrayList<>();

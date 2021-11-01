@@ -38,15 +38,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 			HttpServletResponse response, 
 			Object handler) throws Exception {
 		
-		// Check path
-		System.out.println(request.getRequestURI());
-		
 		// Check if URI requires login
 		for (String uri : NO_LOGIN_CHECK_URI) {
 			// In our whitelist - does not require login
 			if (request.getRequestURI().equals(URI_PREFIX + uri)) {
-				System.out.println(URI_PREFIX + uri);
-				System.out.println("in interceptor - whitelisted");
+//				System.out.println(URI_PREFIX + uri);
+//				System.out.println("in interceptor - whitelisted");
 				return true;
 			}
 		}
@@ -54,7 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		// Check session
 		UserAccount user = (UserAccount) session.getAttribute("currentUser");
 		if (user == null) {
-			System.out.println("in interceptor - no user");
+//			System.out.println("in interceptor - no user");
 			return false;
 		}
 		

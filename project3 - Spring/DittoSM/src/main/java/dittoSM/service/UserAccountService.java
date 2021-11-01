@@ -2,8 +2,6 @@ package dittoSM.service;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import dittoSM.model.UserAccount;
 
 public interface UserAccountService {

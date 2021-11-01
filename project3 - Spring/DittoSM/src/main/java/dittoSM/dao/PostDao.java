@@ -3,7 +3,6 @@ package dittoSM.dao;
 import java.util.List;
 
 import dittoSM.model.Post;
-import dittoSM.model.UserAccount;
 
 public interface PostDao {
 	
