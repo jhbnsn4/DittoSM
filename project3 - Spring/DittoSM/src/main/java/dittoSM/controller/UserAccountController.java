@@ -164,13 +164,9 @@ public class UserAccountController {
 	}
 
 	@PostMapping(value = "/addProfilePicture")
-<<<<<<< HEAD
-	public void addProfilePicture(HttpSession mySession, @RequestBody byte[] imageFile) {
-//		System.out.println("Image received ");
-=======
+
 	public void addProfilePicture(HttpSession mySession, @RequestParam("imageFile") MultipartFile imageFile) {
 		System.out.println("Image received: " + imageFile.getOriginalFilename());
->>>>>>> origin/devbranch
 		// Get current user
 
 		// Retrieve the user from the current session

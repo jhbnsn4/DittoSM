@@ -46,7 +46,6 @@ export class UserProfileComponent implements OnInit {
     private formBuilder: FormBuilder, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-
     // Set up profile image form
     this.profileImageForm = this.formBuilder.group({
       imageFile: ['']

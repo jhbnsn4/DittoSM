@@ -3,6 +3,7 @@ package dittoSM.dao;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,49 @@ import dittoSM.model.UserAccount;
 public class PostDaoImpl implements PostDao {
 
 	private SessionFactory sesFact;
+
+	public  List<?> getLikes(UserAccount user) {
+
+		Query<?> query2 = sesFact.getCurrentSession()
+		.createSQLQuery("SELECT post_post_id FROM post_user_account WHERE likes_user_id = :userId");
+		
+		query2.setParameter("userId", user.getUserId());
+		
+		return query2.list();
+	}
+
+	@Override
+	public void updatePost(Post post, UserAccount user) {
+		
+		
+	
+		System.out.println(getLikes(user));
+	
+		if(getLikes(user).contains(post.getPostId()) == false) {
+		
+		
+		Query<?> query = sesFact.getCurrentSession().createSQLQuery(
+				"INSERT INTO post_user_account (post_post_id, likes_user_id) VALUES ( :postId, :authorFk )");
+
+		
+		
+		
+		Query<?> query1 = sesFact.getCurrentSession()
+				.createSQLQuery("UPDATE post SET like_num = :numLikes WHERE post_id = :postId");
+		int updateInt = post.getNumLikes() + 1;
+		query.setParameter("postId", post.getPostId());
+		query.setParameter("authorFk", user.getUserId());
+		query1.setParameter("numLikes", updateInt);
+		query1.setParameter("postId", post.getPostId());
+
+		query.executeUpdate();
+		query1.executeUpdate();
+		}
+		
+		else {
+			System.out.println("_________________already liked_____________________");
+		}
+	}
 
 	@Override
 	public void insertNewPost(Post post) {

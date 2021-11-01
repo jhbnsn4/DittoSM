@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { SessionAjaxService } from 'src/app/services/session-ajax.service';
 
@@ -62,6 +63,7 @@ export class LoginComponent implements OnInit {
         this.loginFailed=true;
 
       } else{
+        
         this.myRouter.navigate(['/profile']);
       }
     });

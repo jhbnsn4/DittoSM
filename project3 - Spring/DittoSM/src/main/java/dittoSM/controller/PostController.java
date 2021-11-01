@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +39,30 @@ public class PostController {
 
 	private PostService postServ;
 	private ImageService imageServ;
+
+	@PutMapping(value = "/addLike")
+	public void addLike(HttpSession currentSes, @RequestBody Post post) {
+
+//		UserAccount currentUserForLike = (UserAccount)currentSes.getAttribute("currentUser");
+//
+//		List<UserAccount> usersList = new ArrayList<UserAccount>();
+//		usersList.add(currentUserForLike);
+//
+//		post.setLikes(usersList);
+//		int LikeCount = post.getNumLikes();
+//		post.setNumLikes(LikeCount+1);
+//
+//		System.out.println(post.toString());
+//		
+//		postServ.updatePost(post, currentUserForLike);
+
+
+	
+	UserAccount currentUserForLike = (UserAccount)currentSes.getAttribute("currentUser");
+
+
+	postServ.updatePost(post, currentUserForLike);
+}
 
 	@PostMapping(value = "/newPost")
 	public ResponseEntity<Post> addPostNoImages(HttpSession currentSes, @RequestParam("postText") String postText) {

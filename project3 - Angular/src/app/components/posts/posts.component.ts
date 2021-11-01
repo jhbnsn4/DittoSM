@@ -45,6 +45,24 @@ export class PostsComponent implements OnInit {
     }
   }
 
+    
+  likeButtonClicked(number){
+    console.log("before like");
+    console.log(number);
+  
+    let response = this.postServ.addLike(this.posts[number] as IPost).subscribe(
+      (data: string) => {
+    //     let updateLikeNumber = Number(document.getElementById("likeNumber").innerHTML) +1;
+    // document.getElementById("likeNumber").innerHTML = updateLikeNumber.toString();    
+    // console.log("after like");
+    this.ngOnInit();
+      }
+    );
+    
+
+  }
+
+
   getPosts(): void {
     console.log('this is getPosts');
 

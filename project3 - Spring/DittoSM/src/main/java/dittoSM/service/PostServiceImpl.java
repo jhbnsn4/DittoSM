@@ -34,6 +34,10 @@ public class PostServiceImpl implements PostService {
 		postDao.insertNewPost(post);
 		return true;
 	}
+	@Override
+	public void updatePost(Post post, UserAccount user) {
+		postDao.updatePost(post, user);
+	}
 
 	@Override
 	public List<Post> findAllPosts() {
