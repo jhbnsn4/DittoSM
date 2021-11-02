@@ -4,6 +4,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { IPost } from 'src/app/models/post';
 import { PostService } from 'src/app/services/post.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-posts',
@@ -20,6 +21,8 @@ export class PostsComponent implements OnInit {
   userid: number = 0;
 
   isPostEmpty: number;
+
+  url=environment.dittoUrl;
 
   constructor(private postServ: PostService) { }
 
