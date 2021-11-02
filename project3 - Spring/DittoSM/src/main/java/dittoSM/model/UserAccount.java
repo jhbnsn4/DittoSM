@@ -43,7 +43,7 @@ public class UserAccount {
 	@Column(name = "birthday", nullable = false)
 	private Timestamp birthday;
 //
-	@Column(name = "statusText")
+	@Column(name = "statusText", columnDefinition="TEXT")
 	private String statusText;
 
 	@Column(name= "profile_picture")
