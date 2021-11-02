@@ -4,26 +4,29 @@
     <!-- </div> -->
 
     <!-- Images -->
-    
+
     <div class="col-md-4" *ngFor="let imageSrc of post.imageList">
       <!-- <div > -->
-      
+
       <img class="img-fluid" src="{{imageSrc.imageName}}">
       <!-- </div> -->
     </div>
-    <div class="card-body col-md-8">
-      <div class="row">
-        <h5 class="card-title">{{ post.authorFK.firstName + " " + post.authorFK.lastName}}</h5>
-        <!-- Posted on... -->
-        <div class="card-text">
-          <div class="row">
-            <span>{{ post.text }}</span>
+    <div class="col-md-8 card-body ">
+      <!-- <div class="row"> -->
+        <div class="row m-auto ">
+          <h5 class="card-title">{{ post.authorFK.firstName + " " + post.authorFK.lastName}}</h5>
+          <!-- Posted on... -->
+          <div class="card-text">
+            <div class="row">
+              <span>{{ post.text }}</span>
+            </div>
           </div>
         </div>
+
+
+        <!-- </div> -->
       </div>
-
-
-      <div class="row justify-content-end ">
+      <div class="row pb-1 justify-content-end align-self-end bg-dark">
         <div class="col-auto align-self-center">
           <small class="text-muted">Posted {{ post.createdTime | date: 'MMM d, h:mm a' }}</small>
         </div>
@@ -32,7 +35,7 @@
         </div>
         <div class="col-auto">
           <button type="button" (click)="likeButtonClicked(indexOfelement)" data-mdb-ripple-color="light"
-            class="btn btn-dark btn-floating">
+            class="btn btn-r btn-floating">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
               <path
@@ -41,7 +44,6 @@
           </button>
         </div>
       </div> <!-- end of card body -->
-    </div>
   </div> <!-- end of ngIf -->
 </div>
 
