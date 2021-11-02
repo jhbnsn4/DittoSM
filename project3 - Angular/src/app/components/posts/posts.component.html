@@ -1,7 +1,7 @@
 <div *ngFor="let post of posts; let indexOfelement=index; " class="card rounded border border-dark mb-3">
   <div *ngIf="isPostEmpty" class="row g-0">
     <!-- Images -->
-    <div class="col-md-4" *ngFor="let imageSrc of post.imageList">
+    <div class="col-md-4 " *ngFor="let imageSrc of post.imageList">
 
       <img class="img-fluid" src="{{imageSrc.imageName}}">
 
