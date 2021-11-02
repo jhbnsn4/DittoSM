@@ -4,7 +4,6 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { IPost } from 'src/app/models/post';
 import { IPostResponse } from 'src/app/models/post-text';
 import { PostService } from 'src/app/services/post.service';
-import { PostsComponent } from '../posts/posts.component';
 
 @Component({
   selector: 'app-create-post',

@@ -19,6 +19,7 @@
             <input type="text" class="form-control" placeholder="Family Name" [(ngModel)]='userAccount.lastName'>
         </div>
     </div>
+    <br/>
     <div class="mb-3">
         <!-- <label for="register-email" class="form-label">Email</label> -->
         <input type="email" class="form-control" [(ngModel)]="userAccount.userEmail" placeholder="ExampleEmail@ditto.com">
@@ -30,13 +31,10 @@
 
 
 
-    <!-- <div class="input-group">
-        <input id="register-profileImage" type="file" class="form-control" placeholder="Profile Picture" aria-label="register-profileImage-helper">
-        <button id="register-profileImage-upload" class="btn btn-outline-secondary" type="button">Upload Image</button>
-    </div> -->
     <div>
         <button type="reset" class="btn btn-secondary">Clear</button>
         <a routerLink='/login'>
-            <button type="button" class="btn btn-primary" (click)="registerButton()">Submit</button></a>
+        <button type="button" class="btn btn-primary" (click)="registerButton()">Submit</button></a>
     </div>
+    <a routerLink='/login'>Return to Login</a>
 

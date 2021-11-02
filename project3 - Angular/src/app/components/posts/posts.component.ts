@@ -15,21 +15,23 @@ export class PostsComponent implements OnInit {
 
   @Input() events: Observable<number>;
 
-  posts: IPost[] = [  ];
+  posts: IPost[] = [];
 
   userid: number = 0;
+
+  isPostEmpty: number;
 
   constructor(private postServ: PostService) { }
 
   ngOnInit(): void {
-    
+    console.log(this.posts.length, " how many posts are in it");
+
     this.postServ.theOberv.subscribe((payload: string) => {
       if (payload == 'get list') {
         // this.posts = this.postServ.posts;
         this.getPosts();
       }
     });
-
 
     if (this.events == undefined) {
       this.getPosts();
@@ -45,6 +47,24 @@ export class PostsComponent implements OnInit {
     }
   }
 
+
+  likeButtonClicked(number) {
+    console.log("before like");
+    console.log(number);
+
+    let response = this.postServ.addLike(this.posts[number] as IPost).subscribe(
+      (data: string) => {
+        //     let updateLikeNumber = Number(document.getElementById("likeNumber").innerHTML) +1;
+        // document.getElementById("likeNumber").innerHTML = updateLikeNumber.toString();    
+        // console.log("after like");
+        this.ngOnInit();
+      }
+    );
+
+
+  }
+
+
   getPosts(): void {
     console.log('this is getPosts');
 
@@ -52,7 +72,9 @@ export class PostsComponent implements OnInit {
       .getPostsByUserId(this.userid)
       .subscribe((response: IPost[]) => {
         this.posts = response;
-        // this.postServ.posts = this.posts;
+        console.log(this.posts.length, " how many posts are in it");
+        console.log(this.posts, " list of images");
+        this.isPostEmpty = this.posts.length;
       });
   }
 }

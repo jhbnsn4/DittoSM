@@ -1,85 +1,120 @@
 <div class="container">
-    <div>
-        <img />
+    <!-- Profile Image -->
+    <div class="row mb-5 mt-5 justify-content-center">
+        <!-- <form class="align-self-center" [formGroup]="profileImageForm" (ngSubmit)="onProfileImageSubmit()">
+            <div class="mb-3" *ngIf="editingImage">
+                <label for="imageInput">Profile Picture</label>
+                <input type="file" class="form-control" id="imageInput" name="imageFile" (change)="onImageLoad($event)"
+                    accept="image/png, image/jpeg">
+                <button class="btn btn-dark" (click)="onProfileImageCancel()">Cancel</button>
+                <button type="submit" class="btn btn-dark">Change Profile Picture</button>
+            </div>
+            
+        </form> -->
+        
+        <div class="col-auto ">
+            <!-- <div class="row">
+                <p *ngIf="mouseOverProfile">Click to edit</p>
+            </div> -->
+            <div class="bg-image hover-overlay ripple rounded-circle border border-dark" data-mdb-ripple-color="light"
+                (click)="onProfilImageClick()" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                (mouseover)="mouseOverProfile = editable" (mouseout)="mouseOverProfile = false">
+                <img [src]="profileImage" height="150" width="200px">
+                <div class="row m-0 align-content-center justify-content-center mask"
+                    style="background-color: rgba(251, 251, 251, 0.5)">
+                    <p *ngIf="mouseOverProfile&&editable">Click to Edit</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Profile Image -->
-    <form [formGroup]="profileImageForm" (ngSubmit)="onProfileImageSubmit()">
-        <div class="mb-3" *ngIf="editingImage">
-            <label for="imageInput">Profile Picture</label>
-            <input type="file" class="form-control" id="imageInput" name="imageFile" (change)="onImageLoad($event)"
-                accept="image/png, image/jpeg">
-            <button type="submit" class="btn btn-dark">Change Profile Picture</button>
-        </div>
-        <img [src]="profileImage" height="150" width="200px" (click)="onProfilImageClick()" (mouseover)="mouseOverProfile = true"
-        (mouseout)="mouseOverProfile = false">
-        <p *ngIf="mouseOverProfile">Click to edit</p>
-    </form>
+    <div class="row mb-3 pe-2 justify-content-end" *ngIf="editable">
+        <!-- <div class="col">
+
+        </div> -->
+        <button type="button" class="btn btn-dark btn-floating " (click)="onCreateBtnClick()" 
+            data-bs-toggle="tooltip"
+            data-bs-placement="left" title="Tooltip on left">
+            <i class="bi bi-plus-lg"></i>
+        </button>
+    </div>
+
 
     <!-- Entire thing -->
-    <div class="row">
+    <div class="row justify-content-between">
         <!-- Form stuff -->
-        <div class="col-4 p-4 me-5">
-            <!-- User profile legend + edit btn -->
-            <div class="row justify-content-between">
-                <div class="col p-0 mb-1 align-self-center">
-                    <legend class="pb-0 mb-0 ">User Profile</legend>
+        <div class="col-4 me-0 rounded border border-dark">
+            <div class="p-4">
+                <!-- User profile legend + edit btn -->
+                <div class="row justify-content-between">
+                    <div class="col p-0 mb-1">
+                        <legend class="pb-0 mb-0 ">About Me</legend>
+                    </div>
+                    <div *ngIf='editable' class="col-auto p-0 mb-1">
+                        <button data-bs-toggle="button" class="btn btn-floating shadow-0" (click)="onClickEdit()">
+                            <i class="bi bi-pencil-fill "></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-2 p-0 mb-1 align-self-end border">
-                    <button data-bs-toggle="button" class="btn btn-light" (click)="onClickEdit()">
-                        <i class="bi bi-pencil-fill "></i>
-                    </button>
+                <!-- The actual form -->
+                <div class="row ">
+                    <form class="p-0">
+                        <fieldset id="profileFieldset" disabled>
+                            <!-- [className]="editing ? '-plaintext': ''" -->
+                            <div class="row">
+                                <div class="col-auto align-self-center">First Name:</div>
+                                <div class="col">
+                                    <input type="text"
+                                        [className]="editing ? 'form-control animated': 'form-control-plaintext'"
+                                        [(ngModel)]="firstName" name="firstNameInput">
+                                </div>
+                            </div>
+                            <!-- <div class="" -->
+                            <div class="row">
+                                <div class="col-auto align-self-center">Last Name:</div>
+                                <div class="col">
+                                    <input type="text" [className]="editing ? 'form-control': 'form-control-plaintext'"
+                                        [(ngModel)]="lastName" name="lastNameInput">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-3 align-self-center">Birthday:</div>
+                                <div class="col">
+                                    <input type="date" [className]="editing ? 'form-control': 'form-control-plaintext'"
+                                        [value]="parseDate()" (input)="setBirthDate($event)" name="birthday">
+                                </div>
+                            </div>
+                            <span>Status: </span>
+                            <div class="row mb-2">
+                                <textarea type="text" rows="5" style="resize: none;"
+                                    [className]="editing ? 'form-control': 'form-control-plaintext'"
+                                    [(ngModel)]="statusText" name="statusInput"></textarea>
+                            </div>
+
+                            <div class="row justify-content-center" *ngIf="editing">
+                                <div class="col-auto">
+                                    <button class="btn btn-dark" (click)="onClickEdit()">Cancel</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-success" (click)="onClickUpdateProfile()">Update
+                                        Profile</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
                 </div>
             </div>
-            <!-- The actual form -->
-            <div class="row ">
-                <form class="p-0">
-                    <fieldset id="profileFieldset" disabled>
-                        <!-- [className]="editing ? '-plaintext': ''" -->
-                        <div class="row">
-                            <div class="col-3 align-self-center">First Name:</div>
-                            <div class="col">
-                                <input type="text"
-                                    [className]="editing ? 'form-control animated': 'form-control-plaintext'"
-                                    [(ngModel)]="firstName" name="firstNameInput">
-                            </div>
-                        </div>
-                        <!-- <div class="" -->
-                        <div class="row">
-                            <div class="col-3 align-self-center">Last Name:</div>
-                            <div class="col">
-                                <input type="text" [className]="editing ? 'form-control': 'form-control-plaintext'"
-                                    [(ngModel)]="lastName" name="lastNameInput">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-3 align-self-center">Birthday:</div>
-                            <div class="col">
-                                <input type="date" [className]="editing ? 'form-control': 'form-control-plaintext'"
-                                    [value]="parseDate()" (input)="setBirthDate($event)" name="birthday">
-                            </div>
-                        </div>
-                        <span>Status: </span>
-                        <div class="mb-2">
-                            <textarea type="text" rows="5" style="resize: none;"
-                                [className]="editing ? 'form-control': 'form-control-plaintext'"
-                                [(ngModel)]="statusText" name="statusInput"></textarea>
-                        </div>
-
-                        <div class="mb-2" *ngIf="editing">
-                            <button class="btn btn-dark" (click)="onClickEdit()">Cancel</button>
-                            <button class="btn btn-success" (click)="onClickUpdateProfile()">Update Profile</button>
-                        </div>
-
-                    </fieldset>
-                </form>
-            </div>
-
         </div>
-        <div class="col">
+
+
+        <div class="col-8">
             <div class="row">
-                <app-create-post></app-create-post>
+                <div *ngIf="createCondition && editable">
+                    <app-create-post></app-create-post>
+                </div>
             </div>
             <div class="row">
                 <app-posts [events]="eventsSubject.asObservable()"></app-posts>
@@ -90,4 +125,45 @@
 
 
 
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <label for="imageInput">Profile Picture</label>
+
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col">
+
+                    </div>
+
+                    <form class="align-self-center" [formGroup]="profileImageForm" (ngSubmit)="onProfileImageSubmit()">
+                        <img [src]="profileImage" height="150" width="200px" (click)="onProfilImageClick()"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+                        <input type="file" class="form-control" id="imageInput" name="imageFile"
+                            (change)="onImageLoad($event)" accept="image/png, image/jpeg">
+
+                        <div class="btn btn-dark" data-bs-dismiss="modal"
+                            (click)="onProfileImageCancel()">Cancel</div>
+                        <button type="submit" data-bs-dismiss="modal" class="btn btn-dark">
+                            Change Profile Picture
+                        </button>
+
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 </div>

@@ -3,6 +3,7 @@ import { IUserAccount } from './models/useraccount';
 import { UserService } from './services/user.service';
 import { Router } from '@angular/router';
 import { SessionAjaxService } from './services/session-ajax.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,15 +11,16 @@ import { SessionAjaxService } from './services/session-ajax.service';
 })
 export class AppComponent implements OnInit {
   title = 'Ditto Social Media';
-
+  hideDiv: number;
 
   filterTerm!: string
 
-  constructor(private currentUserService: UserService, private router: Router) { }
+  constructor(private currentUserService: UserService, private sesService: SessionAjaxService, private router: Router) { }
 
   message: number;
   items: IUserAccount[] = [];
   selected = [];
+  load: number;
 
 
   ngOnInit(): void {
@@ -28,6 +30,8 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.currentUserService.changeMessage(0);
+    localStorage.setItem("isLoggedIn", "false");
+    localStorage.removeItem("userId");
     this.router.navigateByUrl('/login');
   }
 
@@ -52,14 +56,41 @@ export class AppComponent implements OnInit {
   getUsers(): void {
     this.currentUserService.allUsersRequest()
       .subscribe(data => this.items = data);
-    console.log("items: ")
-    console.log(this.items);
+    // console.log("items: ")
+    // console.log(this.items);
   }
 
   clickProfile() {
     // Send message setting profile id to 0
     console.log("profile clicked");
     this.currentUserService.changeMessage(0);
+  }
+
+  checkLoggedIn(): boolean {
+    return (localStorage.getItem("isLoggedIn") == "true");
+  }
+
+  customSearchFn(term: string, item: any) {
+    term = term.toLowerCase();
+
+    // Creating and array of space saperated term and removinf the empty values using filter
+    let splitTerm = term.split(' ').filter(t => t);
+
+    let isWordThere = [];
+
+    // Pushing True/False if match is found
+    splitTerm.forEach(arr_term => {
+    let mySearchString = item['firstName'] + item['lastName'];
+  
+    let search = mySearchString.toLowerCase();
+    isWordThere.push(search.indexOf(arr_term) != -1);
+    
+
+    });
+
+    const all_words = (this_word) => this_word;
+    // Every method will return true if all values are true in isWordThere.
+    return isWordThere.every(all_words);
   }
 
 

@@ -21,7 +21,8 @@ import { environment } from 'src/environments/environment';
 export class UserProfileComponent implements OnInit {
 
   // When this is zero, target will be the user in the current session
-  _targetId: number = 0;
+  _targetId: number;
+  actualId: number; 
   private _profileImage: string | ArrayBuffer | null = "";
   profileImageForm: FormGroup;
 
@@ -37,26 +38,38 @@ export class UserProfileComponent implements OnInit {
   public editing: boolean = false;
   public editingImage: boolean = false;
   public mouseOverProfile: boolean = false;
+  public createCondition: boolean = false; 
 
+  public editable: boolean;
+  
   eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
-
-
+  
   constructor(private userService: UserService, private postService: PostService, 
     private formBuilder: FormBuilder, private sanitizer: DomSanitizer) { }
-
-  ngOnInit(): void {
-
-    // Set up profile image form
-    this.profileImageForm = this.formBuilder.group({
-      imageFile: ['']
-    });
-
-    //check for nav bar data.
-    this.userService.currentMessage.subscribe(message => this._targetId = message);
     
+    ngOnInit(): void {
+      // Set up profile image form
+      this.profileImageForm = this.formBuilder.group({
+        imageFile: ['']
+      });
+      
+      //check for nav bar data.
+      this.userService.currentMessage.subscribe(message => {
+        this._targetId = message; 
+        if(this._targetId==0){
+          this._targetId=parseInt(localStorage.getItem("userId"));
+        }
+        console.log("setting targetId",message);
+      });
 
-    this.retrieveUserInformation();
+      
+      this.retrieveUserInformation();
+      
+      console.log('_targetId: '+this._targetId);
+      this.actualId= parseInt(localStorage.getItem("userId"));
+      console.log('actualId: '+this.actualId);
+      this.editable = (this.actualId==this._targetId);
+      
   }
 
   /////////// GETTERS & SETTERS
@@ -112,11 +125,12 @@ export class UserProfileComponent implements OnInit {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
-          console.log(this.targetUser.userId + " inside retreieveUserinfo if stmt");
-          this.eventsSubject.next(this.targetUser.userId);
+          console.log(this.targetUser?.userId + " inside retreieveUserinfo if stmt");
+          this.eventsSubject.next(this.targetUser?.userId);
           // ok to get user info
           // set user's profile picture
-          this.retrieveProfilePicture(this.targetUser.userId);
+          if (this.targetUser)
+            this.retrieveProfilePicture(this.targetUser.userId);
         }
       );
     }
@@ -126,11 +140,12 @@ export class UserProfileComponent implements OnInit {
         (data: IUserAccountPackaged) => {
           // set user's profile information
           this.targetUser = data;
-          console.log(this.targetUser.userId + " inside retreieveUserinfo else stmt");
-          this.eventsSubject.next(this.targetUser.userId);
+          console.log(this.targetUser?.userId + " inside retreieveUserinfo else stmt");
+          this.eventsSubject.next(this.targetUser?.userId);
 
           // set user's profile picture
-          this.retrieveProfilePicture(this.targetUser.userId);
+          if (this.targetUser)
+            this.retrieveProfilePicture(this.targetUser.userId);
         }
       );
     }
@@ -156,7 +171,7 @@ export class UserProfileComponent implements OnInit {
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
     this.editing = !this.editing;
     // this.onClickEdit();
-
+    
     // Update our user
     let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: IMyCustomMessage) => {
@@ -204,6 +219,10 @@ export class UserProfileComponent implements OnInit {
     this.editingImage = false;
 
   }
+  onProfileImageCancel() {
+    this.editingImage = false;
+    this.retrieveUserInformation();
+  }
 
   // Toggle profile picture editing
   onProfilImageClick() {
@@ -217,6 +236,10 @@ export class UserProfileComponent implements OnInit {
   onProfileMouseOut() {
     this.mouseOverProfile = false;
     console.log("mouse out");
+  }
+
+  onCreateBtnClick() {
+    this.createCondition = !this.createCondition;
   }
 
 

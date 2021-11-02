@@ -17,6 +17,7 @@ import { PostService } from './services/post.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PasswordLandingComponent } from './components/password-landing/password-landing.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+import { LoginCheck } from './services/logincheck';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { PasswordResetComponent } from './components/password-reset/password-res
     NgSelectModule,
     
   ],
-  providers: [UserService, PostService, PostsComponent],
+  providers: [UserService, PostService, PostsComponent, LoginCheck],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

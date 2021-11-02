@@ -41,7 +41,7 @@
 			<artifactId>spring-context</artifactId>
 			<version>5.3.10</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
@@ -55,15 +55,24 @@
 			<version>5.3.10</version>
 		</dependency>
 
-		<!-- SPRING ORM - provides ORM tools THIS IS NOT AN ORM FRAMEWORK!!!! it's 
-			a module of spring that HAPPENS to puppet Hibernate for us To put it another 
-			way, Spring ORM takes control of Hibernate's configurations for us, all we 
-			need to do is give Spring the appropriate configurations and it will configure 
-			Hibernate. But by itself Spring ORM can NOT map objects to database tables, 
-			that is why it needs to utilize/configure an ACTUAL ORM framework. -->
+		<!-- SPRING ORM - Puppets Hibernate -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
+			<version>5.3.10</version>
+		</dependency>
+		
+		<!-- Spring Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>5.3.10</version>
+		</dependency>
+
+		<!-- SPRING ASPECTS (provides AOP) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
 			<version>5.3.10</version>
 		</dependency>
 
@@ -127,36 +136,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>3.12.4</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- JUNIT -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.8.1</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.8.1</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.8.1</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- MOCKITO -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -165,13 +144,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- LOGGING -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-		
 		<!-- Commons dependencies needed for file(image) uploading -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -190,6 +162,18 @@
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 			<version>1.6.2</version>
+		</dependency>
+
+		<!-- Aspects -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.5</version>
 		</dependency>
 
 	</dependencies>

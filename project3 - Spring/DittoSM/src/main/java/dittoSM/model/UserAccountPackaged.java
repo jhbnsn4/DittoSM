@@ -16,7 +16,7 @@ public class UserAccountPackaged {
 	}
 	public UserAccountPackaged(UserAccount account) {
 		super();
-		this.userId = account.getUserId();
+		this.userId = account.getUserId()	;
 		this.firstName = account.getFirstName();
 		this.lastName = account.getLastName();
 		this.statusText = account.getStatusText();

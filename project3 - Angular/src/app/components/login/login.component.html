@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container mt-5">
   <div class="row justify-content-md-center">
-    <div class="col-md-auto">
-      
+    <div class="col-md-auto col-xl-4">
+
       <form>
         <div class="mb-3">
           <label for="login-username" class="form-label">Username or Email</label>
@@ -12,15 +12,18 @@
         <div class="mb-3">
           <label for="login-password" class="form-label">Password</label>
           <input type="password" class="form-control" [(ngModel)]="userAccount.password" name="passwordInput">
-          <p *ngIf='loginFailed'>Invalid Username or Password. Please try again.</p>
+          <p *ngIf='loginFailed' class="text-danger">Invalid Username or Password. Please try again.</p>
         </div>
-        <div class="mb-3">
-          <button class="btn btn-primary" (click)="login()">Login</button>
+        <div class=" mb-3">
+          <button class="btn btn-dark" (click)="login()">Login</button>
         </div>
       </form>
 
       <nav>
         <a routerLink='/register'>Register New Account</a>
+      </nav>
+      <nav>
+        <a routerLink='/passlanding'>Reset Password</a>
       </nav>
     </div>
   </div>

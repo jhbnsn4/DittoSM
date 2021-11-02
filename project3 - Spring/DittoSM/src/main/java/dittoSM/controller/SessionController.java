@@ -16,6 +16,7 @@ import com.google.common.hash.Hashing;
 
 import dittoSM.model.MyCustomMessage;
 import dittoSM.model.UserAccount;
+import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.UserAccountService;
 
 /**
@@ -26,7 +27,7 @@ import dittoSM.service.UserAccountService;
  * @author mtkee
  */
 
-@CrossOrigin(origins="http://localhost:4200", allowCredentials = "true") //MK:Change port to match our Angular port
+@CrossOrigin(origins="#{environment.DITTO_ANGULAR_IP_AND_PORT}", allowCredentials = "true") //MK:Change port to match our Angular port
 @RestController
 @RequestMapping("/userAccount")
 public class SessionController {
@@ -82,9 +83,8 @@ public class SessionController {
 			return new MyCustomMessage("Unsuccessfull login", "Password Incorrect");
 		} else 
 		{
-			//MK: Need to add log4j to track successful login
 			mySession.setAttribute("currentUser", currentUser);
-			return new MyCustomMessage("You have successfully logged IN", currentUser.getUsername());
+			return new MyCustomMessage("You have successfully logged IN", String.valueOf(currentUser.getUserId()));
 		}
 		
 	}

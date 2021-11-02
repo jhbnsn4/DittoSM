@@ -1,13 +1,12 @@
 package dittoSM.controller;
 
-import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import dittoSM.model.ImageMap;
 import com.google.common.hash.Hashing;
 
 import dittoSM.EmailService;
+import dittoSM.model.ImageMap;
 import dittoSM.model.MyCustomMessage;
 import dittoSM.model.UserAccount;
 import dittoSM.model.UserAccountPackaged;
@@ -34,7 +33,7 @@ import dittoSM.utils.MyLogger;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "#{environment.DITTO_ANGULAR_IP_AND_PORT}", allowCredentials = "true")
 public class UserAccountController {
 
 	private UserAccountService userService;
@@ -44,13 +43,12 @@ public class UserAccountController {
 	@PostMapping(value = "/addUser")
 	public void addUser(@RequestBody UserAccount user) {
 		userService.addAccount(user);
-
 //		return "added successfully...probably";
 	}
 
 	@PutMapping(value = "/updateUser")
 	public void updateUser(HttpSession mySession, @RequestBody UserAccountPackaged userPackaged) {
-
+		
 		// Get actual user from DB
 		UserAccount user = userService.getUserById(userPackaged.getUserId());
 
@@ -142,13 +140,6 @@ public class UserAccountController {
 		// Retrieve the user from the current session
 		UserAccount currentUser = (UserAccount) mySession.getAttribute("currentUser");
 
-		// If there is no user in the session
-		if (currentUser == null) {
-			Logger log = MyLogger.getLoggerForClass(this);
-			log.error("Session's current user is null");
-			return null;
-		}
-
 		// Respond with only the information we want to send
 		return new UserAccountPackaged(currentUser);
 	}
@@ -164,20 +155,13 @@ public class UserAccountController {
 	}
 
 	@PostMapping(value = "/addProfilePicture")
+
 	public void addProfilePicture(HttpSession mySession, @RequestParam("imageFile") MultipartFile imageFile) {
 		System.out.println("Image received: " + imageFile.getOriginalFilename());
 		// Get current user
 
 		// Retrieve the user from the current session
 		UserAccount currentUser = (UserAccount) mySession.getAttribute("currentUser");
-
-		// If there is no user in the session
-		if (currentUser == null) {
-			Logger log = MyLogger.getLoggerForClass(this);
-			log.error("Session's current user is null");
-			System.out.println("Session's user is null");
-			return;
-		}
 
 		// Save the image to our database
 		boolean newProfile = imageService.addProfilePicture(imageFile, currentUser.getProfilePicture());
@@ -201,6 +185,8 @@ public class UserAccountController {
 		if (user.getProfilePicture() == null) {
 			ImageMap defaultImg = imageService.getDefaultImage();
 			if (defaultImg == null) {
+				Logger log = MyLogger.getLoggerForClass(this);
+				log.warn("No default image found!");
 				System.out.println("No default image!");
 				return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(null);
 			}

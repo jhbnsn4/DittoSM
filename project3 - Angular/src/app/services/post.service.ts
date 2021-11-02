@@ -22,7 +22,7 @@ export class PostService {
 
   addPost(postForm: FormData, withImages:boolean): Observable<HttpResponse<object>> {
 
-    // Hit endpoint that only receives text
+   // Hit endpoint that only receives text
     if (!withImages) {
       return this.postHttpCli.post(`${this.url}/posts/newPost`, postForm, 
       {observe: 'response', responseType: 'json', withCredentials: true});
@@ -35,7 +35,8 @@ export class PostService {
 
   getPostsByUserId(userid:number): Observable<IPost[]>{
     console.log(userid + " this is from service");
-    if (userid==0 || undefined) {
+    // if (undefined) {
+    if (!userid) {
       console.log(userid + " this is inside getpostbyuserid if stmt");
       return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts`, {withCredentials: true});
     } 
@@ -57,6 +58,19 @@ export class PostService {
 
   get posts() {
     return this._posts;
+  }
+
+  //adding a like
+  addLike(post: IPost): Observable<string> {
+    console.log("updating like: ");
+    const httpPost = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
+
+    return this.postHttpCli.put<string>(`http://localhost:9009/DittoSM/api/posts/addLike`, post, httpPost);
   }
 
   

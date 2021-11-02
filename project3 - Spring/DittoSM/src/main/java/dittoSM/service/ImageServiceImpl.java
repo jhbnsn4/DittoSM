@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dittoSM.dao.ImageDao;
 import dittoSM.model.ImageMap;
-import dittoSM.model.UserAccount;
 import dittoSM.utils.MyLogger;
 
 @Service("imageService")
