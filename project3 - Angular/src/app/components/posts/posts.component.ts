@@ -71,10 +71,14 @@ export class PostsComponent implements OnInit {
     this.postServ
       .getPostsByUserId(this.userid)
       .subscribe((response: IPost[]) => {
-        this.posts = response;
-        console.log(this.posts.length, " how many posts are in it");
-        console.log(this.posts, " list of images");
-        this.isPostEmpty = this.posts.length;
+        if (response==null) {
+          console.log(response, " it's null");
+        } else {
+          this.posts = response;
+          console.log(this.posts.length, " how many posts are in it");
+          console.log(this.posts, " list of images");
+          this.isPostEmpty = this.posts.length;
+        }
       });
   }
 }

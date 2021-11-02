@@ -11,20 +11,21 @@
             </div>
             
         </form> -->
-        
+
         <div class="col-auto ">
-            <!-- <div class="row">
-                <p *ngIf="mouseOverProfile">Click to edit</p>
-            </div> -->
-            <div class="bg-image hover-overlay ripple rounded-circle border border-dark" data-mdb-ripple-color="light"
-                (click)="onProfilImageClick()" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                (mouseover)="mouseOverProfile = editable" (mouseout)="mouseOverProfile = false">
+            <div class="bg-image hover-overlay ripple rounded-circle border border-dark" data-mdb-ripple-color="light">
                 <img [src]="profileImage" height="150" width="200px">
                 <div class="row m-0 align-content-center justify-content-center mask"
-                    style="background-color: rgba(251, 251, 251, 0.5)">
-                    <p *ngIf="mouseOverProfile&&editable">Click to Edit</p>
+                    style="background-color: rgba(251, 251, 251, 0.5)" (click)="onProfilImageClick()"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                    (mouseover)="mouseOverProfile = editable"
+                    (mouseout)="mouseOverProfile = false"
+                    *ngIf="editable" >
+                    Click to Edit
                 </div>
+
             </div>
+
         </div>
 
     </div>
@@ -33,8 +34,7 @@
         <!-- <div class="col">
 
         </div> -->
-        <button type="button" class="btn btn-dark btn-floating " (click)="onCreateBtnClick()" 
-            data-bs-toggle="tooltip"
+        <button type="button" class="btn btn-dark btn-floating " (click)="onCreateBtnClick()" data-bs-toggle="tooltip"
             data-bs-placement="left" title="Tooltip on left">
             <i class="bi bi-plus-lg"></i>
         </button>
@@ -152,8 +152,7 @@
                         <input type="file" class="form-control" id="imageInput" name="imageFile"
                             (change)="onImageLoad($event)" accept="image/png, image/jpeg">
 
-                        <div class="btn btn-dark" data-bs-dismiss="modal"
-                            (click)="onProfileImageCancel()">Cancel</div>
+                        <div class="btn btn-dark" data-bs-dismiss="modal" (click)="onProfileImageCancel()">Cancel</div>
                         <button type="submit" data-bs-dismiss="modal" class="btn btn-dark">
                             Change Profile Picture
                         </button>

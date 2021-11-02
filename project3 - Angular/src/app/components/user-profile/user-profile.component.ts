@@ -1,5 +1,5 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { Component, OnInit, Input, assertPlatform } from '@angular/core';
+import { Component, OnInit, Input, assertPlatform, Directive } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -25,6 +25,7 @@ export class UserProfileComponent implements OnInit {
   actualId: number; 
   private _profileImage: string | ArrayBuffer | null = "";
   profileImageForm: FormGroup;
+  @Input() toggleModal: string;
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
@@ -125,7 +126,7 @@ export class UserProfileComponent implements OnInit {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
-          console.log(this.targetUser?.userId + " inside retreieveUserinfo if stmt");
+          // console.log(this.targetUser?.userId + " inside retreieveUserinfo if stmt");
           this.eventsSubject.next(this.targetUser?.userId);
           // ok to get user info
           // set user's profile picture
@@ -140,7 +141,7 @@ export class UserProfileComponent implements OnInit {
         (data: IUserAccountPackaged) => {
           // set user's profile information
           this.targetUser = data;
-          console.log(this.targetUser?.userId + " inside retreieveUserinfo else stmt");
+          // console.log(this.targetUser?.userId + " inside retreieveUserinfo else stmt");
           this.eventsSubject.next(this.targetUser?.userId);
 
           // set user's profile picture
@@ -226,7 +227,7 @@ export class UserProfileComponent implements OnInit {
 
   // Toggle profile picture editing
   onProfilImageClick() {
-    this.editingImage = !this.editingImage;
+      this.editingImage = !this.editingImage;
   }
 
   onProfileMouseOver(event: Event) {
