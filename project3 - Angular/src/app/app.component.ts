@@ -46,6 +46,7 @@ export class AppComponent implements OnInit {
 
 
   profileRoute() {
+    this.currentUserService.changeMessage(0);
     this.router.navigateByUrl('/profile');
   }
 

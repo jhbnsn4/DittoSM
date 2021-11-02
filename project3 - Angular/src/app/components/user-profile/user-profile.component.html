@@ -16,14 +16,17 @@
             <!-- <div class="row">
                 <p *ngIf="mouseOverProfile">Click to edit</p>
             </div> -->
-            <div class="bg-image hover-overlay ripple rounded-circle border border-dark" data-mdb-ripple-color="light"
-                (click)="onProfilImageClick()" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                (mouseover)="mouseOverProfile = editable" (mouseout)="mouseOverProfile = false">
+            <div class="bg-image hover-overlay ripple rounded-circle border border-dark" data-mdb-ripple-color="light">
                 <img [src]="profileImage" height="150" width="200px">
                 <div class="row m-0 align-content-center justify-content-center mask"
-                    style="background-color: rgba(251, 251, 251, 0.5)">
-                    <p *ngIf="mouseOverProfile&&editable">Click to Edit</p>
+                    style="background-color: rgba(251, 251, 251, 0.5)" (click)="onProfilImageClick()"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                    (mouseover)="mouseOverProfile = editable"
+                    (mouseout)="mouseOverProfile = false"
+                    *ngIf="editable" >
+                    Click to Edit
                 </div>
+
             </div>
         </div>
 
