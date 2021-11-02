@@ -13,7 +13,7 @@
     <div class="scrollable-box" *ngIf="checkLoggedIn()">
       <div class="overflow-box">
         <ng-select [items]="items" bindLabel="firstName" placeholder="Search For Friends" appendTo="body"
-          [searchable]="true" (change)='changeFn(selected)' [clearable]="false" [clearSearchOnAdd]="true"
+        [searchFn]="customSearchFn" (change)='changeFn(selected)' [clearable]="false" [clearSearchOnAdd]="true"
           [closeOnSelect]="true" [(ngModel)]="selected" #selectDropdwn>
           <ng-template ng-label-tmp let-item="item">
             <span>{{ item.firstName + ' ' + item.lastName }}</span>
