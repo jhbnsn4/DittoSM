@@ -134,6 +134,22 @@ public class UserAccountController {
 		// Respond with only the information we want to send
 		return new UserAccountPackaged(user);
 	}
+	
+	@GetMapping(value="/getUserByIdPassword", params= {"id"})
+	public UserAccount getUserByIdPassword(int id) {
+		// Find the user in the DB
+		UserAccount user = userService.getUserById(id);
+		
+		// Check if we found an actual user
+		if (user == null) {
+			Logger log = MyLogger.getLoggerForClass(this);
+			log.error("No account found with id: " + id);
+			return null;
+		}
+		
+		// Respond with only the information we want to send
+		return user;
+	}
 
 	@GetMapping(value = "/getCurrentUser")
 	public UserAccountPackaged getCurrentUser(HttpSession mySession) {

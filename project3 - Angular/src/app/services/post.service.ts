@@ -34,13 +34,9 @@ export class PostService {
   }
 
   getPostsByUserId(userid:number): Observable<IPost[]>{
-    console.log(userid + " this is from service");
-    // if (undefined) {
     if (undefined) {
-      console.log(userid + " this is inside getpostbyuserid if stmt");
       return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts`, {withCredentials: true});
     } 
-    // console.log(`${this.url}/posts/getPosts/${userid}`);
     return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts/${userid}`, {withCredentials: true});
   }
 
