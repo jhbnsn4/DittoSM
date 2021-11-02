@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import dittoSM.EmailService;
 import dittoSM.model.UserAccount;
+import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.ImageService;
 import dittoSM.service.UserAccountService;
 
@@ -65,4 +66,17 @@ public class UserAccountControllerTest {
 		assertEquals(expectedUserArray, actualUserArray);
 		
 	}
+	
+	@Test
+	void getUserByIdTestWithIntendedInput() {
+		//Arrange
+		int targetId = 2;
+		UserAccount mockUser = new UserAccount(targetId,"User1", "password", "user1@ditto.com", "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		UserAccountPackaged expectedUser = new UserAccountPackaged(targetId, "Cloud", "Strife", "Whatever...", new Timestamp(1000),"");
+		
+		//Act
+		
+		//Assert
+	}
+	
 }

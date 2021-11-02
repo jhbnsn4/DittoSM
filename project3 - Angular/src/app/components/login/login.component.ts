@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
 
       } else{
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userId", this.userAccount.userId.toString());
+        localStorage.setItem("userId", data.otherPossibleInformation);
         this.myRouter.navigate(['/profile']);
       }
     });

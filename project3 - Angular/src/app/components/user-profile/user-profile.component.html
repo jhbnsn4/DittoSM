@@ -13,7 +13,7 @@
         </div>
         <img [src]="profileImage" height="150" width="200px" (click)="onProfilImageClick()" (mouseover)="mouseOverProfile = true"
         (mouseout)="mouseOverProfile = false">
-        <p *ngIf="mouseOverProfile">Click to edit</p>
+        <p *ngIf="mouseOverProfile&&editable">Click to edit</p>
     </form>
 
     <!-- Entire thing -->
@@ -25,7 +25,7 @@
                 <div class="col p-0 mb-1 align-self-center">
                     <legend class="pb-0 mb-0 ">User Profile</legend>
                 </div>
-                <div class="col-2 p-0 mb-1 align-self-end border">
+                <div *ngIf='editable' class="col-2 p-0 mb-1 align-self-end border">
                     <button data-bs-toggle="button" class="btn btn-light" (click)="onClickEdit()">
                         <i class="bi bi-pencil-fill "></i>
                     </button>
@@ -78,7 +78,7 @@
 
         </div>
         <div class="col">
-            <div class="row">
+            <div *ngIf = 'editable' class="row">
                 <app-create-post></app-create-post>
             </div>
             <div class="row">
