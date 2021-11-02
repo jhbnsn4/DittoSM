@@ -32,7 +32,7 @@ import dittoSM.utils.MyLogger;
 
 @RestController
 @RequestMapping("/posts")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "#{environment.DITTO_ANGULAR_IP_AND_PORT}", allowCredentials = "true")
 public class PostController {
 
 	private PostService postServ;
@@ -40,29 +40,13 @@ public class PostController {
 
 	@PutMapping(value = "/addLike")
 	public void addLike(HttpSession currentSes, @RequestBody Post post) {
-		
+
 		System.out.println("in add like");
 
-//		UserAccount currentUserForLike = (UserAccount)currentSes.getAttribute("currentUser");
-//
-//		List<UserAccount> usersList = new ArrayList<UserAccount>();
-//		usersList.add(currentUserForLike);
-//
-//		post.setLikes(usersList);
-//		int LikeCount = post.getNumLikes();
-//		post.setNumLikes(LikeCount+1);
-//
-//		System.out.println(post.toString());
-//		
-//		postServ.updatePost(post, currentUserForLike);
+		UserAccount currentUserForLike = (UserAccount) currentSes.getAttribute("currentUser");
 
-
-	
-	UserAccount currentUserForLike = (UserAccount)currentSes.getAttribute("currentUser");
-
-
-	postServ.updatePost(post, currentUserForLike);
-}
+		postServ.updatePost(post, currentUserForLike);
+	}
 
 	@PostMapping(value = "/newPost")
 	public ResponseEntity<Post> addPostNoImages(HttpSession currentSes, @RequestParam("postText") String postText) {
@@ -73,7 +57,7 @@ public class PostController {
 		// Create Post object and send to database
 		Post newPost = new Post(postText);
 		postServ.addNewPost(newPost, currentUser.getUserId());
-		
+
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(newPost);
 	}
 
@@ -130,21 +114,21 @@ public class PostController {
 		} else {
 			return postServ.findAllPostsById(userid);
 		}
-		
+
 	}
 
 	@GetMapping(value = "/getPostImages", params = "imageName")
 	public ResponseEntity<byte[]> getImageFromPost(@RequestParam("imageName") String imageName) {
-		
-		// Get image 
+
+		// Get image
 		ImageMap image = imageServ.getImageByName(imageName);
-		
+
 		if (image == null) {
 			Logger log = MyLogger.getLoggerForClass(this);
 			log.error("Exception when reading post image file");
 			return ResponseEntity.badRequest().contentType(MediaType.IMAGE_JPEG).body(null);
 		}
-		
+
 		// Respond with image file
 		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image.getImageFile());
 	}

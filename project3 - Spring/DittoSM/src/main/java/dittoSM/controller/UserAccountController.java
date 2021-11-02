@@ -33,7 +33,7 @@ import dittoSM.utils.MyLogger;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "#{environment.DITTO_ANGULAR_IP_AND_PORT}", allowCredentials = "true")
 public class UserAccountController {
 
 	private UserAccountService userService;
@@ -48,7 +48,7 @@ public class UserAccountController {
 
 	@PutMapping(value = "/updateUser")
 	public void updateUser(HttpSession mySession, @RequestBody UserAccountPackaged userPackaged) {
-
+		
 		// Get actual user from DB
 		UserAccount user = userService.getUserById(userPackaged.getUserId());
 

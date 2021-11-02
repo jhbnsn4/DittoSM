@@ -26,7 +26,7 @@ import dittoSM.service.UserAccountService;
  * @author mtkee
  */
 
-@CrossOrigin(origins="http://localhost:4200", allowCredentials = "true") //MK:Change port to match our Angular port
+@CrossOrigin(origins="#{environment.DITTO_ANGULAR_IP_AND_PORT}", allowCredentials = "true") //MK:Change port to match our Angular port
 @RestController
 @RequestMapping("/userAccount")
 public class SessionController {

@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 /**
- * Aspect for  
+ * Aspect for logging any exceptions thrown in our application
  *
  */
 @Component("exceptionLoggingAspect")
