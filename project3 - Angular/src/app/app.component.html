@@ -5,7 +5,7 @@
       <!-- Will appear regardless of login status -->
       <ul class='nav navbar-nav'>
         <li class='nav-item'>
-          <a routerLink="/profile"><img classs="img-responsive" width="45px" height="" src="assets/ditto.png" alt=""
+          <a routerLink="/global"><img classs="img-responsive" width="45px" height="" src="assets/ditto.png" alt=""
               (click)="clickProfile()" /></a>
         </li>
       </ul>
@@ -25,13 +25,12 @@
           </ng-select>
         </div>
       </div>
-      <button type="submit" class="btn btn-dark" (click)="globalRoute()" *ngIf="checkLoggedIn()">Home</button>
+      <button type="submit" class="btn btn-dark m-2" (click)="profileRoute()" *ngIf="checkLoggedIn()">Me</button>
       <button type="submit" class="btn btn-dark" (click)="logout()" *ngIf="checkLoggedIn()">Logout</button>
     </div>
   </nav>
   <div class="container mb-4">
     <router-outlet></router-outlet>
-
   </div>
 
 
