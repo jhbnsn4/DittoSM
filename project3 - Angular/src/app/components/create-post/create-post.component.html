@@ -3,7 +3,12 @@
     <form [formGroup]="postForm" #addPostForm="ngForm" (ngSubmit)="onPostFormSubmit($event)">
       <div class="form-group">
         <label for="postText" class="form-label">Create a Post</label>
-        <textarea class="form-control" formControlName="postText" id="postText" name="text" rows="3" required></textarea>
+        <br>
+        <!-- Display images that will be uploaded -->
+        <img *ngFor="let url of postFormImages" [src]="url" height="150" width="200px">
+
+        <textarea class="form-control" formControlName="postText" id="postText" name="text" rows="3"
+          required></textarea>
       </div>
 
       <!-- Image file upload -->
@@ -12,8 +17,6 @@
           (change)="onPostFileChange($event)" accept="image/png, image/jpeg">
       </div>
 
-      <!-- Display images that will be uploaded -->
-      <img *ngFor="let url of postFormImages" [src]="url" height="150" width="200px">
 
       <button type="submit" [disabled]="addPostForm.invalid" class="btn btn-dark">Create</button>
     </form>

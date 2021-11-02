@@ -46,18 +46,6 @@ public class SessionController {
 		
 	//ENDPOINT METHODS
 	
-	// http://localhost:port/DittoSM/api/userAccount/
-	@GetMapping(value="/")
-	public UserAccount getAllUserAccounts(HttpSession mySession){
-
-		UserAccount currentUser = (UserAccount) mySession.getAttribute("currentUser");
-		
-		if(currentUser != null)
-			return currentUser;
-		else
-			return new UserAccount();
-	}
-	
 	// http://localhost:port/DittoSM/api/userAccount/login
 	@PostMapping(value="/login")
 	public MyCustomMessage login(HttpSession mySession, @RequestBody UserAccount incomingUser) {
@@ -91,7 +79,7 @@ public class SessionController {
 	
 	// http://localhost:port/DittoSM/api/userAccount/logout
 	@PostMapping(value="/logout")
-	public MyCustomMessage addNewUserAccount(HttpSession mySession) {
+	public MyCustomMessage logout(HttpSession mySession) {
 
 		mySession.invalidate();
 

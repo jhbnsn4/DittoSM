@@ -1,9 +1,7 @@
 package dittoSM.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -73,10 +71,111 @@ public class UserAccountControllerTest {
 		int targetId = 2;
 		UserAccount mockUser = new UserAccount(targetId,"User1", "password", "user1@ditto.com", "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
 		UserAccountPackaged expectedUser = new UserAccountPackaged(targetId, "Cloud", "Strife", "Whatever...", new Timestamp(1000),"");
+		when (userAccountService.getUserById(targetId)).thenReturn(mockUser);
 		
 		//Act
+		UserAccountPackaged actualUser = userAccountController.getUserById(targetId);
 		
 		//Assert
+		verify(userAccountService, times(1)).getUserById(targetId);
+		assertEquals(expectedUser, actualUser);
+		
 	}
+	
+	@Test
+	void getUserByIdTestWithEmptyInput() {
+		//Arrange
+		int targetId = -1;
+		
+		//Act
+		UserAccountPackaged actualUser = userAccountController.getUserById(targetId);
+		
+		//Assert
+		verify(userAccountService, times(1)).getUserById(targetId);
+		assertNull(actualUser);
+	}
+	
+	@Test
+	void getUserByyUsernameTestWithOnlyUsername() {
+		//Arrange
+		String targetUsername = "Hero";
+		String targetEmail = null;
+		UserAccount mockUser = new UserAccount(1, targetUsername, "password", "user1@ditto.com", "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		UserAccount expectedUser = new UserAccount(1, targetUsername, "password", "user1@ditto.com", "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		when(userAccountService.getUserByUsername(targetUsername, targetEmail)).thenReturn(mockUser);
+		
+		//Act
+		UserAccount actualUser = userAccountController.getUserByUsername(targetUsername, targetEmail);
+		
+		//Assert
+		verify(userAccountService, times(1)).getUserByUsername(targetUsername, targetEmail);
+		assertEquals(expectedUser, actualUser);
+		
+	}
+	
+	@Test
+	void getUserByyUsernameTestWithOnlyEmail() {
+		//Arrange
+		String targetUsername = null;
+		String targetEmail = "user1@ditto.com";
+		UserAccount mockUser = new UserAccount(1, "Hero", "password", targetEmail, "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		UserAccount expectedUser = new UserAccount(1, "Hero", "password", targetEmail, "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		when(userAccountService.getUserByUsername(targetUsername, targetEmail)).thenReturn(mockUser);
+		
+		//Act
+		UserAccount actualUser = userAccountController.getUserByUsername(targetUsername, targetEmail);
+		
+		//Assert
+		verify(userAccountService, times(1)).getUserByUsername(targetUsername, targetEmail);
+		assertEquals(expectedUser, actualUser);
+		
+	}
+	
+	@Test
+	void getUserByyUsernameTestWithNull() {
+		//Arrange
+		String targetUsername = null;
+		String targetEmail = null;
+		
+		//Act
+		UserAccount actualUser = userAccountController.getUserByUsername(targetUsername, targetEmail);
+		
+		//Assert
+		verify(userAccountService, times(1)).getUserByUsername(targetUsername, targetEmail);
+		assertNull(actualUser);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

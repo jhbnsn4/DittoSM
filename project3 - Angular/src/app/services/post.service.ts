@@ -34,13 +34,9 @@ export class PostService {
   }
 
   getPostsByUserId(userid:number): Observable<IPost[]>{
-    console.log(userid + " this is from service");
-    // if (undefined) {
-    if (!userid) {
-      console.log(userid + " this is inside getpostbyuserid if stmt");
+    if (undefined) {
       return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts`, {withCredentials: true});
     } 
-    // console.log(`${this.url}/posts/getPosts/${userid}`);
     return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts/${userid}`, {withCredentials: true});
   }
 
@@ -70,7 +66,7 @@ export class PostService {
       withCredentials: true
     };
 
-    return this.postHttpCli.put<string>(`http://localhost:9009/DittoSM/api/posts/addLike`, post, httpPost);
+    return this.postHttpCli.put<string>(`${this.url}/posts/addLike`, post, httpPost);
   }
 
   

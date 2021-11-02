@@ -53,8 +53,6 @@ export class CreatePostComponent implements OnInit {
       let reader = new FileReader();
       reader.onload = (event) => {
         this.postFormImages.push(event.target.result as string);
-
-        console.log("patching value");
       }
       // Trigger onload
       reader.readAsDataURL(inputElement.files[i]);
@@ -74,7 +72,6 @@ export class CreatePostComponent implements OnInit {
     for (let i = 0; i < this.postFormFiles.length; i++) {
       totalSize += this.postFormFiles[i].size;
     }
-    console.log("size:", totalSize);
     //                3MB
     if (totalSize > 3145728) {
       alert("File is too big!");
@@ -90,12 +87,10 @@ export class CreatePostComponent implements OnInit {
 
   // Add our new post
   onPostFormSubmit(event: Event) {
-    console.log("submitted post");
 
     // Filter out profanity
     this.postServ.profanityFilter(this.postForm.get("postText").value).subscribe(
       (data: IPostResponse) => {
-        console.log(data);
         this.postForm.get("postText").setValue(data.result);
 
         // Send post to server
@@ -123,7 +118,6 @@ export class CreatePostComponent implements OnInit {
     // Hit different endpoints depending on whether we have image files or not
     this.postServ.addPost(formData, (this.postFormImages.length > 0)).subscribe(
       (response: HttpResponse<IPost>) => {
-        console.log("addPost response:", response.body);
         this.postServ.triggerBehaveSubj('get list'); // updates post list
       }
     );

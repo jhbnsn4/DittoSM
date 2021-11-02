@@ -68,6 +68,17 @@
 			<artifactId>spring-test</artifactId>
 			<version>5.3.10</version>
 		</dependency>
+		
+		<!-- DATABASE DRIVER
+			H2 is an in-memory database used for dev and testing purposes
+		 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.200</version>
+			<!-- I commented out the scope tag so that I can use h2 in my test or main folder -->
+			<!-- <scope>test</scope> -->
+		</dependency>
 
 		<!-- SPRING ASPECTS (provides AOP) -->
 		<dependency>

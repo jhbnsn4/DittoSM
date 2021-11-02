@@ -1,6 +1,7 @@
 package dittoSM.model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class UserAccountPackaged {
 
@@ -75,6 +76,23 @@ public class UserAccountPackaged {
 	public String toString() {
 		return "UserAccountPackaged [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", statusText=" + statusText + ", birthday=" + birthday + ", profilePicture=" + profilePicture + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(birthday, firstName, lastName, profilePicture, statusText, userId);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserAccountPackaged other = (UserAccountPackaged) obj;
+		return Objects.equals(birthday, other.birthday) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(profilePicture, other.profilePicture)
+				&& Objects.equals(statusText, other.statusText) && userId == other.userId;
 	}
 	
 
