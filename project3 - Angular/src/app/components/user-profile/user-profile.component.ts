@@ -1,5 +1,5 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { Component, OnInit, Input, assertPlatform } from '@angular/core';
+import { Component, OnInit, Input, assertPlatform, Directive } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -25,6 +25,7 @@ export class UserProfileComponent implements OnInit {
   actualId: number; 
   private _profileImage: string | ArrayBuffer | null = "";
   profileImageForm: FormGroup;
+  @Input() toggleModal: string;
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
@@ -59,15 +60,12 @@ export class UserProfileComponent implements OnInit {
         if(this._targetId==0){
           this._targetId=parseInt(localStorage.getItem("userId"));
         }
-        console.log("setting targetId",message);
       });
 
       
       this.retrieveUserInformation();
       
-      console.log('_targetId: '+this._targetId);
       this.actualId= parseInt(localStorage.getItem("userId"));
-      console.log('actualId: '+this.actualId);
       this.editable = (this.actualId==this._targetId);
       
   }
@@ -119,13 +117,11 @@ export class UserProfileComponent implements OnInit {
 
   // Retrieve user from database server 
   retrieveUserInformation() {
-    console.log("id",this._targetId);
     // Retrieve by id if we were given one
     if (this._targetId > 0) {
       let response = this.userService.getUserById(this._targetId).subscribe(
         (data: IUserAccountPackaged) => {
           this.targetUser = data;
-          console.log(this.targetUser?.userId + " inside retreieveUserinfo if stmt");
           this.eventsSubject.next(this.targetUser?.userId);
           // ok to get user info
           // set user's profile picture
@@ -140,7 +136,6 @@ export class UserProfileComponent implements OnInit {
         (data: IUserAccountPackaged) => {
           // set user's profile information
           this.targetUser = data;
-          console.log(this.targetUser?.userId + " inside retreieveUserinfo else stmt");
           this.eventsSubject.next(this.targetUser?.userId);
 
           // set user's profile picture
@@ -175,7 +170,6 @@ export class UserProfileComponent implements OnInit {
     // Update our user
     let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: IMyCustomMessage) => {
-        console.log("onclickupdate");
         this.postService.triggerBehaveSubj('get list');
       });
 
@@ -202,7 +196,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   onProfileImageSubmit() {
-    console.log("submitting profile");
     const formData = new FormData();
     formData.append('imageFile', this.profileImageForm.get('imageFile').value);
 
@@ -226,16 +219,14 @@ export class UserProfileComponent implements OnInit {
 
   // Toggle profile picture editing
   onProfilImageClick() {
-    this.editingImage = !this.editingImage;
+      this.editingImage = !this.editingImage;
   }
 
   onProfileMouseOver(event: Event) {
     this.mouseOverProfile = true;
-    console.log("mouse over");
   }
   onProfileMouseOut() {
     this.mouseOverProfile = false;
-    console.log("mouse out");
   }
 
   onCreateBtnClick() {

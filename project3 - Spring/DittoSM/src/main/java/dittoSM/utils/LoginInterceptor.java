@@ -30,7 +30,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 			"users/resetPassword",
 			"users/addPicture",
 			"users/updateUser",
-			"posts/addLike"
+			"posts/addLike",
+			"users/getUserByIdPassword"
 	};
 	
 	@Override

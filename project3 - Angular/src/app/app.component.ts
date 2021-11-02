@@ -37,7 +37,6 @@ export class AppComponent implements OnInit {
 
   changeFn(val: any) {
     this.selected = null;
-    console.log("Dropdown selection:", val.userId);
     this.currentUserService.changeMessage(val.userId);
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
@@ -46,6 +45,7 @@ export class AppComponent implements OnInit {
 
 
   profileRoute() {
+    this.currentUserService.changeMessage(0);
     this.router.navigateByUrl('/profile');
   }
 
@@ -56,13 +56,10 @@ export class AppComponent implements OnInit {
   getUsers(): void {
     this.currentUserService.allUsersRequest()
       .subscribe(data => this.items = data);
-    // console.log("items: ")
-    // console.log(this.items);
   }
 
   clickProfile() {
     // Send message setting profile id to 0
-    console.log("profile clicked");
     this.currentUserService.changeMessage(0);
   }
 
