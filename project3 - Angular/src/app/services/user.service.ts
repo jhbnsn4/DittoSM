@@ -31,7 +31,7 @@ this.messageSource.next(message)
 
   // GET USER BY ID
   getUserById(id: number): Observable<IUserAccountPackaged> {
-    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getUserById?id=${id}`);
+    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getUserById?id=${id}`, {withCredentials: true});
   }
 
   // GET CURRENT USER
@@ -41,7 +41,7 @@ this.messageSource.next(message)
 
   // GET USER ID BY USERNAME
   getUserIdByUsername(username: number): Observable<number> {
-    return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`);
+    return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`, {withCredentials: true});
   }
 
   //SEND EMAIL
@@ -51,8 +51,12 @@ this.messageSource.next(message)
 
   // UPDATE USER
   updateUser(user: IUserAccountPackaged): Observable<IMyCustomMessage> {
-    console.log("updating user: " + user.firstName);
-    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
+    const httpPost = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
 
     return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUser`,
       user, httpPost);
@@ -61,22 +65,15 @@ this.messageSource.next(message)
 
   //UPDATE PASSWORD
   updatePassword(user: IUserAccount): Observable<IMyCustomMessage> {
-    console.log("updating user: " + user.firstName);
     const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
 
     return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUserPassword`,
       user, httpPost);
   }
 
-  //LOGIN COMPONENT
-  userRequest(primaryKey: number): Observable<IUserAccount> {
-    //retrieves the user information from the database
-    return this.myHttpCli.get<IUserAccount>(`${this.url}/users/getUserById?id={primaryKey}`);
-  }
-
   //GET ALL USERS
   allUsersRequest(): Observable<IUserAccount[]> {
-    return this.myHttpCli.get<IUserAccount[]>(`${this.url}/users/getAllUsers`);
+    return this.myHttpCli.get<IUserAccount[]>(`${this.url}/users/getAllUsers`, {withCredentials: true});
   }
 
 
@@ -102,6 +99,6 @@ this.messageSource.next(message)
   // GET PROFILE PICTURE
   getProfilePicture(userId: number): Observable<Blob> {
     //${userId}
-    return this.myHttpCli.get(`${this.url}/users/getProfileImage?userId=${userId}`, {responseType: 'blob'});
+    return this.myHttpCli.get(`${this.url}/users/getProfileImage?userId=${userId}`, {withCredentials: true, responseType: 'blob'});
   }
 }

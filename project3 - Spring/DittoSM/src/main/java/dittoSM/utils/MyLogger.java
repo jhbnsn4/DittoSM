@@ -2,7 +2,6 @@ package dittoSM.utils;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
 
 /**
  * Simple log4j utility class. 

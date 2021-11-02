@@ -1,33 +1,40 @@
-<body  >
+<body>
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
 
+      <!-- Will appear regardless of login status -->
       <ul class='nav navbar-nav'>
         <li class='nav-item'>
-          <a routerLink="/profile"><img classs="img-responsive rounded-circle" width="45px" height=""
-              src="assets/ditto.png" alt="" (click)="clickProfile()" /></a>
+          <a routerLink="/profile"><img classs="img-responsive" width="45px" height="" src="assets/ditto.png" alt=""
+              (click)="clickProfile()" /></a>
         </li>
       </ul>
 
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-      <div class="scrollable-box">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="checkLoggedIn()"></ul>
+      <div class="scrollable-box" *ngIf="checkLoggedIn()">
         <div class="overflow-box">
           <ng-select [items]="items" bindLabel="firstName" placeholder="Search For Friends" appendTo="body"
             [searchable]="true" (change)='changeFn(selected)' [clearable]="false" [clearSearchOnAdd]="true"
             [closeOnSelect]="true" [(ngModel)]="selected" #selectDropdwn>
-
+            <ng-template ng-label-tmp let-item="item">
+              <span>{{ item.firstName + ' ' + item.lastName }}</span>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+              <span>{{ item.firstName + ' ' + item.lastName }}</span>
+            </ng-template>
           </ng-select>
         </div>
       </div>
-      <button type="submit" class="btn btn-dark" (click)="globalRoute()">Home</button>
-      <button type="submit" class="btn btn-dark" (click)="logout()">Logout</button>
+      <button type="submit" class="btn btn-dark" (click)="globalRoute()" *ngIf="checkLoggedIn()">Home</button>
+      <button type="submit" class="btn btn-dark" (click)="logout()" *ngIf="checkLoggedIn()">Logout</button>
     </div>
   </nav>
-
   <div class="container mb-4">
     <router-outlet></router-outlet>
 
   </div>
+
+
 </body>
 
 <!-- <footer class="footer">

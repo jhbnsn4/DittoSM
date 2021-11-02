@@ -76,7 +76,7 @@ export class PasswordResetComponent implements OnInit {
         console.log(data)
         if(data.message==="Password Succefully Updated"){
           console.log(this.targetUser)
-          // this.myRouter.navigate(['/login']);
+          this.myRouter.navigate(['/login']);
         }
       }
     );

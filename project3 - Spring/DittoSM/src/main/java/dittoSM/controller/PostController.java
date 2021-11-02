@@ -3,7 +3,6 @@ package dittoSM.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +40,8 @@ public class PostController {
 
 	@PutMapping(value = "/addLike")
 	public void addLike(HttpSession currentSes, @RequestBody Post post) {
+		
+		System.out.println("in add like");
 
 //		UserAccount currentUserForLike = (UserAccount)currentSes.getAttribute("currentUser");
 //
@@ -67,25 +67,19 @@ public class PostController {
 	@PostMapping(value = "/newPost")
 	public ResponseEntity<Post> addPostNoImages(HttpSession currentSes, @RequestParam("postText") String postText) {
 
-		System.out.println("received post: " + postText);
-
 		UserAccount currentUser = (UserAccount) currentSes.getAttribute("currentUser");
 		System.out.println("currentUser is not null: " + (currentUser != null));
 
 		// Create Post object and send to database
 		Post newPost = new Post(postText);
 		postServ.addNewPost(newPost, currentUser.getUserId());
-
+		
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(newPost);
 	}
 
 	@PostMapping(value = "/newPostWithImages")
 	public ResponseEntity<Post> addPostWithImages(HttpSession currentSes, @RequestParam("postText") String postText,
 			@RequestParam("postFile") String postFile, @RequestParam("fileSource") MultipartFile[] fileSource) {
-
-		System.out.println("received post: " + postText);
-		System.out.println("received post: " + postFile);
-		System.out.println("received post: " + fileSource.length);
 
 		// Create ImageMap(s)
 		List<ImageMap> images = new ArrayList<>();
@@ -131,19 +125,16 @@ public class PostController {
 
 	@GetMapping(value = "/getPosts/{userid}")
 	public @ResponseBody List<Post> getPostById(@PathVariable("userid") Integer userid) {
-//		System.out.println(userid);
 		if (userid == 0 || userid.equals(null)) {
-//			System.out.println(userid + " this is if it's 0 or null");
 			return postServ.findAllPosts();
 		} else {
-//			System.out.println(userid + " this is if it's not 0 or not null");
 			return postServ.findAllPostsById(userid);
 		}
+		
 	}
 
 	@GetMapping(value = "/getPostImages", params = "imageName")
 	public ResponseEntity<byte[]> getImageFromPost(@RequestParam("imageName") String imageName) {
-		System.out.println("in getPostImages");
 		
 		// Get image 
 		ImageMap image = imageServ.getImageByName(imageName);

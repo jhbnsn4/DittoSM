@@ -82,7 +82,6 @@ public class SessionController {
 			return new MyCustomMessage("Unsuccessfull login", "Password Incorrect");
 		} else 
 		{
-			//MK: Need to add log4j to track successful login
 			mySession.setAttribute("currentUser", currentUser);
 			return new MyCustomMessage("You have successfully logged IN", currentUser.getUsername());
 		}
