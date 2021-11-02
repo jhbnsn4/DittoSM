@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+
+
+	<!-- turn on context annotations -->
+	<context:annotation-config />
+
+	<!-- package scanning. You can use "example" to scan the "example" package 
+		and all subpackages -->
+	<context:component-scan base-package="dittoSM" />
+
+
+	<!-- turn on Spring ORM annotations -->
+	<tx:annotation-driven />
+	<!-- turn on Spring MVC annotations -->
+	<mvc:annotation-driven />
+	<!-- let's turn on aop -->
+	<aop:aspectj-autoproxy/>
+
+
+	<!-- Configure Interceptors -->
+	<mvc:interceptors>
+		<bean class="dittoSM.utils.LoginInterceptor"></bean>
+	</mvc:interceptors>
+
+	<!-- DATASOURCE DataSource is an object that holds all the attributes necessary 
+		to connect to your DB -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="org.h2.Driver" />
+		<property name="url"
+			value="#{'jdbc:h2:file:./dittoh2/dittoh2file"/>
+		<property name="username"
+			value="sa" />
+		<property name="password"
+			value="mypass" />
+	</bean>
+
+	<!-- SESSION FACTORY Session Factory is an object that is responsible for 
+		creating Hibernate Sessions -->
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="dittoSM.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- TRANSACTION MANAGER This bean is responsible for managing your transaction 
+		(big surprise) ALSO manages our contextual sessions. What are contextual 
+		sessions (hibernate sessions)? Sessions with information SPECIFIC to each 
+		user. They make it so that each user ONLY SEES THEIR INFORMATION, not someone 
+		else's. -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- DEFAULT MAIL PROPERTIES -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="helper.ditto@gmail.com" />
+		<property name="password" value="Synergy!" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>

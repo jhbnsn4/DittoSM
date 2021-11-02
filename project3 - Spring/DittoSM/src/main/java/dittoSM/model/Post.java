@@ -2,6 +2,7 @@ package dittoSM.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -151,4 +152,24 @@ public class Post {
 				+ ", authorFK=" + authorFK + ", imageList=" + imageList + ", likes=" + likes + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(authorFK, createdTime, imageList, likes, numLikes, postId, text);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Post other = (Post) obj;
+		return Objects.equals(authorFK, other.authorFK) && Objects.equals(createdTime, other.createdTime)
+				&& Objects.equals(imageList, other.imageList) && Objects.equals(likes, other.likes)
+				&& numLikes == other.numLikes && postId == other.postId && Objects.equals(text, other.text);
+	}
+
+	
 }
