@@ -21,7 +21,8 @@ import { environment } from 'src/environments/environment';
 export class UserProfileComponent implements OnInit {
 
   // When this is zero, target will be the user in the current session
-  _targetId: number = 0;
+  _targetId: number;
+  actualId: number; 
   private _profileImage: string | ArrayBuffer | null = "";
   profileImageForm: FormGroup;
 
@@ -39,22 +40,36 @@ export class UserProfileComponent implements OnInit {
   public mouseOverProfile: boolean = false;
   public createCondition: boolean = false; 
 
+  public editable: boolean;
+  
   eventsSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
+  
   constructor(private userService: UserService, private postService: PostService, 
     private formBuilder: FormBuilder, private sanitizer: DomSanitizer) { }
-
-  ngOnInit(): void {
-    // Set up profile image form
-    this.profileImageForm = this.formBuilder.group({
-      imageFile: ['']
-    });
-
-    //check for nav bar data.
-    this.userService.currentMessage.subscribe(message => this._targetId = message);
     
+    ngOnInit(): void {
+      // Set up profile image form
+      this.profileImageForm = this.formBuilder.group({
+        imageFile: ['']
+      });
+      
+      //check for nav bar data.
+      this.userService.currentMessage.subscribe(message => {
+        this._targetId = message; 
+        if(this._targetId==0){
+          this._targetId=parseInt(localStorage.getItem("userId"));
+        }
+        console.log("setting targetId",message);
+      });
 
-    this.retrieveUserInformation();
+      
+      this.retrieveUserInformation();
+      
+      console.log('_targetId: '+this._targetId);
+      this.actualId= parseInt(localStorage.getItem("userId"));
+      console.log('actualId: '+this.actualId);
+      this.editable = (this.actualId==this._targetId);
+      
   }
 
   /////////// GETTERS & SETTERS

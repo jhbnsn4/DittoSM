@@ -18,18 +18,18 @@
             </div> -->
             <div class="bg-image hover-overlay ripple rounded-circle border border-dark" data-mdb-ripple-color="light"
                 (click)="onProfilImageClick()" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                (mouseover)="mouseOverProfile = true" (mouseout)="mouseOverProfile = false">
+                (mouseover)="mouseOverProfile = editable" (mouseout)="mouseOverProfile = false">
                 <img [src]="profileImage" height="150" width="200px">
                 <div class="row m-0 align-content-center justify-content-center mask"
                     style="background-color: rgba(251, 251, 251, 0.5)">
-                    Click to Edit
+                    <p *ngIf="mouseOverProfile&&editable">Click to Edit</p>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div class="row mb-3 pe-2 justify-content-end">
+    <div class="row mb-3 pe-2 justify-content-end" *ngIf="editable">
         <!-- <div class="col">
 
         </div> -->
@@ -51,7 +51,7 @@
                     <div class="col p-0 mb-1">
                         <legend class="pb-0 mb-0 ">About Me</legend>
                     </div>
-                    <div class="col-auto p-0 mb-1">
+                    <div *ngIf='editable' class="col-auto p-0 mb-1">
                         <button data-bs-toggle="button" class="btn btn-floating shadow-0" (click)="onClickEdit()">
                             <i class="bi bi-pencil-fill "></i>
                         </button>
@@ -112,7 +112,7 @@
 
         <div class="col">
             <div class="row">
-                <div *ngIf="createCondition">
+                <div *ngIf="createCondition && editable">
                     <app-create-post></app-create-post>
                 </div>
             </div>
@@ -152,8 +152,8 @@
                         <input type="file" class="form-control" id="imageInput" name="imageFile"
                             (change)="onImageLoad($event)" accept="image/png, image/jpeg">
 
-                        <button class="btn btn-dark" data-bs-dismiss="modal"
-                            (click)="onProfileImageCancel()">Cancel</button>
+                        <div class="btn btn-dark" data-bs-dismiss="modal"
+                            (click)="onProfileImageCancel()">Cancel</div>
                         <button type="submit" data-bs-dismiss="modal" class="btn btn-dark">
                             Change Profile Picture
                         </button>

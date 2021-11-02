@@ -16,6 +16,7 @@ import com.google.common.hash.Hashing;
 
 import dittoSM.model.MyCustomMessage;
 import dittoSM.model.UserAccount;
+import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.UserAccountService;
 
 /**
@@ -83,7 +84,7 @@ public class SessionController {
 		} else 
 		{
 			mySession.setAttribute("currentUser", currentUser);
-			return new MyCustomMessage("You have successfully logged IN", currentUser.getUsername());
+			return new MyCustomMessage("You have successfully logged IN", String.valueOf(currentUser.getUserId()));
 		}
 		
 	}
