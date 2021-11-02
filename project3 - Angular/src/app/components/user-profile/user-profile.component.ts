@@ -1,5 +1,5 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { Component, OnInit, Input, assertPlatform } from '@angular/core';
+import { Component, OnInit, Input, assertPlatform, Directive } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -25,6 +25,7 @@ export class UserProfileComponent implements OnInit {
   actualId: number; 
   private _profileImage: string | ArrayBuffer | null = "";
   profileImageForm: FormGroup;
+  @Input() toggleModal: string;
 
   public targetUser: IUserAccountPackaged = {
     userId: 0,
@@ -218,7 +219,7 @@ export class UserProfileComponent implements OnInit {
 
   // Toggle profile picture editing
   onProfilImageClick() {
-    this.editingImage = !this.editingImage;
+      this.editingImage = !this.editingImage;
   }
 
   onProfileMouseOver(event: Event) {

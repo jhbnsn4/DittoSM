@@ -62,8 +62,10 @@ export class PostsComponent implements OnInit {
     this.postServ
       .getPostsByUserId(this.userid)
       .subscribe((response: IPost[]) => {
-        this.posts = response;
-        this.isPostEmpty = this.posts.length;
+        if (response!==null) {
+          this.posts = response;
+          this.isPostEmpty = this.posts.length;
+        } 
       });
   }
 }
