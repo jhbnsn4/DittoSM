@@ -39,13 +39,13 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
-			value="org.postgresql.Driver" />
+			value="org.h2.Driver" />
 		<property name="url"
-			value="#{'jdbc:postgresql://'+ systemEnvironment['DITTO_DB_HOSTIP'] + '/' + systemEnvironment['DITTO_DB_NAME']}" />
+			value="#{'jdbc:h2:file:./dittoh2/dittoh2file"/>
 		<property name="username"
-			value="#{systemEnvironment['DITTO_DB_USERNAME']}" />
+			value="sa" />
 		<property name="password"
-			value="#{systemEnvironment['DITTO_DB_PASSWORD']}" />
+			value="mypass" />
 	</bean>
 
 	<!-- SESSION FACTORY Session Factory is an object that is responsible for 
@@ -60,7 +60,7 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
 				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">false</prop>
-				<prop key="hibernate.hbm2ddl.auto">none</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
 			</props>
 		</property>
 	</bean>

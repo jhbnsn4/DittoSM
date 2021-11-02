@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router,  ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IMyCustomMessage } from 'src/app/models/mycustommessage';
 import { IUserAccount } from 'src/app/models/useraccount';
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class PasswordResetComponent implements OnInit {
 
-  targetId: number = 0;
+  targetId: number;
 
   public targetUser: IUserAccount = {
     userId: 0,
@@ -57,14 +57,16 @@ export class PasswordResetComponent implements OnInit {
   // Retrieve user from database server 
   retrieveUserInformation() {
     // Retrieve by id if we were given one
-    if (this.targetId) {
-      let response = this.userService.getUserById(this.targetId).subscribe(
-        (data: IUserAccount) => {
-          this.targetUser = data;
-          // ok to get user info
-        }
-        );
-    }
+    this.userService.getUserByIdPassword(this.targetId).subscribe(
+      (data: IUserAccount) => {
+        this.targetUser = data;
+        this.targetUser.password='';
+      } 
+
+    )
+
+    // Otherwise, retrieve user from current session
+    
 
   }
 
@@ -73,14 +75,12 @@ export class PasswordResetComponent implements OnInit {
     // Update our user
     let response = this.userService.updatePassword(this.targetUser as IUserAccount).subscribe(
       (data: IMyCustomMessage) => {
-        console.log(data)
-        if(data.message==="Password Succefully Updated"){
-          console.log(this.targetUser)
+        if (data.message === "Password Succefully Updated") {
           this.myRouter.navigate(['/login']);
         }
       }
     );
-    
+
   }
 
 }

@@ -34,6 +34,10 @@ this.messageSource.next(message)
     return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getUserById?id=${id}`, {withCredentials: true});
   }
 
+  getUserByIdPassword(id: number): Observable<IUserAccount> {
+    return this.myHttpCli.get<IUserAccount>(`${this.url}/users/getUserByIdPassword?id=${id}`, {withCredentials: true});
+  }
+
   // GET CURRENT USER
   getCurrentUser(): Observable<IUserAccountPackaged> {
     return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getCurrentUser`, {withCredentials: true});

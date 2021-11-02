@@ -1,6 +1,7 @@
 package dittoSM.model;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,6 +69,30 @@ public class ImageMap {
 		return "ImageMap [imageId=" + imageId + ", imageFile=" + Arrays.toString(imageFile) + ", imageName=" + imageName
 				+ "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(imageFile);
+		result = prime * result + Objects.hash(imageId, imageName);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ImageMap other = (ImageMap) obj;
+		return Arrays.equals(imageFile, other.imageFile) && imageId == other.imageId
+				&& Objects.equals(imageName, other.imageName);
+	}
+	
+	
 	
 	
 }

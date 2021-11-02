@@ -1,5 +1,7 @@
 package dittoSM.model;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,5 +60,23 @@ public class ImagePath {
 	public String toString() {
 		return "ImagePath [imageId=" + imageId + ", imageName=" + imageName + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(imageId, imageName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ImagePath other = (ImagePath) obj;
+		return imageId == other.imageId && Objects.equals(imageName, other.imageName);
+	}
+	
 	
 }
