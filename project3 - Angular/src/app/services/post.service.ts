@@ -70,7 +70,7 @@ export class PostService {
       withCredentials: true
     };
 
-    return this.postHttpCli.put<string>(`http://localhost:9009/DittoSM/api/posts/addLike`, post, httpPost);
+    return this.postHttpCli.put<string>(`${this.url}/posts/addLike`, post, httpPost);
   }
 
   
