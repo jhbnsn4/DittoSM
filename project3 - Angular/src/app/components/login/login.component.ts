@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   constructor(private myAjax: SessionAjaxService, private myRouter: Router, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.myAjax.logoutRequest().subscribe(data => {console.log(data)})
+    this.myAjax.logoutRequest().subscribe(data => {})
   }
   
   /**

@@ -205,7 +205,7 @@ export class UserProfileComponent implements OnInit {
     // If we have an image to send 
     if (this.profileImageForm.get("imageFile").value) {
       this.userService.addProfilePicture(formData).subscribe(
-        data => { console.log("image stored") }
+        data => { }
       );
     }
     else {

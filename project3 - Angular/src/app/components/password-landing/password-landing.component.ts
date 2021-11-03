@@ -25,12 +25,10 @@ export class PasswordLandingComponent implements OnInit {
   }
 
   sendEmail(){
-    console.log('Send Email Clicked');
     this.loadingHandler.start();
     
     this.emailFailed = false;
     this.myAjax.postResetPassword(this.userEmail).subscribe(data => {
-      console.log(data)
       if(data.message==="Invalid Email Address"){
         this.emailFailed = true;
         this.loadingHandler.finish();

@@ -37,7 +37,7 @@ export class RegisterAccountComponent implements OnInit {
 
   registerButton(){
 
-    this.myAjax.addUserRequest(this.userAccount).subscribe(data => {console.log(data)});
+    this.myAjax.addUserRequest(this.userAccount).subscribe(data => {});
     
   }
 

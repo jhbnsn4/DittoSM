@@ -103,7 +103,6 @@ export class UserService {
 
   // ADD/UPDATE PROFILE PICTURE
   addProfilePicture(profileForm: FormData): Observable<string> {
-    console.log("sending profile image");
 
     return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, profileForm, { withCredentials: true });
   }
