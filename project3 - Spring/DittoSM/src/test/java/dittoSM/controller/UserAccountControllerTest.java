@@ -2,6 +2,7 @@ package dittoSM.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import dittoSM.EmailService;
+import dittoSM.model.MyCustomMessage;
 import dittoSM.model.UserAccount;
 import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.ImageService;
@@ -182,31 +184,97 @@ public class UserAccountControllerTest {
 	void updateUserTestWithValidUser() {
 		//Arrange
 		int targetId = 1;
-		UserAccountPackaged mockUser = new UserAccountPackaged(targetId, "Cloud", "Strife", "Whatever...", new Timestamp(1000),"");
-//		when(userAccountService.getUserById(targetId)).thenReturn(mockUser);
+		UserAccountPackaged mockUserPackaged = new UserAccountPackaged(targetId, "Cloud", "Strife", "Whatever...", new Timestamp(1000),"");
+		UserAccount mockUser = new UserAccount(targetId, "Hero", "password", "omnislash@ditto.com", "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		when(userAccountService.getUserById(targetId)).thenReturn(mockUser);
 		
 		//Act
-		userAccountController.updateUser(mockSession, mockUser);
-		
+		userAccountController.updateUser(mockSession, mockUserPackaged);
 		
 		//Assert
-		
-		
+		verify(userAccountService, times(1)).updateAccount(mockUser);
 		
 	}
 	
 	@Test
 	void updateUserTestWithInvalidUser() {
+		//Arrange
+		int targetId = 2;
+		UserAccountPackaged mockUserPackaged = new UserAccountPackaged(targetId, "Cloud", "Strife", "Whatever...", new Timestamp(1000),"");
+		UserAccount mockUser = new UserAccount(1, "Hero", "password", "omnislash@ditto.com", "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		when(userAccountService.getUserById(targetId)).thenReturn(null);
 		
+		//Act
+		userAccountController.updateUser(mockSession, mockUserPackaged);
+		
+		//Assert
+		verify(userAccountService, never()).updateAccount(mockUser);
 	}
 	
 	@Test
-	void updateUserTestWithNullUser() {
+	void updateUserPasswordTestWithValidInput() {
+		//Arrange
+		UserAccount mockUser = new UserAccount(1, "Hero", "password", "omnislash@ditto.com", "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		MyCustomMessage expectedMessage = new MyCustomMessage("Password Succefully Updated","");
+		when(userAccountService.getUserById(mockUser.getUserId())).thenReturn(mockUser);
 		
+		//Act
+		MyCustomMessage actualMessage = userAccountController.updateUserPassword(mockSession, mockUser);
+		
+		//Assert
+		verify(userAccountService, times(1)).updateAccount(mockUser);
+		assertEquals(actualMessage, expectedMessage);
 	}
 	
+	@Test
+	void updateUserPasswordTestWithInvalidInput() {
+		//Arrange
+		UserAccount mockUser = new UserAccount();
+		MyCustomMessage expectedMessage = new MyCustomMessage("Invalid Account","");
+		when(userAccountService.getUserById(mockUser.getUserId())).thenReturn(null);
+		
+		//Act
+		MyCustomMessage actualMessage = userAccountController.updateUserPassword(mockSession, mockUser);
+		
+		//Assert
+		verify(userAccountService, never()).updateAccount(mockUser);
+		assertEquals(actualMessage, expectedMessage);
+	}
 	
-	
+	@Test
+	void resetPasswordTestWithValidInput() {
+		//Arrange
+		String mockEmail = "omnislash@ditto.com";
+		String mockUrl = System.getenv("DITTO_ANGULAR_IP_AND_PORT")+"/#/reset/";
+		UserAccount mockUser = new UserAccount(1, "Hero", "password", mockEmail, "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		String mockMessage = "Click the following link to reset your password: "+mockUrl+mockUser.getUserId();
+		MyCustomMessage expectedMessage = new MyCustomMessage("Message has been sent to:", mockEmail);
+		when(userAccountService.getUserByUsername("",mockEmail)).thenReturn(mockUser);
+		
+		//Act
+		MyCustomMessage actualMessage = userAccountController.resetPassword(mockSession, mockEmail);
+		
+		//Assert
+		verify(emailService, times(1)).sendMail(mockEmail, "Password Reset", mockMessage);
+		assertEquals(actualMessage, expectedMessage);
+	}
+
+	@Test
+	void resetPasswordTestWithInvalidInput() {
+		//Arrange
+		String mockEmail = "omnislash@ditto.com";
+		String mockUrl = System.getenv("DITTO_ANGULAR_IP_AND_PORT")+"/#/reset/";
+		String mockMessage = "Click the following link to reset your password: "+mockUrl+null;
+		MyCustomMessage expectedMessage = new MyCustomMessage("Invalid Email Address", "Please Try Again");
+		when(userAccountService.getUserByUsername("",mockEmail)).thenReturn(null);
+		
+		//Act
+		MyCustomMessage actualMessage = userAccountController.resetPassword(mockSession, mockEmail);
+		
+		//Assert
+		verify(emailService, never()).sendMail(mockEmail, "Password Reset", mockMessage);
+		assertEquals(actualMessage, expectedMessage);
+	}
 	
 	
 	

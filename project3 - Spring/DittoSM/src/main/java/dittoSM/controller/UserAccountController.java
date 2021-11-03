@@ -111,7 +111,7 @@ public class UserAccountController {
 		{
 			//Prepare message
 			int userId = currentUser.getUserId();
-			String url = "http://localhost:4200/reset/";
+			String url = System.getenv("DITTO_ANGULAR_IP_AND_PORT")+"/#/reset/";
 			String message = "Click the following link to reset your password: "+url+userId;
 			mailer.sendMail(email, "Password Reset", message);
 			return new MyCustomMessage("Message has been sent to:", email);
@@ -171,7 +171,6 @@ public class UserAccountController {
 	}
 
 	@PostMapping(value = "/addProfilePicture")
-
 	public void addProfilePicture(HttpSession mySession, @RequestParam("imageFile") MultipartFile imageFile) {
 		System.out.println("Image received: " + imageFile.getOriginalFilename());
 		// Get current user
