@@ -2,9 +2,7 @@
   <div *ngIf="isPostEmpty" class="row g-0">
     <!-- Images -->
     <div class="col-md-4 " *ngFor="let imageSrc of post.imageList">
-
-      <img class="img-fluid" src="{{imageSrc.imageName}}">
-
+      <img class="img-fluid" src="{{url + imageSrc.imageName}}">
     </div>
     <div class="col-md-8 card-body ">
       <div class="row m-auto ">

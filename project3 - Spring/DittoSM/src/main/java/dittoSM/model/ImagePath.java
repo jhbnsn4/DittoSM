@@ -24,7 +24,7 @@ public class ImagePath {
 	// Initializer block to set base image path
 	{
 		// Our hardcoded path
-		imageName = System.getenv("DITTO_SPRING_IP_AND_PORT") + "/DittoSM/api/posts/getPostImages?imageName=";
+		imageName = "/posts/getPostImages?imageName=";
 	}
 	
 	public ImagePath() {

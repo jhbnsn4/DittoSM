@@ -40,7 +40,6 @@ import { LoginCheck } from './services/logincheck';
     ReactiveFormsModule,
     HttpClientModule,
     NgSelectModule,
-    
   ],
   providers: [UserService, PostService, PostsComponent, LoginCheck],
   bootstrap: [AppComponent]
