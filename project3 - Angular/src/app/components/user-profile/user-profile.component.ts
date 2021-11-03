@@ -165,12 +165,15 @@ export class UserProfileComponent implements OnInit {
     // Act as if we toggled the edit button
     (document.getElementById("profileFieldset") as HTMLInputElement).disabled = this.editing;
     this.editing = !this.editing;
-    // this.onClickEdit();
     
     // Update our user
     let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: IMyCustomMessage) => {
+        // Reload posts (to show correct name)
         this.postService.triggerBehaveSubj('get list');
+
+        // Update search bar
+        this.userService.updateSearchBar();
       });
 
   }

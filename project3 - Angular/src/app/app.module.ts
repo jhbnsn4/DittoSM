@@ -18,6 +18,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { PasswordLandingComponent } from './components/password-landing/password-landing.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 import { LoginCheck } from './services/logincheck';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -40,9 +41,8 @@ import { LoginCheck } from './services/logincheck';
     ReactiveFormsModule,
     HttpClientModule,
     NgSelectModule,
-    
   ],
-  providers: [UserService, PostService, PostsComponent, LoginCheck],
+  providers: [UserService, PostService, PostsComponent, LoginCheck, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

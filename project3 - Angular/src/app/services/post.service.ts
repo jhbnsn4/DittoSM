@@ -34,7 +34,7 @@ export class PostService {
   }
 
   getPostsByUserId(userid:number): Observable<IPost[]>{
-    if (undefined) {
+    if (userid === undefined) {
       return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts`, {withCredentials: true});
     } 
     return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts/${userid}`, {withCredentials: true});
@@ -58,7 +58,6 @@ export class PostService {
 
   //adding a like
   addLike(post: IPost): Observable<string> {
-    console.log("updating like: ");
     const httpPost = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -66,7 +65,7 @@ export class PostService {
       withCredentials: true
     };
 
-    return this.postHttpCli.put<string>(`http://localhost:9009/DittoSM/api/posts/addLike`, post, httpPost);
+    return this.postHttpCli.put<string>(`${this.url}/posts/addLike`, post, httpPost);
   }
 
   

@@ -12,16 +12,28 @@ import dittoSM.dao.ImageDao;
 import dittoSM.model.ImageMap;
 import dittoSM.utils.MyLogger;
 
+/**
+ * 
+ * @author Ryan Moss
+ * @author Jae Kyoung Lee (LJ)
+ *
+ */
 @Service("imageService")
 public class ImageServiceImpl implements ImageService {
 
 	private ImageDao imageDao;
 
+	/**
+	 * Adds Image
+	 */
 	@Override
 	public void addImage(ImageMap image) {
 		imageDao.insertImage(image);
 	}
 	
+	/**
+	 * Inserts image into imageList
+	 */
 	@Override
 	public void addImages(List<ImageMap> imageList) {
 		imageDao.insertImages(imageList);
@@ -61,22 +73,34 @@ public class ImageServiceImpl implements ImageService {
 		addImage(new ImageMap(imageBytes, imageFile.getOriginalFilename()));
 		return true;
 	}
-
+	
+	/**
+	 * Deletes image.
+	 */
 	@Override
 	public void deleteImage(ImageMap image) {
 		imageDao.deleteImage(image);
 	}
 
+	/**
+	 * Deletes image by name.
+	 */
 	@Override
 	public void deleteImageByName(String imageName) {
 		imageDao.deleteImageByName(imageName);
 	}
-
+	
+	/**
+	 * REturns image by name.
+	 */
 	@Override
 	public ImageMap getImageByName(String imageName) {
 		return imageDao.selectImageByName(imageName);
 	}
 	
+	/**
+	 * Returns first image or "default" image.
+	 */
 	@Override
 	public ImageMap getDefaultImage() {
 		return imageDao.selectFirstImage();

@@ -12,27 +12,47 @@ import dittoSM.model.ImageMap;
 import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 
+/**
+ * 
+ * @author Ryan Moss
+ * @author Mike Keefer
+ * @author Jae Kyoung Lee (LJ)
+ *
+ */
 @Transactional
 @Repository("userAccountDao")
 public class UserAccountDaoImpl implements UserAccountDao {
 
 	private SessionFactory sesFact;
-
+	
+	/**
+	 * Saves account via current session
+	 */
 	@Override
 	public void insertAccount(UserAccount account) {
 		sesFact.getCurrentSession().save(account);
 	}
-
+	
+	/**
+	 * Inserts profile picture, via the ImageMap model, and saves or updates 
+	 * the current profile photo.
+	 */
 	@Override
 	public void insertProfilePicture(ImageMap image) {
 		sesFact.getCurrentSession().saveOrUpdate(image);
 	}
 	
+	/**
+	 * Update account via current session.
+	 */
 	@Override
 	public void updateAccount(UserAccount account) {
 		sesFact.getCurrentSession().update(account);
 	}
-
+	
+	/**
+	 * Returns a list of UserAccounts via query, and runs a hibernate.initialize to populate list.
+	 */
 	@Override
 	public List<UserAccount> selectAllUsers() {
 		
@@ -50,7 +70,10 @@ public class UserAccountDaoImpl implements UserAccountDao {
 		}
 		return myList;
 	}
-
+	
+	/**
+	 * Retrieves the id of the current user, initializes the lazily fetched lists, and returns a UserAccount object.
+	 */
 	@Override
 	public UserAccount selectUserById(int id) {
 
@@ -64,10 +87,13 @@ public class UserAccountDaoImpl implements UserAccountDao {
 
 		return account;
 	}
-
+	
+	/**
+	 * Selects a user via username of email, checks for null, initializes the lazily fetched lists, and returns a UserAccount.  
+	 * This method is used for login.
+	 */
 	@Override
 	public UserAccount selectUserByUsername(String username, String email) {
-//		System.out.println(username);
 		UserAccount account=null;
 		try 
 		{

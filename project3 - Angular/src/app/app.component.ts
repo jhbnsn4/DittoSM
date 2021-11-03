@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IUserAccount } from './models/useraccount';
 import { UserService } from './services/user.service';
-import { Router } from '@angular/router';
+import { Router, Event as RouterEvent, NavigationStart, NavigationEnd } from '@angular/router';
 import { SessionAjaxService } from './services/session-ajax.service';
 
 @Component({
@@ -12,10 +12,23 @@ import { SessionAjaxService } from './services/session-ajax.service';
 export class AppComponent implements OnInit {
   title = 'Ditto Social Media';
   hideDiv: number;
-
+  showOverlay = true;
   filterTerm!: string
 
-  constructor(private currentUserService: UserService, private sesService: SessionAjaxService, private router: Router) { }
+  constructor(private currentUserService: UserService, private sesService: SessionAjaxService, private router: Router) {
+    router.events.subscribe((event: RouterEvent) => {
+      this.navigationInterceptor(event)
+    })
+   }
+  navigationInterceptor(event: RouterEvent): void {
+    if (event instanceof NavigationStart) {
+      this.showOverlay = true;
+    }
+    if (event instanceof NavigationEnd) {
+      this.showOverlay = false;
+    }
+    
+  }
 
   message: number;
   items: IUserAccount[] = [];
@@ -25,7 +38,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-    this.currentUserService.currentMessage.subscribe(message => this.message = message)
+    this.currentUserService.currentMessage.subscribe(message => this.message = message);
+    this.currentUserService.searchUpdateObs.subscribe(()=>{this.getUsers()});
   }
 
   logout() {
