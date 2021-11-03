@@ -30,6 +30,7 @@ export class PostsComponent implements OnInit {
       if (payload == 'get list') {
         // this.posts = this.postServ.posts;/
         this.postServ.triggerBehaveSubj('');
+        this.noPost = '';
         this.getPosts();
       }
     });
