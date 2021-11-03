@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { UserService } from 'src/app/services/user.service';
+import { LoadingHandler } from 'src/app/util/loading-handler';
 
 
 @Component({
@@ -15,6 +16,8 @@ export class PasswordLandingComponent implements OnInit {
 
   emailFailed: boolean = false
 
+  loadingHandler = new LoadingHandler();
+
   constructor(private myAjax: UserService, private myRouter: Router) { }
 
   ngOnInit(): void {
@@ -23,15 +26,16 @@ export class PasswordLandingComponent implements OnInit {
 
   sendEmail(){
     console.log('Send Email Clicked');
-
+    this.loadingHandler.start();
     
     this.emailFailed = false;
     this.myAjax.postResetPassword(this.userEmail).subscribe(data => {
       console.log(data)
       if(data.message==="Invalid Email Address"){
         this.emailFailed = true;
-        
+        this.loadingHandler.finish();
       } else{
+        this.loadingHandler.finish();
         this.myRouter.navigate(['/login']);
       }
     })

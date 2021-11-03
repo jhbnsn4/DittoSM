@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IMyCustomMessage } from 'src/app/models/mycustommessage';
 import { IUserAccount } from 'src/app/models/useraccount';
 import { UserService } from 'src/app/services/user.service';
+import { LoadingHandler } from 'src/app/util/loading-handler';
 
 @Component({
   selector: 'app-password-reset',
@@ -13,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 export class PasswordResetComponent implements OnInit {
 
   targetId: number;
+  loadingHandler = new LoadingHandler();
 
   public targetUser: IUserAccount = {
     userId: 0,
@@ -57,6 +59,7 @@ export class PasswordResetComponent implements OnInit {
   // Retrieve user from database server 
   retrieveUserInformation() {
     // Retrieve by id if we were given one
+
     this.userService.getUserByIdPassword(this.targetId).subscribe(
       (data: IUserAccount) => {
         this.targetUser = data;
@@ -71,11 +74,11 @@ export class PasswordResetComponent implements OnInit {
   }
 
   onClickUpdatePassword() {
-
-    // Update our user
+    this.loadingHandler.start();
     let response = this.userService.updatePassword(this.targetUser as IUserAccount).subscribe(
       (data: IMyCustomMessage) => {
         if (data.message === "Password Succefully Updated") {
+          this.loadingHandler.finish();
           this.myRouter.navigate(['/login']);
         }
       }
