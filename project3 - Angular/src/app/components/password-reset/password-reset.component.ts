@@ -74,15 +74,16 @@ export class PasswordResetComponent implements OnInit {
   }
 
   onClickUpdatePassword() {
-    this.myRouter.navigate(['/login']);
-    // this.loadingHandler.start();
-    // let response = this.userService.updatePassword(this.targetUser as IUserAccount).subscribe(
-    //   (data: IMyCustomMessage) => {
-    //     if (data.message === "Password Succefully Updated") {
-    //       this.loadingHandler.finish();
-    //     }
-    //   }
-    // );
+    this.loadingHandler.start();
+    let response = this.userService.updatePassword(this.targetUser as IUserAccount).subscribe(
+      (data: IMyCustomMessage) => {
+        if (data.message === "Password Succefully Updated") {
+          this.loadingHandler.finish();
+          this.myRouter.navigate(['/login']);
+        }
+      }
+    );
+
 
   }
 
