@@ -111,7 +111,7 @@ public class UserAccountController {
 		{
 			//Prepare message
 			int userId = currentUser.getUserId();
-			String url = System.getenv("DITTO_ANGULAR_IP_AND_PORT") + "/reset/";
+			String url = System.getenv("DITTO_ANGULAR_IP_AND_PORT") + "/#/reset/";
 			String message = "Click the following link to reset your password: "+url+userId;
 			mailer.sendMail(email, "Password Reset", message);
 			return new MyCustomMessage("Message has been sent to:", email);
