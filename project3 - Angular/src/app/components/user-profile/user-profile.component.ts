@@ -170,7 +170,11 @@ export class UserProfileComponent implements OnInit {
     // Update our user
     let updateResponse = this.userService.updateUser(this.targetUser as IUserAccount).subscribe(
       (data: IMyCustomMessage) => {
+        // Reload posts (to show correct name)
         this.postService.triggerBehaveSubj('get list');
+
+        // Update search bar
+        this.userService.updateSearchBar();
       });
 
   }

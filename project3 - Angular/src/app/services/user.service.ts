@@ -14,42 +14,50 @@ import { IUserAccountPackaged } from "../models/useraccount.packaged";
   providedIn: 'root'
 })
 export class UserService {
-  private url=environment.dittoUrl;
+  private url = environment.dittoUrl;
 
   private messageSource = new BehaviorSubject<number>(0);
   currentMessage = this.messageSource.asObservable();
- 
+
+  // BehaviorSubject to update the search bar
+  private searchUpdateSource = new BehaviorSubject<any>('');
+  searchUpdateObs = this.searchUpdateSource.asObservable();
+
   constructor(private myHttpCli: HttpClient) {
 
   }
 
- // Calls next on behavior to change value
-changeMessage(message: number){
-this.messageSource.next(message)
+  // Calls next on behavior to change value
+  changeMessage(message: number) {
+    this.messageSource.next(message)
+  }
 
-}
+  // Calls update to search bar
+  updateSearchBar() {
+    this.searchUpdateSource.next('');
+  }
 
   // GET USER BY ID
   getUserById(id: number): Observable<IUserAccountPackaged> {
-    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getUserById?id=${id}`, {withCredentials: true});
+    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getUserById?id=${id}`, { withCredentials: true });
   }
 
   getUserByIdPassword(id: number): Observable<IUserAccount> {
-    return this.myHttpCli.get<IUserAccount>(`${this.url}/users/getUserByIdPassword?id=${id}`, {withCredentials: true});
+    return this.myHttpCli.get<IUserAccount>(`${this.url}/users/getUserByIdPassword?id=${id}`, { withCredentials: true });
   }
 
   // GET CURRENT USER
   getCurrentUser(): Observable<IUserAccountPackaged> {
-    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getCurrentUser`, {withCredentials: true});
+    return this.myHttpCli.get<IUserAccountPackaged>(`${this.url}/users/getCurrentUser`, { withCredentials: true });
   }
 
   // GET USER ID BY USERNAME
   getUserIdByUsername(username: number): Observable<number> {
-    return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`, {withCredentials: true});
+    return this.myHttpCli.get<number>(`${this.url}/users/getUserId?username=${username}`, { withCredentials: true });
   }
 
   //SEND EMAIL
-  postResetPassword(userEmail: string): Observable<IMyCustomMessage>{
+  postResetPassword(userEmail: string): Observable<IMyCustomMessage> {
     return this.myHttpCli.post<IMyCustomMessage>(`${this.url}/users/resetPassword`, userEmail, {});
   }
 
@@ -64,12 +72,12 @@ this.messageSource.next(message)
 
     return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUser`,
       user, httpPost);
-      
+
   }
 
   //UPDATE PASSWORD
   updatePassword(user: IUserAccount): Observable<IMyCustomMessage> {
-    const httpPost = {withCredentials: true, 'Content-Type': 'application/json'}
+    const httpPost = { withCredentials: true, 'Content-Type': 'application/json' }
 
     return this.myHttpCli.put<IMyCustomMessage>(`${this.url}/users/updateUserPassword`,
       user, httpPost);
@@ -77,7 +85,7 @@ this.messageSource.next(message)
 
   //GET ALL USERS
   allUsersRequest(): Observable<IUserAccount[]> {
-    return this.myHttpCli.get<IUserAccount[]>(`${this.url}/users/getAllUsers`, {withCredentials: true});
+    return this.myHttpCli.get<IUserAccount[]>(`${this.url}/users/getAllUsers`, { withCredentials: true });
   }
 
 
@@ -95,14 +103,14 @@ this.messageSource.next(message)
 
   // ADD/UPDATE PROFILE PICTURE
   addProfilePicture(profileForm: FormData): Observable<string> {
-    console.log("sending profile image"); 
+    console.log("sending profile image");
 
-    return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, profileForm, {withCredentials: true});
+    return this.myHttpCli.post<string>(`${this.url}/users/addProfilePicture`, profileForm, { withCredentials: true });
   }
 
   // GET PROFILE PICTURE
   getProfilePicture(userId: number): Observable<Blob> {
     //${userId}
-    return this.myHttpCli.get(`${this.url}/users/getProfileImage?userId=${userId}`, {withCredentials: true, responseType: 'blob'});
+    return this.myHttpCli.get(`${this.url}/users/getProfileImage?userId=${userId}`, { withCredentials: true, responseType: 'blob' });
   }
 }

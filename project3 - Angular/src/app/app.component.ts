@@ -25,7 +25,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-    this.currentUserService.currentMessage.subscribe(message => this.message = message)
+    this.currentUserService.currentMessage.subscribe(message => this.message = message);
+    this.currentUserService.searchUpdateObs.subscribe(()=>{this.getUsers()});
   }
 
   logout() {
