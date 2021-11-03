@@ -71,13 +71,13 @@ public class SessionControllerTest {
 	
 	@Test
 	void logoutTest() {
-	//Arrange
-	MyCustomMessage expectedMessage = new MyCustomMessage("You have successfully logged OUT", "");
+		//Arrange
+		MyCustomMessage expectedMessage = new MyCustomMessage("You have successfully logged OUT", "");
 	
-	//Act
-	MyCustomMessage actualMessage = sessionController.logout(mockSession);
+		//Act
+		MyCustomMessage actualMessage = sessionController.logout(mockSession);
 	
-	//Assert
-	assertEquals(actualMessage, expectedMessage);
+		//Assert
+		assertEquals(actualMessage, expectedMessage);
 	}
 }

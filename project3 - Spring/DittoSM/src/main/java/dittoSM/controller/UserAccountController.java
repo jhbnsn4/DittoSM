@@ -215,7 +215,6 @@ public class UserAccountController {
 	}
 
 	@PostMapping(value = "/addProfilePicture")
-
 	public void addProfilePicture(HttpSession mySession, @RequestParam("imageFile") MultipartFile imageFile) {
 		// Get current user
 
