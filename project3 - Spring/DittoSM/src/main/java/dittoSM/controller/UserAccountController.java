@@ -30,7 +30,9 @@ import dittoSM.model.UserAccountPackaged;
 import dittoSM.service.ImageService;
 import dittoSM.service.UserAccountService;
 import dittoSM.utils.MyLogger;
-
+/** 
+ * @author Ryan Moss
+ */
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "#{environment.DITTO_ANGULAR_IP_AND_PORT}", allowCredentials = "true")
@@ -40,12 +42,22 @@ public class UserAccountController {
 	private EmailService mailer;
 	private ImageService imageService;
 
+	/**
+	 * Adds a user to the database.
+	 * Takes a current user from the request body and uses the service layer to add a user.
+	 * @param user is the user information being sent.
+	 */
 	@PostMapping(value = "/addUser")
 	public void addUser(@RequestBody UserAccount user) {
 		userService.addAccount(user);
 //		return "added successfully...probably";
 	}
 
+	/**
+	 * This method updates the user passed through the request body, checks for a null object, and updates the
+	 * @param mySession is an HTTP session that is updated after the UserAccount is updated.
+	 * @param userPackaged UserPackaged is a packaged form of UserAccount that returns/sends necessary (not sensitive) User information.
+	 */
 	@PutMapping(value = "/updateUser")
 	public void updateUser(HttpSession mySession, @RequestBody UserAccountPackaged userPackaged) {
 		
@@ -59,6 +71,7 @@ public class UserAccountController {
 			return;
 		}
 
+		
 		// Change packaged fields
 		user.setFirstName(userPackaged.getFirstName());
 		user.setLastName(userPackaged.getLastName());
@@ -74,6 +87,11 @@ public class UserAccountController {
 //		return "updated account";
 	}
 	
+	/**
+	 * Returns a custom message and updates the User Password, after an email is sent.
+	 * @param userAccount is passed in the Request Body and is checked for a null value.  
+	 * @return returns a custom message.  
+	 */
 //////////////////////////////////FOR UPDATE PASSWORD/////////////////////////////////////////////////////
 	@PutMapping(value="/updateUserPassword")
 	public MyCustomMessage updateUserPassword(HttpSession mySession, @RequestBody UserAccount userAccount) {
@@ -98,6 +116,13 @@ public class UserAccountController {
 		
 	}
 	
+	/**
+	 * Reset Password acquires a user, checks for null value, and returns a custom message based on success/failure.
+	 * @param mySession
+	 * @param email is a string acquired from the request body and used 
+	 * to email/update the current users' password.
+	 * @return MyCustomMessage is returned based on user input.
+	 */
 	@PostMapping(value="/resetPassword")
 	public MyCustomMessage resetPassword(HttpSession mySession, @RequestBody String email) {
 		
@@ -118,6 +143,12 @@ public class UserAccountController {
 		}
 	}
 	
+	/**
+	 * Retrieves a user by id, via "params" -- checks for null value, and returns a 
+	 * "packaged" form of our user object.
+	 * @param id = user id
+	 * @return this method returns a packaged (a user object without sensitive information attached)
+	 */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	@GetMapping(value="/getUserById", params= {"id"})
 	public UserAccountPackaged getUserById(int id) {
@@ -135,6 +166,11 @@ public class UserAccountController {
 		return new UserAccountPackaged(user);
 	}
 	
+	/**
+	 * This method acquires a user via it's id, and returns the full user.  
+	 * @param id userId
+	 * @return returns an "un-packaged" user.
+	 */
 	@GetMapping(value="/getUserByIdPassword", params= {"id"})
 	public UserAccount getUserByIdPassword(int id) {
 		// Find the user in the DB
@@ -147,10 +183,15 @@ public class UserAccountController {
 			return null;
 		}
 		
-		// Respond with only the information we want to send
 		return user;
 	}
 
+	/**
+	 * Via the current session, this method acquires the current user, which is
+	 * set to "currentUser" at login.
+	 * @param mySession current HTTPSession
+	 * @return returns a "UserAccountPackaged" a information-sensitive-safe version of a UserAccount.
+	 */
 	@GetMapping(value = "/getCurrentUser")
 	public UserAccountPackaged getCurrentUser(HttpSession mySession) {
 		// Retrieve the user from the current session
@@ -159,7 +200,10 @@ public class UserAccountController {
 		// Respond with only the information we want to send
 		return new UserAccountPackaged(currentUser);
 	}
-
+	/**
+	 * Returns a list of All Users.
+	 * @return a List of UserAccounts
+	 */
 	@GetMapping(value = "/getAllUsers")
 	public List<UserAccount> getAllUsers() {
 		return userService.getAllUsers();
@@ -191,7 +235,12 @@ public class UserAccountController {
 		}
 
 	}
-
+	/**
+	 * Acquires the User via a userId, checks for the null value of the profile picture,
+	 * if null, a default picture is assigned.  
+	 * @param userId the id of user passed via "params"
+	 * @return Returns a JPEG image based on the current state of the UserAccount.
+	 */
 	@GetMapping(value = "/getProfileImage", params = "userId")
 	public ResponseEntity<byte[]> getProfileImage(@RequestParam("userId") Integer userId) {
 		// Get the user
@@ -218,7 +267,10 @@ public class UserAccountController {
 		// Send as Blob
 		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageByteArray);
 	}
-
+	/**
+	 * Adds a picture via an "imageFile"
+	 * @param imageFile the image file passed via @RequestParam.
+	 */
 	@PostMapping(value = "/addPicture")
 	public void addProfilePicture(@RequestParam("imageFile") MultipartFile imageFile) {
 

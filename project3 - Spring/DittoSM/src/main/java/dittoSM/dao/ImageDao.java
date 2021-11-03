@@ -9,7 +9,6 @@ public interface ImageDao {
 	public void insertImage(ImageMap image);
 	public void insertImages(List<ImageMap> imageList);
 	public void deleteImage(ImageMap image);
-	
 	public void deleteImageByName(String imageName);
 	public ImageMap selectImageByName(String imageName);
 	public ImageMap selectFirstImage();

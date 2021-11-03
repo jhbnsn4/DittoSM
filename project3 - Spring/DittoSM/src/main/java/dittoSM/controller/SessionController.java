@@ -44,6 +44,14 @@ public class SessionController {
 	}
 	
 		
+	/**
+	 * This login method takes an incoming user, uses that user to retrieve 
+	 * user-name and password credentials, checks for null values, and establishes a session.
+	 * @param mySession because this method is a login method, this session parameter is used to
+	 * validate/invalidate a session based on user input.
+	 * @param incomingUser establishes a user-name or user-email.
+	 * @return this method returns a custom message based on user-input-validation
+	 */
 	//ENDPOINT METHODS
 	
 	// http://localhost:port/DittoSM/api/userAccount/login
@@ -76,6 +84,12 @@ public class SessionController {
 		}
 		
 	}
+	
+	/**
+	 * This logout end point invalidates the current session.
+	 * @param mySession is the current session which will be invalidated.
+	 * @return this method returns a custom message.
+	 */
 	
 	// http://localhost:port/DittoSM/api/userAccount/logout
 	@PostMapping(value="/logout")
