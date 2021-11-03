@@ -45,7 +45,6 @@ public class ImageServiceImpl implements ImageService {
 	 */
 	@Override
 	public boolean addProfilePicture(MultipartFile imageFile, String originalProfileImage) {
-		System.out.println("adding profile picture");
 		// Does this user already have a profile picture?
 		ImageMap originalImage = getImageByName(originalProfileImage);
 		if (originalImage != null) {
