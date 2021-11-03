@@ -12,12 +12,25 @@ import org.springframework.transaction.annotation.Transactional;
 import dittoSM.model.Post;
 import dittoSM.model.UserAccount;
 
+/**
+ * 
+ * @author Jae Kyoung Lee
+ * @author John Benson
+ * @author Ryan Moss
+ *
+ */
 @Transactional
 @Repository("postDao")
 public class PostDaoImpl implements PostDao {
 
 	private SessionFactory sesFact;
 
+	
+	/**
+	 * Returns a list of posts, the User has liked, via SQL query.
+	 * @param user the current user.
+	 * @return Already "liked" posts.
+	 */
 	public  List<?> getLikes(UserAccount user) {
 
 		Query<?> query2 = sesFact.getCurrentSession()
@@ -28,12 +41,13 @@ public class PostDaoImpl implements PostDao {
 		return query2.list();
 	}
 
+	/**
+	 * Utilizes PostDaoImpl.getLikes() to identify which posts the user has liked, 
+	 * if that post doesn't exist (has yet to be liked), the list of "liked" posts
+	 * is updated. 
+	 */
 	@Override
 	public void updatePost(Post post, UserAccount user) {
-		
-		
-	
-		System.out.println(getLikes(user));
 	
 		if(getLikes(user).contains(post.getPostId()) == false) {
 		
@@ -41,8 +55,6 @@ public class PostDaoImpl implements PostDao {
 		Query<?> query = sesFact.getCurrentSession().createSQLQuery(
 				"INSERT INTO post_user_account (post_post_id, likes_user_id) VALUES ( :postId, :authorFk )");
 
-		
-		
 		
 		Query<?> query1 = sesFact.getCurrentSession()
 				.createSQLQuery("UPDATE post SET like_num = :numLikes WHERE post_id = :postId");
@@ -60,12 +72,18 @@ public class PostDaoImpl implements PostDao {
 			System.out.println("_________________already liked_____________________");
 		}
 	}
-
+	
+	/**
+	 * Inserts new post via current session.
+	 */
 	@Override
 	public void insertNewPost(Post post) {
 		sesFact.getCurrentSession().save(post);
 	}
-
+	
+	/**
+	 * Selects all posts via query, initializes the post-elements, and returns a list of sorted posts.
+	 */
 	@Override
 	public List<Post> selectAllPosts() {
 		List<Post> post1 = sesFact.getCurrentSession().createQuery("FROM Post order by createdTime desc", Post.class).list();
@@ -84,7 +102,10 @@ public class PostDaoImpl implements PostDao {
 		
 		return post1;
 	}
-
+	
+	/**
+	 * Selects post via a user Id, and returns a list of user-specific, sorted posts.
+	 */
 	@Override
 	public List<Post> selectPostsById(int userid) {
 		UserAccount user = sesFact.getCurrentSession().get(UserAccount.class, userid);

@@ -30,6 +30,12 @@ import dittoSM.service.ImageService;
 import dittoSM.service.PostService;
 import dittoSM.utils.MyLogger;
 
+/**
+ * @author Jae Kyoung Lee (LJ)
+ * @author Ryan Moss
+ * @author John Benson
+ */
+
 @RestController
 @RequestMapping("/posts")
 @CrossOrigin(origins = "#{environment.DITTO_ANGULAR_IP_AND_PORT}", allowCredentials = "true")
@@ -38,15 +44,27 @@ public class PostController {
 	private PostService postServ;
 	private ImageService imageServ;
 
+	
+/**
+ * End-point to update an existing post with a user-unique like.
+ * @param currentSes acquires session to retrieve the current user
+ * @param post is retrieved in the request body and is updated with a "like" from a unique user
+ */
 	@PutMapping(value = "/addLike")
 	public void addLike(HttpSession currentSes, @RequestBody Post post) {
 
-		System.out.println("in add like");
 
 		UserAccount currentUserForLike = (UserAccount) currentSes.getAttribute("currentUser");
 
 		postServ.updatePost(post, currentUserForLike);
 	}
+	
+	/**
+	 * End-point to add a post that contains only text.
+	 * @param currentSes acquires user from session and is tested for a null value.
+	 * @param postText is received to add new text to a post without an image
+	 * @return
+	 */
 
 	@PostMapping(value = "/newPost")
 	public ResponseEntity<Post> addPostNoImages(HttpSession currentSes, @RequestParam("postText") String postText) {
@@ -60,6 +78,14 @@ public class PostController {
 
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(newPost);
 	}
+	
+	/**
+	 * End-point to create a post that includes an image.
+	 * @param currentSes is used to acquire the current user
+	 * @param postText is the text submitted for the post
+	 * @param postFile is the image file path.  Used to add image to image list.
+	 * @return returns a completed post with an image
+	 */
 
 	@PostMapping(value = "/newPostWithImages")
 	public ResponseEntity<Post> addPostWithImages(HttpSession currentSes, @RequestParam("postText") String postText,
@@ -100,13 +126,19 @@ public class PostController {
 		// Respond with our post object
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(newPost);
 	}
-
+	/**
+	 * End-point to retrieve a complete list of posts
+	 * @return returns a list of posts
+	 */
 	@GetMapping(value = "/getPosts")
 	public List<Post> getAllUsers() {
-//		System.out.println(postServ.findAllPosts());
-		return postServ.findAllPosts();
+	return postServ.findAllPosts();
 	}
-
+	/**
+	 * Returns a list of posts specific to a userId.
+	 * @param userid the current user.
+	 * @return returns a complete list of user-specific posts.
+	 */
 	@GetMapping(value = "/getPosts/{userid}")
 	public @ResponseBody List<Post> getPostById(@PathVariable("userid") Integer userid) {
 		if (userid == 0 || userid.equals(null)) {
@@ -116,6 +148,12 @@ public class PostController {
 		}
 
 	}
+	/**
+	 * Returns a byte arrays which is converted to JPEG image, if the image passed
+	 * "imageName" is not null.
+	 * @param imageName is the image passed from the post.
+	 * @return the return statement returns JPEG image file
+	 */
 
 	@GetMapping(value = "/getPostImages", params = "imageName")
 	public ResponseEntity<byte[]> getImageFromPost(@RequestParam("imageName") String imageName) {
@@ -132,7 +170,9 @@ public class PostController {
 		// Respond with image file
 		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image.getImageFile());
 	}
-
+/**
+ * @Autowired Constructor for PostController.
+ */
 	////////////// Constructor
 	public PostController() {
 	}

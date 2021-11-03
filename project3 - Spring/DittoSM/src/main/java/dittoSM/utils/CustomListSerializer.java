@@ -9,8 +9,14 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import dittoSM.model.UserAccount;
 
+/**
+ * 
+ * @author Jae Kyoung Lee (LJ)
+ *
+ */
 public class CustomListSerializer extends StdSerializer<UserAccount> {
 
+	
 	public CustomListSerializer() {
 		this(null);
 	}
