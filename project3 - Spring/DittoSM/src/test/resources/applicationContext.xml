@@ -18,21 +18,21 @@
 
 	<!-- package scanning. You can use "example" to scan the "example" package 
 		and all subpackages -->
-	<context:component-scan base-package="dittoSM" />
+	<context:component-scan base-package="dittoSM.dao" />
 
 
 	<!-- turn on Spring ORM annotations -->
 	<tx:annotation-driven />
 	<!-- turn on Spring MVC annotations -->
-	<mvc:annotation-driven />
+	<!-- <mvc:annotation-driven /> -->
 	<!-- let's turn on aop -->
-	<aop:aspectj-autoproxy/>
+	<!-- <aop:aspectj-autoproxy/> -->
 
 
 	<!-- Configure Interceptors -->
-	<mvc:interceptors>
+	<!-- <mvc:interceptors> 
 		<bean class="dittoSM.utils.LoginInterceptor"></bean>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 
 	<!-- DATASOURCE DataSource is an object that holds all the attributes necessary 
 		to connect to your DB -->
@@ -41,7 +41,7 @@
 		<property name="driverClassName"
 			value="org.h2.Driver" />
 		<property name="url"
-			value="#{'jdbc:h2:file:./dittoh2/dittoh2file"/>
+			value="jdbc:h2:file:./mytesth2stuff/mytesth2file"/>
 		<property name="username"
 			value="sa" />
 		<property name="password"

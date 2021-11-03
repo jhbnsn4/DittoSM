@@ -1,11 +1,16 @@
 package dittoSM.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +38,9 @@ public class UserAccountControllerTest {
 	
 	@Mock
 	ImageService imageService;
+	
+	@Mock
+	HttpSession mockSession;
 	
 	@BeforeEach
 	void setUp() {
@@ -77,7 +85,7 @@ public class UserAccountControllerTest {
 		UserAccountPackaged actualUser = userAccountController.getUserById(targetId);
 		
 		//Assert
-		verify(userAccountService, times(1)).getUserById(targetId);
+		verify(userAccountService, times(1)).getUserById(targetId); //Object instead of target id
 		assertEquals(expectedUser, actualUser);
 		
 	}
@@ -146,11 +154,56 @@ public class UserAccountControllerTest {
 		
 	}
 	
+	@Test
+	void addUserTestWithExpectedUser() {
+		//Arrange
+		UserAccount mockUser = new UserAccount(1, "Hero", "password", "omnislash@ditto.com", "Cloud", "Strife", new Timestamp(1000),"Whatever...", "", null, null, null);
+		
+		//Act
+		userAccountController.addUser(mockUser);
+				
+		//Assert
+		verify(userAccountService, times(1)).addAccount(mockUser);
+	}
 	
+	@Test
+	void addUserTestWithNullUser() {
+		//Arrange
+		UserAccount mockUser = new UserAccount();
+		
+		//Act
+		userAccountController.addUser(mockUser);
+				
+		//Assert
+		verify(userAccountService, times(1)).addAccount(mockUser);
+	}
 	
+	@Test
+	void updateUserTestWithValidUser() {
+		//Arrange
+		int targetId = 1;
+		UserAccountPackaged mockUser = new UserAccountPackaged(targetId, "Cloud", "Strife", "Whatever...", new Timestamp(1000),"");
+//		when(userAccountService.getUserById(targetId)).thenReturn(mockUser);
+		
+		//Act
+		userAccountController.updateUser(mockSession, mockUser);
+		
+		
+		//Assert
+		
+		
+		
+	}
 	
+	@Test
+	void updateUserTestWithInvalidUser() {
+		
+	}
 	
-	
+	@Test
+	void updateUserTestWithNullUser() {
+		
+	}
 	
 	
 	

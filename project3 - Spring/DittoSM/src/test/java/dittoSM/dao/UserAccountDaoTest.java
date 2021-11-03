@@ -15,7 +15,7 @@ public class UserAccountDaoTest {
 	
 	public static ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 	
-	UserAccountDao userDao = appContext.getBean("userAccountDao", UserAccountDaoImpl.class);
+	UserAccountDao userDao = appContext.getBean("userAccountDao", UserAccountDao.class);
 	
 	@Test
 	@Transactional
