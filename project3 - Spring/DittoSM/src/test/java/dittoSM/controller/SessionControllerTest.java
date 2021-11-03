@@ -7,12 +7,13 @@ import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
 
+import javax.servlet.http.HttpSession;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockHttpSession;
 
 import dittoSM.model.MyCustomMessage;
 import dittoSM.model.UserAccount;
@@ -27,7 +28,7 @@ public class SessionControllerTest {
 	UserAccountService userAccountService;
 	
 	@Mock
-	MockHttpSession mockSession;
+	HttpSession mockSession;
 	
 	@BeforeEach
 	void setUp() {

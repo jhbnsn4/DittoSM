@@ -1,0 +1,21 @@
+2021-11-02 09:42:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "POST" not found; SQL statement:
+alter table post drop constraint FKeoeq7ga71r84r590xbb79o4wq [42102-200]
+2021-11-02 09:42:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "POST_IMAGE_PATH" not found; SQL statement:
+alter table post_image_path drop constraint FKb4v415pkqcbm5o68o2gpasyho [42102-200]
+2021-11-02 09:42:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "POST_IMAGE_PATH" not found; SQL statement:
+alter table post_image_path drop constraint FKarys4appsqtn2kg0x1h5sbexw [42102-200]
+2021-11-02 09:42:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "POST_USER_ACCOUNT" not found; SQL statement:
+alter table post_user_account drop constraint FKc1ddnd62tijqapgradfm2l2dy [42102-200]
+2021-11-02 09:42:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "POST_USER_ACCOUNT" not found; SQL statement:
+alter table post_user_account drop constraint FK84hel49kbpb0w5gybogioqg5d [42102-200]
+2021-11-02 09:42:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER_ACCOUNT_USER_ACCOUNT" not found; SQL statement:
+alter table user_account_user_account drop constraint FKbwu8ybg321upy95ayripg4gh7 [42102-200]
+2021-11-02 09:42:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER_ACCOUNT_USER_ACCOUNT" not found; SQL statement:
+alter table user_account_user_account drop constraint FKqmgdrfxtnto98qajukcim5arp [42102-200]
