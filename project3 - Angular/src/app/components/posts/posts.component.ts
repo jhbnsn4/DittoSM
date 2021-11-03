@@ -30,7 +30,8 @@ export class PostsComponent implements OnInit {
 
     this.postServ.theOberv.subscribe((payload: string) => {
       if (payload == 'get list') {
-        // this.posts = this.postServ.posts;
+        // this.posts = this.postServ.posts;/
+        this.postServ.triggerBehaveSubj('');
         this.getPosts();
       }
     });

@@ -34,7 +34,7 @@ export class PostService {
   }
 
   getPostsByUserId(userid:number): Observable<IPost[]>{
-    if (undefined) {
+    if (userid === undefined) {
       return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts`, {withCredentials: true});
     } 
     return this.postHttpCli.get<IPost[]>(`${this.url}/posts/getPosts/${userid}`, {withCredentials: true});
@@ -58,7 +58,6 @@ export class PostService {
 
   //adding a like
   addLike(post: IPost): Observable<string> {
-    console.log("updating like: ");
     const httpPost = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

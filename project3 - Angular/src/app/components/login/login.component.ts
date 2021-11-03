@@ -71,11 +71,17 @@ export class LoginComponent implements OnInit {
         this.userAccount.password=""
         this.loginFailed=true;
 
-      } else{
-        // On successful login
+      } 
+      // On successful login
+      else{
+        // Set local storage vars
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("userId", data.otherPossibleInformation);
+
+        // Update search bar 
         this.userService.updateSearchBar();
+
+        // Navigate to user's profile
         this.myRouter.navigate(['/profile']);
       }
     });
