@@ -10,7 +10,7 @@ export class LoadingHandler {
             if (!isLoading) {
                 return of(false);
             }
-            return of(true).pipe(delay(1000)); //You don't want to immediately show loading when the data is going to come back in a second
+            return of(true).pipe(delay(250)); //You don't want to immediately show loading when the data is going to come back in a second
         })
     );
 
